@@ -10,7 +10,7 @@ namespace EPortalApi.Models
         public required string Name { get; set; }
         public required string Email { get; set; }
         [JsonIgnore]
-        public required string PasswordHash { get; set; }
+        public string PasswordHash { get; set; } = string.Empty;
         public required string Phone { get; set; }
         public required string Role { get; set; } // Admin, Citizen
 

@@ -1,0 +1,29 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\SHRADDHA\\OneDrive\\Documents\\eportal\\eportal-api\\wwwroot\\uploads\\1c3b1eee-2a28-4d60-b875-066269c83faf_Water leak floods Vivekanand Colony street.png",
+      "PackagePath": "staticwebassets\\uploads\\1c3b1eee-2a28-4d60-b875-066269c83faf_Water leak floods Vivekanand Colony street.png"
+    },
+    {
+      "Id": "C:\\Users\\SHRADDHA\\OneDrive\\Documents\\eportal\\eportal-api\\wwwroot\\uploads\\a74a1167-b7e7-45f9-b626-68ef3b76e82b_Water leak floods Vivekanand Colony street.png",
+      "PackagePath": "staticwebassets\\uploads\\a74a1167-b7e7-45f9-b626-68ef3b76e82b_Water leak floods Vivekanand Colony street.png"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.EPortalApi.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.EPortalApi.props",
+      "PackagePath": "build\\EPortalApi.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.EPortalApi.props",
+      "PackagePath": "buildMultiTargeting\\EPortalApi.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.EPortalApi.props",
+      "PackagePath": "buildTransitive\\EPortalApi.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

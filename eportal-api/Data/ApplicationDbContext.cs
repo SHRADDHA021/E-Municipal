@@ -19,7 +19,10 @@ namespace EPortalApi.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            
+
+            // PostgreSQL 9.6 compatibility - use SERIAL instead of IDENTITY
+            modelBuilder.UseSerialColumns();
+
             modelBuilder.Entity<Complaint>()
                 .HasOne(c => c.AssignedEmployee)
                 .WithMany(e => e.AssignedComplaints)

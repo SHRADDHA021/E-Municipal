@@ -66,6 +66,15 @@ namespace EPortalApi.Controllers
             return Ok(await query.ToListAsync());
         }
 
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> CreateService([FromBody] Service service)
+        {
+            _context.Services.Add(service);
+            await _context.SaveChangesAsync();
+            return Ok(service);
+        }
+
         [HttpPut("applications/{id}/status")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateApplicationStatus(int id, [FromBody] string status)

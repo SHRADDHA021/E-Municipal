@@ -7,7 +7,11 @@ using EPortalApi.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(opts => {
+        opts.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+        opts.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+    });
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(c =>
@@ -58,26 +62,44 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+// CORS must allow any origin for local dev
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", b => b.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.SetIsOriginAllowed(_ => true)
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowCredentials();
+    });
 });
 
 var app = builder.Build();
 
+// CORS MUST be first before any auth middleware
+app.UseCors("AllowAll");
+
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.UseCors("AllowAll");
 app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
+// Auto-migrate database on startup
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    // dbContext.Database.Migrate(); // Commented out since users need to run migrations first
+    try
+    {
+        dbContext.Database.Migrate();
+        Console.WriteLine("✅ Database migration applied successfully.");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"⚠️  DB migration: {ex.Message}");
+    }
 }
 
 app.Run();
