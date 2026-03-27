@@ -1,144 +1,117 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import Layout from '../../components/Layout';
 import api from '../../api/axios';
+import { AuthContext } from '../../contexts/AuthContext';
 
-const statCards = [
-  { key:'totalCitizens',      label:'Registered Citizens', icon:'👥', gradient:'linear-gradient(135deg,#eef2ff,#e0e7ff)', border:'#c7d2fe', valueColor:'#4f46e5' },
-  { key:'pendingComplaints',  label:'Pending Issues',      icon:'⚠️', gradient:'linear-gradient(135deg,#fffbeb,#fef3c7)', border:'#fde68a', valueColor:'#d97706' },
-  { key:'completedComplaints',label:'Resolved Cases',      icon:'✅', gradient:'linear-gradient(135deg,#f0fdf4,#dcfce7)', border:'#a7f3d0', valueColor:'#059669' },
-  { key:'totalRevenue',       label:'Revenue Collected',   icon:'💰', gradient:'linear-gradient(135deg,#eff6ff,#dbeafe)', border:'#bfdbfe', valueColor:'#2563eb' },
-];
-
-const AdminDashboard = () => {
-  const [stats, setStats] = useState({ totalCitizens:0, pendingComplaints:0, completedComplaints:0, totalRevenue:0, citizensList: [], pendingComplaintsList: [] });
-  const [activeModal, setActiveModal] = useState(null); // 'citizens' or 'complaints'
+export default function AdminDashboard() {
+  const { user } = useContext(AuthContext);
+  const [stats, setStats] = useState({ citizens: 0, complaints: 0, employees: 0, departments: 0, services: 0, bills: 0, requests: 0 });
+  const [complaints, setComplaints] = useState([]);
+  const [feedbacks, setFeedbacks] = useState([]);
+  const [requests, setRequests] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    api.get('/admin/stats')
-      .then(r => setStats({ 
-        totalCitizens: r.data.totalCitizens||0, 
-        pendingComplaints: r.data.pendingComplaints||0, 
-        completedComplaints: r.data.completedComplaints||0, 
-        totalRevenue: r.data.totalRevenue||0,
-        citizensList: r.data.citizensList||[],
-        pendingComplaintsList: r.data.pendingComplaintsList||[]
-      }))
-      .catch(() => {});
+    const fetchAll = async () => {
+      try {
+        const [cmp, emp, dept, svcs, bills, fbs, sreq] = await Promise.all([
+          api.get('/complaints').catch(() => ({ data: [] })),
+          api.get('/employees').catch(() => ({ data: [] })),
+          api.get('/departments').catch(() => ({ data: [] })),
+          api.get('/services').catch(() => ({ data: [] })),
+          api.get('/bills/all').catch(() => ({ data: [] })),
+          api.get('/feedbacks').catch(() => ({ data: [] })),
+          api.get('/ServiceRequests').catch(() => ({ data: [] })),
+        ]);
+        setComplaints(cmp.data.slice(0, 5));
+        setFeedbacks(fbs.data.slice(0, 5));
+        setRequests(sreq.data.slice(0, 5));
+        setStats({
+          complaints: cmp.data.length,
+          employees: emp.data.length,
+          departments: dept.data.length,
+          services: svcs.data.length,
+          bills: bills.data.length,
+          requests: sreq.data.length,
+          pending: cmp.data.filter(c => c.c_status === 'Pending').length,
+        });
+      } finally { setLoading(false); }
+    };
+    fetchAll();
   }, []);
 
-  const formatValue = (key, v) => key === 'totalRevenue' ? `₹${parseFloat(v).toFixed(2)}` : v;
+  const statCards = [
+    { label: 'Depts', value: stats.departments, bg: 'linear-gradient(135deg,#6366f1,#4f46e5)', icon: '🏢' },
+    { label: 'Employees', value: stats.employees, bg: 'linear-gradient(135deg,#10b981,#059669)', icon: '👷' },
+    { label: 'Complaints', value: stats.complaints, bg: 'linear-gradient(135deg,#f59e0b,#d97706)', icon: '📋' },
+    { label: 'Requests', value: stats.requests, bg: 'linear-gradient(135deg,#8b5cf6,#7c3aed)', icon: '📥' },
+  ];
 
-  const handleCardClick = (key) => {
-    if (key === 'totalCitizens') setActiveModal('citizens');
-    else if (key === 'pendingComplaints') setActiveModal('complaints');
-  };
+  const statusColor = (s) => s === 'Completed' || s === 'Approved' ? '#059669' : s === 'In Progress' || s === 'Pending' ? '#d97706' : '#6366f1';
+  const statusBg    = (s) => s === 'Completed' || s === 'Approved' ? '#d1fae5' : s === 'In Progress' || s === 'Pending' ? '#fef3c7' : '#ede9fe';
 
   return (
-    <div style={{ fontFamily:"'Inter',sans-serif", position: 'relative' }}>
-      <div style={{ marginBottom:'2.5rem' }}>
-        <h1 style={{ fontSize:'2rem', fontWeight:800, color:'#1e293b', margin:'0 0 0.4rem', fontFamily:"'Outfit',sans-serif" }}>Admin Dashboard</h1>
-        <p style={{ color:'#64748b', margin:0 }}>Municipal operations overview & real-time statistics.</p>
-      </div>
-
-      {/* Stat Cards */}
-      <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(220px,1fr))', gap:'1.25rem', marginBottom:'2.5rem' }}>
-        {statCards.map(c => (
-          <div 
-            key={c.key} 
-            onClick={() => handleCardClick(c.key)}
-            style={{ 
-              background:c.gradient, border:`1.5px solid ${c.border}`, borderRadius:'1.25rem', padding:'1.75rem', 
-              boxShadow:'0 4px 16px rgba(0,0,0,0.06)', cursor: (c.key === 'totalCitizens' || c.key === 'pendingComplaints') ? 'pointer' : 'default',
-              transition: 'transform 0.2s',
-            }}
-            onMouseEnter={e => { if (c.key === 'totalCitizens' || c.key === 'pendingComplaints') e.currentTarget.style.transform = 'translateY(-4px)' }}
-            onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
-          >
-            <div style={{ fontSize:'2rem', marginBottom:'0.75rem' }}>{c.icon}</div>
-            <div style={{ fontSize:'0.72rem', fontWeight:700, color:'#64748b', textTransform:'uppercase', letterSpacing:'0.08em', marginBottom:'0.35rem' }}>{c.label}</div>
-            <div style={{ fontSize:'2.25rem', fontWeight:900, color:c.valueColor, fontFamily:"'Outfit',sans-serif" }}>
-              {formatValue(c.key, stats[c.key])}
-            </div>
-            {(c.key === 'totalCitizens' || c.key === 'pendingComplaints') && (
-              <div style={{ fontSize: '0.75rem', marginTop: '0.5rem', color: c.valueColor, fontWeight: 600 }}>Click to view details →</div>
-            )}
-          </div>
-        ))}
-      </div>
-
-      {/* System Status + Activity */}
-      <div style={{ display:'grid', gridTemplateColumns:'2fr 1fr', gap:'1.5rem', flexWrap:'wrap' }}>
-        {/* Activity Placeholder */}
-        <div style={{ background:'rgba(255,255,255,0.8)', border:'1px solid #e2e8f0', borderRadius:'1.25rem', padding:'2rem', display:'flex', alignItems:'center', justifyContent:'center', minHeight:'220px' }}>
-          <div style={{ textAlign:'center' }}>
-            <div style={{ fontSize:'3rem', marginBottom:'0.75rem' }}>📊</div>
-            <h3 style={{ color:'#94a3b8', fontWeight:700, margin:'0 0 0.4rem', fontFamily:"'Outfit',sans-serif" }}>Activity Chart Placeholder</h3>
-            <p style={{ color:'#cbd5e1', fontSize:'0.85rem' }}>Integrate Recharts/Chart.js to show complaint trends</p>
-          </div>
-        </div>
-
-        {/* System Status */}
-        <div style={{ background:'linear-gradient(135deg,#1e1b4b,#312e81)', borderRadius:'1.25rem', padding:'2rem', color:'#fff', boxShadow:'0 12px 40px rgba(30,27,75,0.35)' }}>
-          <h3 style={{ fontSize:'1.1rem', fontWeight:700, margin:'0 0 0.5rem', fontFamily:"'Outfit',sans-serif" }}>System Status</h3>
-          <p style={{ color:'#a5b4fc', fontSize:'0.82rem', margin:'0 0 1.5rem', lineHeight:'1.5' }}>All services & database fully operational.</p>
-          {[
-            { label:'API Uptime', val:99, color:'#10b981' },
-            { label:'DB Load',    val:24, color:'#6366f1' },
-          ].map(b => (
-            <div key={b.label} style={{ marginBottom:'1rem' }}>
-              <div style={{ display:'flex', justifyContent:'space-between', fontSize:'0.8rem', fontWeight:600, marginBottom:'0.4rem', color:'#c7d2fe' }}>
-                <span>{b.label}</span><span>{b.val}%</span>
-              </div>
-              <div style={{ background:'rgba(255,255,255,0.1)', borderRadius:'999px', height:'6px' }}>
-                <div style={{ width:`${b.val}%`, height:'6px', borderRadius:'999px', background:b.color, transition:'width 0.6s ease' }} />
-              </div>
-            </div>
-          ))}
-          <div style={{ marginTop:'1.5rem', display:'flex', alignItems:'center', gap:'0.5rem' }}>
-            <span style={{ width:'8px', height:'8px', borderRadius:'50%', background:'#10b981', display:'inline-block', boxShadow:'0 0 8px #10b981' }} />
-            <span style={{ fontSize:'0.78rem', color:'#a5b4fc', fontWeight:600 }}>All systems operational</span>
-          </div>
+    <Layout>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+        <div>
+          <h1 style={{ fontSize: '2rem', fontWeight: 800, color: '#1e293b', margin: '0 0 0.3rem', fontFamily: "'Outfit',sans-serif" }}>Admin Dashboard</h1>
+          <p style={{ color: '#64748b', margin: 0 }}>Welcome back, <strong>{user?.name}</strong> 👋</p>
         </div>
       </div>
 
-      {/* Modal Popup */}
-      {activeModal && (
-        <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(15,23,42,0.6)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '1rem' }}>
-          <div style={{ background: '#fff', padding: '2rem', borderRadius: '1.25rem', width: '100%', maxWidth: '600px', maxHeight: '80vh', overflowY: 'auto', boxShadow: '0 20px 40px rgba(0,0,0,0.2)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-              <h2 style={{ margin: 0, fontSize: '1.5rem', fontWeight: 800, color: '#1e293b', fontFamily: "'Outfit',sans-serif" }}>
-                {activeModal === 'citizens' ? 'Registered Citizens' : 'Pending Complaints'}
-              </h2>
-              <button 
-                onClick={() => setActiveModal(null)} 
-                style={{ background: '#f1f5f9', border: 'none', width: '36px', height: '36px', borderRadius: '50%', cursor: 'pointer', fontSize: '1.2rem', color: '#64748b' }}
-              >✕</button>
-            </div>
-            
-            {activeModal === 'citizens' ? (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                {stats.citizensList.length > 0 ? stats.citizensList.map(c => (
-                  <div key={c.id} style={{ padding: '1rem', border: '1px solid #e2e8f0', borderRadius: '0.75rem', background: '#f8fafc' }}>
-                    <div style={{ fontWeight: 700, color: '#0f172a' }}>{c.name}</div>
-                    <div style={{ fontSize: '0.85rem', color: '#64748b', marginTop: '0.25rem' }}>📧 {c.email} | 📞 {c.phone}</div>
-                  </div>
-                )) : <div style={{ color: '#64748b', textAlign: 'center', padding: '2rem' }}>No citizens registered yet.</div>}
+      {loading ? (
+        <div style={{ textAlign: 'center', padding: '4rem', color: '#94a3b8' }}>Loading...</div>
+      ) : (
+        <>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '1.25rem', marginBottom: '2rem' }}>
+            {statCards.map(s => (
+              <div key={s.label} style={{ background: s.bg, borderRadius: '1rem', padding: '1.25rem', color: '#fff', boxShadow: '0 6px 20px rgba(0,0,0,0.15)' }}>
+                <div style={{ fontSize: '1.5rem' }}>{s.icon}</div>
+                <div style={{ fontSize: '1.75rem', fontWeight: 900, fontFamily: "'Outfit',sans-serif" }}>{s.value}</div>
+                <div style={{ opacity: 0.85, fontSize: '0.75rem', fontWeight: 600 }}>{s.label}</div>
               </div>
+            ))}
+          </div>
+
+          <div style={{ background: '#fff', borderRadius: '1rem', padding: '1.5rem', boxShadow: '0 4px 16px rgba(0,0,0,0.06)', marginBottom: '1.5rem' }}>
+            <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#1e293b', marginBottom: '1rem' }}>Recent Complaints</h2>
+            {complaints.length === 0 ? (
+              <div style={{ textAlign: 'center', color: '#94a3b8', padding: '2rem' }}>No complaints yet</div>
             ) : (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                {stats.pendingComplaintsList.length > 0 ? stats.pendingComplaintsList.map(c => (
-                  <div key={c.id} style={{ padding: '1rem', border: '1px solid #fde68a', borderRadius: '0.75rem', background: '#fffbeb' }}>
-                    <div style={{ fontWeight: 700, color: '#92400e' }}>#{c.id} - {c.title}</div>
-                    <div style={{ fontSize: '0.85rem', color: '#b45309', marginTop: '0.25rem' }}>By Citizen: <b>{c.citizenName}</b></div>
-                    <div style={{ fontSize: '0.85rem', color: '#b45309', marginTop: '0.25rem' }}>{c.description}</div>
+              <div style={{ display:'flex', flexDirection:'column', gap:'0.75rem' }}>
+                {complaints.map(c => (
+                  <div key={c.cid} style={{ padding:'1rem', borderRadius:'0.75rem', background:'#f8fafc', border:'1px solid #e2e8f0', display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+                    <div>
+                      <div style={{ fontWeight:700, color:'#1e293b', fontSize:'0.9rem' }}>{c.title}</div>
+                      <div style={{ fontSize:'0.75rem', color:'#64748b' }}>#{c.cid} · {new Date(c.c_date).toLocaleDateString()}</div>
+                    </div>
+                    <span style={{ background: statusBg(c.c_status), color: statusColor(c.c_status), borderRadius: '999px', padding: '0.2rem 0.6rem', fontSize: '0.65rem', fontWeight: 800 }}>{c.c_status}</span>
                   </div>
-                )) : <div style={{ color: '#64748b', textAlign: 'center', padding: '2rem' }}>No pending complaints.</div>}
+                ))}
               </div>
             )}
           </div>
-        </div>
-      )}
-    </div>
-  );
-};
 
-export default AdminDashboard;
+          <div style={{ background: '#fff', borderRadius: '1rem', padding: '1.5rem', boxShadow: '0 4px 16px rgba(0,0,0,0.06)' }}>
+            <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#1e293b', marginBottom: '1rem' }}>Feedback & Community Updates</h2>
+            {feedbacks.length === 0 ? (
+              <div style={{ textAlign: 'center', color: '#94a3b8', padding: '2rem' }}>No feedback yet</div>
+            ) : (
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '0.75rem' }}>
+                {feedbacks.map(f => (
+                  <div key={f.fid} style={{ padding: '1rem', borderRadius: '0.75rem', background: '#f8fafc', border: '1px solid #f1f5f9' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.4rem' }}>
+                      <span style={{ fontWeight: 700, fontSize: '0.85rem', color: '#1e293b' }}>{f.citizen?.name || 'User'}</span>
+                      <span style={{ color: '#f59e0b' }}>{'★'.repeat(f.rating)}</span>
+                    </div>
+                    <p style={{ margin: 0, fontSize: '0.85rem', color: '#475569' }}>{f.message}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </>
+      )}
+    </Layout>
+  );
+}

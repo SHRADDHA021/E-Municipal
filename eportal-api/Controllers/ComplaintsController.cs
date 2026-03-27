@@ -14,103 +14,124 @@ namespace EPortalApi.Controllers
     public class ComplaintsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        private readonly IWebHostEnvironment _environment;
+        private readonly IWebHostEnvironment _env;
 
-        public ComplaintsController(ApplicationDbContext context, IWebHostEnvironment environment)
+        public ComplaintsController(ApplicationDbContext context, IWebHostEnvironment env)
         {
             _context = context;
-            _environment = environment;
+            _env = env;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetComplaints()
+        public async Task<IActionResult> GetAll()
         {
-            var role = User.FindFirstValue(ClaimTypes.Role);
-            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var role = User.FindFirstValue(ClaimTypes.Role) ?? "";
+            var uidStr = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            Console.WriteLine($"🔍 Complaints.GetAll: Role={role}, UID={uidStr}");
 
-            IQueryable<Complaint> query = _context.Complaints.Include(c => c.AssignedEmployee);
+            var query = _context.Complaints
+                .Include(c => c.Citizen)
+                .Include(c => c.Employee)
+                .Include(c => c.Department)
+                .AsQueryable();
 
-            if (role == "Citizen")
+            if (role.Equals("Employee", StringComparison.OrdinalIgnoreCase))
             {
-                query = query.Where(c => c.UserId == userId);
+                if (int.TryParse(uidStr, out int uid))
+                {
+                    query = query.Where(c => c.EID == uid);
+                    Console.WriteLine($"🔍 Filtered for Employee UID={uid}");
+                }
             }
+            // Citizens and Admins see all
 
-            var complaints = await query.OrderByDescending(c => c.CreatedAt).ToListAsync();
-            return Ok(complaints);
+            var list = await query.OrderByDescending(c => c.C_date).ToListAsync();
+            return Ok(list);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetOne(int id)
+        {
+            var c = await _context.Complaints
+                .Include(c => c.Citizen)
+                .Include(c => c.Employee)
+                .Include(c => c.Department)
+                .Include(c => c.Feedbacks)
+                .FirstOrDefaultAsync(c => c.CID == id);
+            if (c == null) return NotFound();
+            return Ok(c);
         }
 
         [HttpPost]
         [Authorize(Roles = "Citizen")]
-        public async Task<IActionResult> CreateComplaint([FromForm] ComplaintCreateDto dto)
+        public async Task<IActionResult> Create([FromForm] ComplaintCreateDto dto)
         {
-            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var uid = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+
             var complaint = new Complaint
             {
-                UserId = userId,
                 Title = dto.Title,
-                Description = dto.Description
+                Description = dto.Description,
+                IDNo = uid
             };
 
             if (dto.Image != null)
-            {
-                complaint.ImageUrl = await SaveImage(dto.Image);
-            }
+                complaint.ImageUrl = await SaveFile(dto.Image);
 
             _context.Complaints.Add(complaint);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetComplaints), new { id = complaint.Id }, complaint);
-        }
-
-        [HttpPut("{id}/status")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateStatus(int id, [FromForm] ComplaintUpdateDto dto)
-        {
-            var complaint = await _context.Complaints.FindAsync(id);
-            if (complaint == null) return NotFound();
-
-            complaint.Status = dto.Status;
-
-            if (dto.ProofImage != null && dto.Status == "Completed")
-            {
-                complaint.ProofImageUrl = await SaveImage(dto.ProofImage);
-            }
-
             await _context.SaveChangesAsync();
             return Ok(complaint);
         }
 
         [HttpPut("{id}/assign")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> AssignComplaint(int id, [FromBody] ComplaintAssignDto dto)
+        public async Task<IActionResult> Assign(int id, [FromBody] ComplaintAssignDto dto)
         {
-            var complaint = await _context.Complaints.FindAsync(id);
-            if (complaint == null) return NotFound();
+            var c = await _context.Complaints.FindAsync(id);
+            if (c == null) return NotFound();
 
-            var employee = await _context.Employees.FindAsync(dto.EmployeeId);
-            if (employee == null) return BadRequest("Invalid Employee Id");
+            if (dto.EID.HasValue) c.EID = dto.EID;
+            if (dto.DNo.HasValue) c.DNo = dto.DNo;
+            c.C_status = "In Progress";
 
-            complaint.AssignedEmployeeId = dto.EmployeeId;
-            complaint.Status = "In Progress";
-            
             await _context.SaveChangesAsync();
-            return Ok(complaint);
+            return Ok(c);
         }
 
-        private async Task<string> SaveImage(IFormFile image)
+        [HttpPut("{id}/status")]
+        [Authorize(Roles = "Admin,Employee")]
+        public async Task<IActionResult> UpdateStatus(int id, [FromForm] ComplaintStatusDto dto)
         {
-            var uploadsFolder = Path.Combine(_environment.WebRootPath ?? Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"), "uploads");
-            if (!Directory.Exists(uploadsFolder)) Directory.CreateDirectory(uploadsFolder);
+            var c = await _context.Complaints.FindAsync(id);
+            if (c == null) return NotFound();
 
-            var uniqueFileName = Guid.NewGuid().ToString() + "_" + image.FileName;
-            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+            c.C_status = dto.C_status;
+            if (dto.ProofImage != null)
+                c.ProofImageUrl = await SaveFile(dto.ProofImage);
 
-            using (var fileStream = new FileStream(filePath, FileMode.Create))
-            {
-                await image.CopyToAsync(fileStream);
-            }
+            await _context.SaveChangesAsync();
+            return Ok(c);
+        }
 
-            return "/uploads/" + uniqueFileName;
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var c = await _context.Complaints.FindAsync(id);
+            if (c == null) return NotFound();
+            _context.Complaints.Remove(c);
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
+        private async Task<string> SaveFile(IFormFile file)
+        {
+            var folder = Path.Combine(_env.WebRootPath ?? Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"), "uploads");
+            Directory.CreateDirectory(folder);
+            var name = Guid.NewGuid() + Path.GetExtension(file.FileName);
+            await using var fs = new FileStream(Path.Combine(folder, name), FileMode.Create);
+            await file.CopyToAsync(fs);
+            return "/uploads/" + name;
         }
     }
 }

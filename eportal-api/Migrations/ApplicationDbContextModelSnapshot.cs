@@ -22,193 +22,7 @@ namespace EPortalApi.Migrations
 
             NpgsqlModelBuilderExtensions.UseSerialColumns(modelBuilder);
 
-            modelBuilder.Entity("EPortalApi.Models.Application", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("ServiceId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ServiceId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Applications");
-                });
-
-            modelBuilder.Entity("EPortalApi.Models.Complaint", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("AssignedEmployeeId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ProofImageUrl")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AssignedEmployeeId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Complaints");
-                });
-
-            modelBuilder.Entity("EPortalApi.Models.Department", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Departments");
-                });
-
-            modelBuilder.Entity("EPortalApi.Models.Employee", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("DepartmentId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DepartmentId");
-
-                    b.ToTable("Employees");
-                });
-
-            modelBuilder.Entity("EPortalApi.Models.Payment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("Id"));
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("numeric");
-
-                    b.Property<DateTime>("PaymentDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Payments");
-                });
-
-            modelBuilder.Entity("EPortalApi.Models.Schedule", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Area")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Time")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Schedules");
-                });
-
-            modelBuilder.Entity("EPortalApi.Models.Service", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("Id"));
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("numeric");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Services");
-                });
-
-            modelBuilder.Entity("EPortalApi.Models.User", b =>
+            modelBuilder.Entity("EPortalApi.Models.AdminUser", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -228,100 +42,505 @@ namespace EPortalApi.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("Role")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.ToTable("AdminUser");
                 });
 
-            modelBuilder.Entity("EPortalApi.Models.Application", b =>
+            modelBuilder.Entity("EPortalApi.Models.Bill", b =>
                 {
-                    b.HasOne("EPortalApi.Models.Service", "Service")
-                        .WithMany("Applications")
-                        .HasForeignKey("ServiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("Bill_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
 
-                    b.HasOne("EPortalApi.Models.User", "User")
-                        .WithMany("Applications")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("Bill_ID"));
 
-                    b.Navigation("Service");
+                    b.Property<string>("BillType")
+                        .HasColumnType("text");
 
-                    b.Navigation("User");
+                    b.Property<string>("CitizenName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ConsumerNumber")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("DueDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("IDNo")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("IsPaid")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("P_date")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("PaymentMethod")
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("Total_amt")
+                        .HasColumnType("numeric");
+
+                    b.HasKey("Bill_ID");
+
+                    b.HasIndex("IDNo");
+
+                    b.ToTable("Bill");
+                });
+
+            modelBuilder.Entity("EPortalApi.Models.BillService", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Bill_ID")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("Rate")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("SID")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Bill_ID");
+
+                    b.HasIndex("SID");
+
+                    b.ToTable("BillServices");
+                });
+
+            modelBuilder.Entity("EPortalApi.Models.Citizen", b =>
+                {
+                    b.Property<int>("IDNo")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("IDNo"));
+
+                    b.Property<string>("Bday")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Gender")
+                        .HasColumnType("text");
+
+                    b.Property<string>("House_no")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Phno")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Street_no_name")
+                        .HasColumnType("text");
+
+                    b.HasKey("IDNo");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.ToTable("Citizen");
                 });
 
             modelBuilder.Entity("EPortalApi.Models.Complaint", b =>
                 {
-                    b.HasOne("EPortalApi.Models.Employee", "AssignedEmployee")
-                        .WithMany("AssignedComplaints")
-                        .HasForeignKey("AssignedEmployeeId")
+                    b.Property<int>("CID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("CID"));
+
+                    b.Property<DateTime>("C_date")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("C_status")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int?>("DNo")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("EID")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("IDNo")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ProofImageUrl")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("CID");
+
+                    b.HasIndex("DNo");
+
+                    b.HasIndex("EID");
+
+                    b.HasIndex("IDNo");
+
+                    b.ToTable("Complaint");
+                });
+
+            modelBuilder.Entity("EPortalApi.Models.Department", b =>
+                {
+                    b.Property<int>("DNo")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("DNo"));
+
+                    b.Property<string>("DName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("DNo");
+
+                    b.ToTable("Department");
+                });
+
+            modelBuilder.Entity("EPortalApi.Models.Employee", b =>
+                {
+                    b.Property<int>("EID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("EID"));
+
+                    b.Property<int>("DNo")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("EAdd")
+                        .HasColumnType("text");
+
+                    b.Property<string>("EName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Phno")
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("Salary")
+                        .HasColumnType("numeric");
+
+                    b.HasKey("EID");
+
+                    b.HasIndex("DNo");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.ToTable("Employee");
+                });
+
+            modelBuilder.Entity("EPortalApi.Models.Feedback", b =>
+                {
+                    b.Property<int>("FID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("FID"));
+
+                    b.Property<int?>("CID")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("IDNo")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("IsCompleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Subject")
+                        .HasColumnType("text");
+
+                    b.Property<string>("WorkDoneDescription")
+                        .HasColumnType("text");
+
+                    b.HasKey("FID");
+
+                    b.HasIndex("CID");
+
+                    b.HasIndex("IDNo");
+
+                    b.ToTable("Feedback");
+                });
+
+            modelBuilder.Entity("EPortalApi.Models.Service", b =>
+                {
+                    b.Property<int>("SID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("SID"));
+
+                    b.Property<int?>("DNo")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("Rate")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("RequiredDocs")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("SName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("SID");
+
+                    b.HasIndex("DNo");
+
+                    b.ToTable("Services");
+                });
+
+            modelBuilder.Entity("EPortalApi.Models.ServiceRequest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("Bill_ID")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DocumentUrls")
+                        .HasColumnType("text");
+
+                    b.Property<int>("IDNo")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("SID")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Bill_ID")
+                        .IsUnique();
+
+                    b.HasIndex("IDNo");
+
+                    b.HasIndex("SID");
+
+                    b.ToTable("ServiceRequests");
+                });
+
+            modelBuilder.Entity("EPortalApi.Models.Bill", b =>
+                {
+                    b.HasOne("EPortalApi.Models.Citizen", "Citizen")
+                        .WithMany("Bills")
+                        .HasForeignKey("IDNo")
                         .OnDelete(DeleteBehavior.SetNull);
 
-                    b.HasOne("EPortalApi.Models.User", "User")
-                        .WithMany("Complaints")
-                        .HasForeignKey("UserId")
+                    b.Navigation("Citizen");
+                });
+
+            modelBuilder.Entity("EPortalApi.Models.BillService", b =>
+                {
+                    b.HasOne("EPortalApi.Models.Bill", "Bill")
+                        .WithMany("BillServices")
+                        .HasForeignKey("Bill_ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("AssignedEmployee");
+                    b.HasOne("EPortalApi.Models.Service", "Service")
+                        .WithMany("BillServices")
+                        .HasForeignKey("SID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("Bill");
+
+                    b.Navigation("Service");
+                });
+
+            modelBuilder.Entity("EPortalApi.Models.Complaint", b =>
+                {
+                    b.HasOne("EPortalApi.Models.Department", "Department")
+                        .WithMany("Complaints")
+                        .HasForeignKey("DNo")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("EPortalApi.Models.Employee", "Employee")
+                        .WithMany("Complaints")
+                        .HasForeignKey("EID")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("EPortalApi.Models.Citizen", "Citizen")
+                        .WithMany("Complaints")
+                        .HasForeignKey("IDNo")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Citizen");
+
+                    b.Navigation("Department");
+
+                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("EPortalApi.Models.Employee", b =>
                 {
                     b.HasOne("EPortalApi.Models.Department", "Department")
                         .WithMany("Employees")
-                        .HasForeignKey("DepartmentId")
+                        .HasForeignKey("DNo")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Department");
                 });
 
-            modelBuilder.Entity("EPortalApi.Models.Payment", b =>
+            modelBuilder.Entity("EPortalApi.Models.Feedback", b =>
                 {
-                    b.HasOne("EPortalApi.Models.User", "User")
-                        .WithMany("Payments")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("EPortalApi.Models.Complaint", "Complaint")
+                        .WithMany("Feedbacks")
+                        .HasForeignKey("CID")
+                        .OnDelete(DeleteBehavior.SetNull);
 
-                    b.Navigation("User");
-                });
+                    b.HasOne("EPortalApi.Models.Citizen", "Citizen")
+                        .WithMany("Feedbacks")
+                        .HasForeignKey("IDNo")
+                        .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity("EPortalApi.Models.Department", b =>
-                {
-                    b.Navigation("Employees");
-                });
+                    b.Navigation("Citizen");
 
-            modelBuilder.Entity("EPortalApi.Models.Employee", b =>
-                {
-                    b.Navigation("AssignedComplaints");
+                    b.Navigation("Complaint");
                 });
 
             modelBuilder.Entity("EPortalApi.Models.Service", b =>
                 {
-                    b.Navigation("Applications");
+                    b.HasOne("EPortalApi.Models.Department", "Department")
+                        .WithMany("Services")
+                        .HasForeignKey("DNo")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Department");
                 });
 
-            modelBuilder.Entity("EPortalApi.Models.User", b =>
+            modelBuilder.Entity("EPortalApi.Models.ServiceRequest", b =>
                 {
-                    b.Navigation("Applications");
+                    b.HasOne("EPortalApi.Models.Bill", "Bill")
+                        .WithOne("ServiceRequest")
+                        .HasForeignKey("EPortalApi.Models.ServiceRequest", "Bill_ID")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("EPortalApi.Models.Citizen", "Citizen")
+                        .WithMany("ServiceRequests")
+                        .HasForeignKey("IDNo")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EPortalApi.Models.Service", "Service")
+                        .WithMany("ServiceRequests")
+                        .HasForeignKey("SID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Bill");
+
+                    b.Navigation("Citizen");
+
+                    b.Navigation("Service");
+                });
+
+            modelBuilder.Entity("EPortalApi.Models.Bill", b =>
+                {
+                    b.Navigation("BillServices");
+
+                    b.Navigation("ServiceRequest");
+                });
+
+            modelBuilder.Entity("EPortalApi.Models.Citizen", b =>
+                {
+                    b.Navigation("Bills");
 
                     b.Navigation("Complaints");
 
-                    b.Navigation("Payments");
+                    b.Navigation("Feedbacks");
+
+                    b.Navigation("ServiceRequests");
+                });
+
+            modelBuilder.Entity("EPortalApi.Models.Complaint", b =>
+                {
+                    b.Navigation("Feedbacks");
+                });
+
+            modelBuilder.Entity("EPortalApi.Models.Department", b =>
+                {
+                    b.Navigation("Complaints");
+
+                    b.Navigation("Employees");
+
+                    b.Navigation("Services");
+                });
+
+            modelBuilder.Entity("EPortalApi.Models.Employee", b =>
+                {
+                    b.Navigation("Complaints");
+                });
+
+            modelBuilder.Entity("EPortalApi.Models.Service", b =>
+                {
+                    b.Navigation("BillServices");
+
+                    b.Navigation("ServiceRequests");
                 });
 #pragma warning restore 612, 618
         }

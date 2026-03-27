@@ -24,66 +24,111 @@ namespace EPortalApi.Controllers
             _configuration = configuration;
         }
 
+        // POST /api/auth/register  (citizen only)
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterDto dto)
+        public async Task<IActionResult> RegisterCitizen([FromBody] CitizenRegisterDto dto)
         {
-            if (await _context.Users.AnyAsync(u => u.Email == dto.Email))
+            if (await _context.Citizens.AnyAsync(c => c.Email == dto.Email))
                 return BadRequest("Email already exists");
 
-            var user = new User
+            var citizen = new Citizen
             {
                 Name = dto.Name,
                 Email = dto.Email,
-                Phone = dto.Phone,
-                Role = dto.Role,
-                PasswordHash = HashPassword(dto.Password)
+                Gender = dto.Gender,
+                Bday = dto.Bday,
+                Phno = dto.Phno,
+                House_no = dto.House_no,
+                Street_no_name = dto.Street_no_name,
+                PasswordHash = Hash(dto.Password)
             };
 
-            _context.Users.Add(user);
+            _context.Citizens.Add(citizen);
             await _context.SaveChangesAsync();
-
-            return Ok(new { message = "User registered successfully" });
+            return Ok(new { message = "Citizen registered successfully" });
         }
 
+        // POST /api/auth/login  (Citizen | Admin | Employee)
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto dto)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == dto.Email);
-            if (user == null || !VerifyPassword(dto.Password, user.PasswordHash))
-                return Unauthorized("Invalid email or password");
+            string role = dto.Role;
+            string name = "";
+            int userId = 0;
 
-            var token = GenerateJwtToken(user);
-
-            return Ok(new LoginResponseDto
+            if (role == "Citizen")
             {
-                Token = token,
-                Role = user.Role,
-                Name = user.Name,
-                UserId = user.Id
-            });
+                var citizen = await _context.Citizens.FirstOrDefaultAsync(c => c.Email == dto.Email);
+                if (citizen == null || !Verify(dto.Password, citizen.PasswordHash))
+                    return Unauthorized("Invalid credentials");
+                name = citizen.Name;
+                userId = citizen.IDNo;
+            }
+            else if (role == "Admin")
+            {
+                var admin = await _context.AdminUsers.FirstOrDefaultAsync(a => a.Email == dto.Email);
+                if (admin == null || !Verify(dto.Password, admin.PasswordHash))
+                    return Unauthorized("Invalid credentials");
+                name = admin.Name;
+                userId = admin.Id;
+            }
+            else if (role == "Employee")
+            {
+                var emp = await _context.Employees.FirstOrDefaultAsync(e => e.Email == dto.Email);
+                if (emp == null || !Verify(dto.Password, emp.PasswordHash))
+                    return Unauthorized("Invalid credentials");
+                name = emp.EName;
+                userId = emp.EID;
+            }
+            else
+            {
+                return BadRequest("Invalid role");
+            }
+
+            var token = GenerateJwtToken(userId, name, dto.Email, role);
+            return Ok(new LoginResponseDto { Token = token, Role = role, Name = name, UserId = userId });
         }
 
-        private string HashPassword(string password)
+        // POST /api/auth/register-employee (Admin only)
+        [HttpPost("register-employee")]
+        public async Task<IActionResult> RegisterEmployee([FromBody] EmployeeRegisterDto dto)
         {
-            return Convert.ToBase64String(SHA256.HashData(Encoding.UTF8.GetBytes(password)));
+            if (await _context.Employees.AnyAsync(e => e.Email == dto.Email))
+                return BadRequest("Email already exists");
+
+            var employee = new Employee
+            {
+                EName = dto.EName,
+                Email = dto.Email,
+                DNo = dto.DNo,
+                Phno = dto.Phno,
+                EAdd = dto.EAdd,
+                Salary = dto.Salary,
+                PasswordHash = Hash(dto.Password)
+            };
+
+            _context.Employees.Add(employee);
+            await _context.SaveChangesAsync();
+            return Ok(new { message = "Employee registered successfully", employee });
         }
 
-        private bool VerifyPassword(string password, string storedHash)
-        {
-            return HashPassword(password) == storedHash;
-        }
+        private static string Hash(string password)
+            => Convert.ToBase64String(SHA256.HashData(Encoding.UTF8.GetBytes(password)));
 
-        private string GenerateJwtToken(User user)
+        private static bool Verify(string password, string hash)
+            => Hash(password) == hash;
+
+        private string GenerateJwtToken(int userId, string name, string email, string role)
         {
             var jwtSettings = _configuration.GetSection("JwtSettings");
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Secret"]!));
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Name, user.Name),
-                new Claim(ClaimTypes.Role, user.Role)
+                new(ClaimTypes.NameIdentifier, userId.ToString()),
+                new(ClaimTypes.Email, email),
+                new(ClaimTypes.Name, name),
+                new(ClaimTypes.Role, role)
             };
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -91,7 +136,7 @@ namespace EPortalApi.Controllers
                 issuer: jwtSettings["Issuer"],
                 audience: jwtSettings["Audience"],
                 claims: claims,
-                expires: DateTime.UtcNow.AddHours(2),
+                expires: DateTime.UtcNow.AddHours(8),
                 signingCredentials: creds
             );
 

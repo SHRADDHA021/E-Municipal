@@ -1,22 +1,35 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EPortalApi.Models
 {
+    [Table("Complaint")]
     public class Complaint
     {
         [Key]
-        public int Id { get; set; }
-        public int UserId { get; set; }
-        public User? User { get; set; }
-        public required string Title { get; set; }
-        public required string Description { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int CID { get; set; }
+
+        [Required] public string Title { get; set; } = string.Empty;
+        public string? Description { get; set; }
+        public string C_status { get; set; } = "Pending"; // Pending, In Progress, Completed
+        public DateTime C_date { get; set; } = DateTime.UtcNow;
         public string? ImageUrl { get; set; }
         public string? ProofImageUrl { get; set; }
-        public string Status { get; set; } = "Pending"; // Pending, In Progress, Completed
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-        // Optionally linked to employee
-        public int? AssignedEmployeeId { get; set; }
-        public Employee? AssignedEmployee { get; set; }
+        // FK: Reports (Citizen -> Complaint 1:M)
+        public int IDNo { get; set; }
+        public Citizen? Citizen { get; set; }
+
+        // FK: Assigned to Employee (1:M)
+        public int? EID { get; set; }
+        public Employee? Employee { get; set; }
+
+        // FK: Assigned to Department (1:M)
+        public int? DNo { get; set; }
+        public Department? Department { get; set; }
+
+        // Navigation
+        public List<Feedback> Feedbacks { get; set; } = new();
     }
 }

@@ -8,6 +8,7 @@ const citizenLinks = [
   { to: '/citizen/apply',        label: 'Apply for Service',icon: '📄' },
   { to: '/citizen/schedules',    label: 'Schedules',        icon: '📅' },
   { to: '/citizen/payments',     label: 'My Payments',      icon: '💳' },
+  { to: '/citizen/utility',      label: 'Utility Payments', icon: '⚡' },
 ];
 
 const adminLinks = [
@@ -16,6 +17,7 @@ const adminLinks = [
   { to: '/admin/services',        label: 'Manage Services',  icon: '⚙️' },
   { to: '/admin/schedules',       label: 'Manage Schedules', icon: '📅' },
   { to: '/admin/employees',       label: 'Employees',        icon: '👥' },
+  { to: '/admin/bills',           label: 'Utility Billing',  icon: '🧾' },
 ];
 
 const Sidebar = () => {

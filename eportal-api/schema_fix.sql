@@ -1,0 +1,13 @@
+﻿START TRANSACTION;
+
+ALTER TABLE "Bill" DROP CONSTRAINT "FK_Bill_Citizen_IDNo";
+
+ALTER TABLE "Bill" ALTER COLUMN "IDNo" DROP NOT NULL;
+
+ALTER TABLE "Bill" ADD CONSTRAINT "FK_Bill_Citizen_IDNo" FOREIGN KEY ("IDNo") REFERENCES "Citizen" ("IDNo") ON DELETE SET NULL;
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20260327174650_AbsoluteFinalFixBillNullable', '8.0.0');
+
+COMMIT;
+

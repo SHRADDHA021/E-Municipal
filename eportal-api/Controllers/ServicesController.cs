@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using EPortalApi.Data;
+using EPortalApi.DTOs;
 using EPortalApi.Models;
 
 namespace EPortalApi.Controllers
@@ -13,79 +14,59 @@ namespace EPortalApi.Controllers
     public class ServicesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-
-        public ServicesController(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+        public ServicesController(ApplicationDbContext context) { _context = context; }
 
         [HttpGet]
-        public async Task<IActionResult> GetServices()
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAll()
         {
-            return Ok(await _context.Services.ToListAsync());
-        }
-
-        [HttpPost("apply/{serviceId}")]
-        [Authorize(Roles = "Citizen")]
-        public async Task<IActionResult> Apply(int serviceId)
-        {
-            var service = await _context.Services.FindAsync(serviceId);
-            if (service == null) return NotFound("Service not found");
-
-            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-
-            var application = new Application
-            {
-                UserId = userId,
-                ServiceId = serviceId
-            };
-
-            _context.Applications.Add(application);
-            await _context.SaveChangesAsync();
-
-            return Ok(application);
-        }
-
-        [HttpGet("applications")]
-        public async Task<IActionResult> GetApplications()
-        {
-            var role = User.FindFirstValue(ClaimTypes.Role);
-            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-
-            IQueryable<Application> query = _context.Applications.Include(a => a.Service);
-
-            if (role == "Citizen")
-            {
-                query = query.Where(a => a.UserId == userId);
-            }
-            else
-            {
-                query = query.Include(a => a.User);
-            }
-
-            return Ok(await query.ToListAsync());
+            var services = await _context.Services
+                .Include(s => s.Department)
+                .Select(s => new { 
+                    s.SID, 
+                    s.SName, 
+                    s.Rate, 
+                    s.DNo, 
+                    s.RequiredDocs, 
+                    Department = s.Department == null ? null : new { s.Department.DNo, s.Department.DName } 
+                })
+                .ToListAsync();
+            return Ok(services);
         }
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> CreateService([FromBody] Service service)
+        public async Task<IActionResult> Create([FromBody] ServiceCreateDto dto)
         {
-            _context.Services.Add(service);
+            var svc = new Service { SName = dto.SName, Rate = dto.Rate, DNo = dto.DNo, RequiredDocs = dto.RequiredDocs };
+            _context.Services.Add(svc);
             await _context.SaveChangesAsync();
-            return Ok(service);
+            return Ok(svc);
         }
 
-        [HttpPut("applications/{id}/status")]
+        [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateApplicationStatus(int id, [FromBody] string status)
+        public async Task<IActionResult> Update(int id, [FromBody] ServiceCreateDto dto)
         {
-            var application = await _context.Applications.FindAsync(id);
-            if (application == null) return NotFound();
-
-            application.Status = status;
+            var svc = await _context.Services.FindAsync(id);
+            if (svc == null) return NotFound();
+            svc.SName = dto.SName;
+            svc.Rate = dto.Rate;
+            svc.DNo = dto.DNo;
+            svc.RequiredDocs = dto.RequiredDocs;
             await _context.SaveChangesAsync();
+            return Ok(svc);
+        }
 
-            return Ok(application);
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var svc = await _context.Services.FindAsync(id);
+            if (svc == null) return NotFound();
+            _context.Services.Remove(svc);
+            await _context.SaveChangesAsync();
+            return NoContent();
         }
     }
 }
