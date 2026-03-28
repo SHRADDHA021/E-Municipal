@@ -17,7 +17,6 @@ export default function CitizenDashboard() {
   const links = [
     { to: '/citizen/complaints', icon: '📣', label: 'My Complaints', sub: 'Report & track issues', bg: 'linear-gradient(135deg,#ef4444,#dc2626)' },
     { to: '/citizen/services', icon: '🛠', label: 'Apply Services', sub: 'Request municipal services', bg: 'linear-gradient(135deg,#8b5cf6,#7c3aed)' },
-    { to: '/citizen/bills', icon: '💳', label: 'My Bills', sub: 'View & pay your bills', bg: 'linear-gradient(135deg,#0ea5e9,#0284c7)' },
     { to: '/citizen/feedback', icon: '⭐', label: 'Feedback', sub: 'Rate completed services', bg: 'linear-gradient(135deg,#f59e0b,#d97706)' },
   ];
 

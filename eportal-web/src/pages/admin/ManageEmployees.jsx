@@ -35,8 +35,17 @@ export default function ManageEmployees() {
   };
 
   const handleEdit = (e) => {
-    setForm({ EName: e.eName, Email: e.email, Password: '', DNo: e.dNo, Phno: e.phno || '', EAdd: e.eAdd || '', Salary: e.salary || 0 });
-    setEditing(e.eID); setShowForm(true);
+    setForm({ 
+      EName: e.ename || e.eName || '', 
+      Email: e.email || '', 
+      Password: '', 
+      DNo: e.dno || e.dNo || '', 
+      Phno: e.phno || '', 
+      EAdd: e.eadd || e.eAdd || '', 
+      Salary: e.salary || 0 
+    });
+    setEditing(e.eid || e.eID); 
+    setShowForm(true);
   };
 
   const handleDelete = async (id) => {
@@ -69,7 +78,15 @@ export default function ManageEmployees() {
               <h2 style={{ margin:0, fontSize:'1.3rem', fontWeight:800, color:'#1e293b' }}>👷 Employee Info</h2>
               <button onClick={() => setSelected(null)} style={{ background:'#f1f5f9', border:'none', width:'32px', height:'32px', borderRadius:'50%', cursor:'pointer', color:'#64748b', fontSize:'1.1rem' }}>✕</button>
             </div>
-            {[['EID', selected.eID], ['Name', selected.eName], ['Email', selected.email], ['Phone', selected.phno], ['Address', selected.eAdd], ['Salary', `₹${selected.salary}`], ['Department', selected.department?.dName || `DNo ${selected.dNo}`]].map(([k,v]) => (
+            {[
+              ['EID', selected.eid || selected.eID], 
+              ['Name', selected.ename || selected.eName], 
+              ['Email', selected.email], 
+              ['Phone', selected.phno], 
+              ['Address', selected.eadd || selected.eAdd], 
+              ['Salary', `₹${selected.salary}`], 
+              ['Department', selected.department?.dname || selected.department?.dName || `DNo ${selected.dno || selected.dNo}`]
+            ].map(([k,v]) => (
               <div key={k} style={{ display:'flex', justifyContent:'space-between', padding:'0.6rem 0', borderBottom:'1px solid #f1f5f9' }}>
                 <span style={{ color:'#64748b', fontWeight:600, fontSize:'0.875rem' }}>{k}</span>
                 <span style={{ color:'#1e293b', fontWeight:500, fontSize:'0.875rem' }}>{v || '—'}</span>
@@ -123,23 +140,28 @@ export default function ManageEmployees() {
             </tr>
           </thead>
           <tbody>
-            {emps.map(e => (
-              <tr key={e.eID} style={{ borderTop:'1px solid #f1f5f9' }}>
-                <td style={{ padding:'0.85rem 1rem', color:'#6366f1', fontWeight:700 }}>#{e.eID}</td>
-                <td style={{ padding:'0.85rem 1rem', color:'#1e293b', fontWeight:600 }}>{e.eName}</td>
-                <td style={{ padding:'0.85rem 1rem', color:'#475569' }}>{e.email}</td>
-                <td style={{ padding:'0.85rem 1rem', color:'#64748b' }}>{e.phno || '—'}</td>
-                <td style={{ padding:'0.85rem 1rem', color:'#059669', fontWeight:700 }}>₹{e.salary}</td>
-                <td style={{ padding:'0.85rem 1rem', color:'#475569' }}>{e.department?.dName || `DNo ${e.dNo}`}</td>
-                <td style={{ padding:'0.85rem 1rem', textAlign:'right' }}>
-                  <div style={{ display:'flex', gap:'0.5rem', justifyContent:'flex-end' }}>
-                    <button onClick={() => setSelected(e)} style={btn('grey')}>👁</button>
-                    <button onClick={() => handleEdit(e)} style={btn('grey')}>✏️</button>
-                    <button onClick={() => setConfirmDelete(e.eid || e.eID || e.EID)} style={btn('red')}>🗑</button>
-                  </div>
-                </td>
-              </tr>
-            ))}
+            {emps.map(e => {
+              const eid = e.eid || e.eID;
+              const ename = e.ename || e.eName;
+              const dname = e.department?.dname || e.department?.dName || `DNo ${e.dno || e.dNo}`;
+              return (
+                <tr key={eid} style={{ borderTop:'1px solid #f1f5f9' }}>
+                  <td style={{ padding:'0.85rem 1rem', color:'#6366f1', fontWeight:700 }}>#{eid}</td>
+                  <td style={{ padding:'0.85rem 1rem', color:'#1e293b', fontWeight:600 }}>{ename}</td>
+                  <td style={{ padding:'0.85rem 1rem', color:'#475569' }}>{e.email}</td>
+                  <td style={{ padding:'0.85rem 1rem', color:'#64748b' }}>{e.phno || '—'}</td>
+                  <td style={{ padding:'0.85rem 1rem', color:'#059669', fontWeight:700 }}>₹{e.salary}</td>
+                  <td style={{ padding:'0.85rem 1rem', color:'#475569' }}>{dname}</td>
+                  <td style={{ padding:'0.85rem 1rem', textAlign:'right' }}>
+                    <div style={{ display:'flex', gap:'0.5rem', justifyContent:'flex-end' }}>
+                      <button onClick={() => setSelected(e)} style={btn('grey')}>👁</button>
+                      <button onClick={() => handleEdit(e)} style={btn('grey')}>✏️</button>
+                      <button onClick={() => setConfirmDelete(eid)} style={btn('red')}>🗑</button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
         {emps.length === 0 && <div style={{ textAlign:'center', padding:'3rem', color:'#94a3b8' }}>No employees. Add one above.</div>}

@@ -100,6 +100,11 @@ namespace EPortalApi.DTOs
         public DateTime CreatedAt { get; set; }
         public int IDNo { get; set; }
         public string? CitizenName { get; set; }
+        public string? CitizenEmail { get; set; }
+        public string? CitizenPhone { get; set; }
+        public string? CitizenAddress { get; set; }
+        public string? CitizenGender { get; set; }
+        public string? CitizenBday { get; set; }
         public int SID { get; set; }
         public string? ServiceName { get; set; }
         public int? Bill_ID { get; set; }

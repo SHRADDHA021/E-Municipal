@@ -65,7 +65,7 @@ export default function ManageComplaints() {
               <button onClick={() => setSelected(null)} style={{ background:'#f1f5f9', border:'none', width:'32px', height:'32px', borderRadius:'50%', cursor:'pointer', color:'#64748b', fontSize:'1rem' }}>✕</button>
             </div>
             <div style={{ marginBottom:'0.5rem', color:'#1e293b', fontWeight:700 }}>{selected.title}</div>
-            <div style={{ color:'#64748b', fontSize:'0.875rem', marginBottom:'0.5rem' }}>{selected.description}</div>
+            <div style={{ color:'#94a3b8', fontSize:'0.75rem', marginTop:'0.4rem' }}>{selected.department?.dname || selected.department?.dName || 'No department'}</div>
             <div style={{ fontSize:'0.8rem', color:'#94a3b8', marginBottom:'1rem' }}>
               Citizen: {selected.citizen?.name || selected.idNo} · Date: {new Date(selected.c_date).toLocaleDateString()}
             </div>
@@ -104,7 +104,7 @@ export default function ManageComplaints() {
       {loading ? <div style={{ textAlign:'center', padding:'4rem', color:'#94a3b8' }}>Loading...</div> : (
         <div style={{ display:'flex', flexDirection:'column', gap:'0.75rem' }}>
           {complaints.map(c => (
-            <div key={c.cid} onClick={() => { setSelected(c); setAssignForm({ EID: c.eID || '', DNo: c.dNo || '' }); }}
+            <div key={c.cid} onClick={() => { setSelected(c); setAssignForm({ EID: c.eid || c.eID || '', DNo: c.dno || c.dNo || '' }); }}
               style={{ background:'#fff', borderRadius:'1rem', padding:'1.25rem 1.5rem', display:'flex', justifyContent:'space-between', alignItems:'center', boxShadow:'0 2px 12px rgba(0,0,0,0.05)', cursor:'pointer', borderLeft:`4px solid ${statusColor(c.c_status)}`, transition:'box-shadow 0.2s' }}
               onMouseEnter={e => e.currentTarget.style.boxShadow='0 8px 24px rgba(0,0,0,0.1)'}
               onMouseLeave={e => e.currentTarget.style.boxShadow='0 2px 12px rgba(0,0,0,0.05)'}
@@ -113,7 +113,7 @@ export default function ManageComplaints() {
                 <div style={{ fontWeight:700, color:'#1e293b', marginBottom:'0.25rem' }}>#{c.cid} — {c.title}</div>
                 <div style={{ color:'#64748b', fontSize:'0.8rem' }}>
                   👤 {c.citizen?.name || `ID ${c.idNo}`} · 📅 {new Date(c.c_date).toLocaleDateString()}
-                  {c.employee && ` · 👷 ${c.employee.eName}`}
+                  {c.employee && ` · 👷 ${c.employee.ename || c.employee.eName}`}
                 </div>
               </div>
               <span style={{ background:statusBg(c.c_status), color:statusColor(c.c_status), borderRadius:'999px', padding:'0.25rem 0.75rem', fontSize:'0.72rem', fontWeight:800, textTransform:'uppercase', whiteSpace:'nowrap' }}>

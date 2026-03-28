@@ -113,38 +113,6 @@ export default function UtilityBills() {
           )}
         </div>
 
-        {(myBills.length > 0 || myRequests.length > 0) && (
-          <div style={{ marginTop:'3rem' }}>
-            <h2 style={{ fontSize:'1.25rem', fontWeight:800, color:'#1e293b', marginBottom:'1.25rem', borderBottom:'2px solid #6366f1', display:'inline-block', paddingBottom:'0.25rem' }}>
-              My Active Utility Tasks & Bills
-            </h2>
-            <div style={{ display:'grid', gap:'1rem' }}>
-              {myBills.map(b => (
-                <div key={b.bill_ID} style={{ background:'#fff', borderRadius:'1.25rem', padding:'1.25rem', border:'1px solid #e2e8f0', boxShadow:'0 4px 12px rgba(0,0,0,0.05)', display:'flex', justifyContent:'space-between', alignItems:'center' }}>
-                  <div>
-                    <div style={{ fontWeight:700, color:'#1e293b' }}>{b.billType} - {b.consumerNumber}</div>
-                    <div style={{ fontSize:'0.8rem', color:'#64748b', marginTop:'0.2rem' }}>Due: {b.dueDate ? new Date(b.dueDate).toLocaleDateString() : 'N/A'}</div>
-                  </div>
-                  <div style={{ textAlign:'right' }}>
-                    <div style={{ fontWeight:800, color:'#4f46e5', fontSize:'1.1rem' }}>₹{b.total_amt}</div>
-                    <button onClick={() => { setBill(b); setType(b.billType); setConsumerNumber(b.consumerNumber); }} style={{ background:'none', border:'none', color:'#6366f1', fontSize:'0.75rem', fontWeight:700, cursor:'pointer', padding:0, marginTop:'0.3rem' }}>View Details →</button>
-                  </div>
-                </div>
-              ))}
-              {myRequests.map(r => (
-                <div key={r.id} style={{ background:'#f8fafc', borderRadius:'1.25rem', padding:'1.25rem', border:'1px dashed #cbd5e1', display:'flex', justifyContent:'space-between', alignItems:'center' }}>
-                  <div>
-                    <div style={{ fontWeight:700, color:'#475569' }}>Service: {r.serviceName || 'Task'}</div>
-                    <div style={{ fontSize:'0.8rem', color:'#94a3b8', marginTop:'0.2rem' }}>Requested: {new Date(r.createdAt).toLocaleDateString()}</div>
-                  </div>
-                  <span style={{ fontSize:'0.7rem', fontWeight:800, padding:'0.2rem 0.6rem', borderRadius:'999px', background:'#eef2ff', color:'#6366f1' }}>
-                    {r.status.toUpperCase()}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
       </div>
     </Layout>
   );

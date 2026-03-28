@@ -9,7 +9,9 @@ export default function AdminDashboard() {
   const [complaints, setComplaints] = useState([]);
   const [feedbacks, setFeedbacks] = useState([]);
   const [requests, setRequests] = useState([]);
+  const [selectedRequest, setSelectedRequest] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [toast, setToast] = useState('');
 
   useEffect(() => {
     const fetchAll = async () => {
@@ -39,6 +41,7 @@ export default function AdminDashboard() {
     };
     fetchAll();
   }, []);
+
 
   const statCards = [
     { label: 'Depts', value: stats.departments, bg: 'linear-gradient(135deg,#6366f1,#4f46e5)', icon: '🏢' },
@@ -72,6 +75,44 @@ export default function AdminDashboard() {
               </div>
             ))}
           </div>
+
+          {/* NEW: Service Requests for Review */}
+          <div style={{ background: '#fff', borderRadius: '1rem', padding: '1.5rem', boxShadow: '0 4px 16px rgba(0,0,0,0.06)', marginBottom: '1.5rem' }}>
+            <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#1e293b', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <span>📝 Service Requests for Review</span>
+              <span style={{ fontSize: '0.75rem', background: '#eef2ff', color: '#6366f1', padding: '0.2rem 0.6rem', borderRadius: '999px' }}>
+                {requests.filter(r => r.documentUrls && r.isPaid && r.status === 'Pending').length} Action Required
+              </span>
+            </h2>
+            {requests.filter(r => r.documentUrls && r.isPaid && r.status === 'Pending').length === 0 ? (
+              <div style={{ textAlign: 'center', color: '#94a3b8', padding: '2rem', border: '2px dashed #f1f5f9', borderRadius: '0.75rem' }}>
+                No requests pending review (must have documents & payment)
+              </div>
+            ) : (
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1rem' }}>
+                {requests.filter(r => r.documentUrls && r.isPaid && r.status === 'Pending').map(r => (
+                  <div key={r.id} style={{ padding: '1.25rem', borderRadius: '1rem', background: '#fff', border: '1px solid #e0e7ff', borderTop: '4px solid #6366f1', boxShadow: '0 4px 12px rgba(99,102,241,0.08)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
+                      <span style={{ fontWeight: 800, color: '#1e293b' }}>{r.serviceName}</span>
+                      <span style={{ fontSize: '0.7rem', color: '#94a3b8' }}>#{r.id}</span>
+                    </div>
+                    <div style={{ fontSize: '0.85rem', color: '#475569', marginBottom: '1rem' }}>
+                      Citizen: <strong>{r.citizenName}</strong><br/>
+                      Date: {new Date(r.createdAt).toLocaleDateString()}
+                    </div>
+                    <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
+                       <span style={{ background: '#d1fae5', color: '#065f46', fontSize: '0.65rem', fontWeight: 800, padding: '0.2rem 0.5rem', borderRadius: '4px' }}>✓ PAID</span>
+                       <span style={{ background: '#e0f2fe', color: '#0369a1', fontSize: '0.65rem', fontWeight: 800, padding: '0.2rem 0.5rem', borderRadius: '4px' }}>📄 DOCS UPLOADED</span>
+                    </div>
+                    <button onClick={() => setSelectedRequest(r)} style={{ width: '100%', padding: '0.6rem', background: '#6366f1', color: '#fff', border: 'none', borderRadius: '0.5rem', fontWeight: 700, cursor: 'pointer', fontSize: '0.85rem' }}>
+                      Review Request
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
 
           <div style={{ background: '#fff', borderRadius: '1rem', padding: '1.5rem', boxShadow: '0 4px 16px rgba(0,0,0,0.06)', marginBottom: '1.5rem' }}>
             <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#1e293b', marginBottom: '1rem' }}>Recent Complaints</h2>
@@ -110,6 +151,59 @@ export default function AdminDashboard() {
               </div>
             )}
           </div>
+
+          {/* Review Modal */}
+          {selectedRequest && (
+            <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(15,23,42,0.6)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 10000, padding:'1rem' }}>
+              <div style={{ background: '#fff', borderRadius: '1.5rem', width: '100%', maxWidth: '700px', maxHeight: '90vh', overflowY: 'auto', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)', animation:'modalIn 0.3s ease' }}>
+                <div style={{ padding: '1.5rem', borderBottom: '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, background: '#fff', zIndex: 1 }}>
+                  <div>
+                    <h2 style={{ margin: 0, fontSize: '1.25rem', fontWeight: 800, color: '#1e293b' }}>Review Service Request</h2>
+                    <p style={{ margin: 0, fontSize: '0.75rem', color: '#64748b' }}>Request ID: #{selectedRequest.id || selectedRequest.Id}</p>
+                  </div>
+                  <button onClick={() => setSelectedRequest(null)} style={{ background: '#f8fafc', border: '1px solid #e2e8f0', width: '36px', height: '36px', borderRadius: '50%', cursor: 'pointer', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'1.2rem', color:'#64748b' }}>✕</button>
+                </div>
+                
+                <div style={{ padding: '1.5rem' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem', marginBottom: '2rem' }}>
+                    <div>
+                      <h3 style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: '#6366f1', fontWeight: 800, marginBottom: '0.75rem', letterSpacing: '0.05em' }}>👤 Citizen Profile</h3>
+                      <div style={{ background: '#f8fafc', padding: '1.25rem', borderRadius: '1rem', border: '1px solid #f1f5f9' }}>
+                        <div style={{ marginBottom: '0.75rem', display: 'flex', justifyContent: 'space-between' }}><span style={{ color:'#64748b' }}>Full Name:</span> <span style={{ fontWeight:700 }}>{(selectedRequest.citizenName || selectedRequest.CitizenName) || 'Not Provided'}</span></div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}><span style={{ color:'#64748b' }}>Citizen ID:</span> <span style={{ fontWeight:700 }}>{selectedRequest.idNo || selectedRequest.IDNo || 'N/A'}</span></div>
+                      </div>
+                    </div>
+                    <div>
+                      <h3 style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: '#6366f1', fontWeight: 800, marginBottom: '0.75rem', letterSpacing: '0.05em' }}>🛠️ Service Applied</h3>
+                      <div style={{ background: '#f8fafc', padding: '1.25rem', borderRadius: '1rem', border: '1px solid #f1f5f9' }}>
+                        <div style={{ marginBottom: '0.75rem', display: 'flex', justifyContent: 'space-between' }}><span style={{ color:'#64748b' }}>Service Name:</span> <span style={{ fontWeight:700 }}>{selectedRequest.serviceName || selectedRequest.ServiceName}</span></div>
+                        <div style={{ marginBottom: '0.75rem', display: 'flex', justifyContent: 'space-between' }}><span style={{ color:'#64748b' }}>Applied Date:</span> <span style={{ fontWeight:700 }}>{new Date(selectedRequest.createdAt || selectedRequest.CreatedAt).toLocaleString()}</span></div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems:'center' }}><span style={{ color:'#64748b' }}>Payment Status:</span> <span style={{ color: '#059669', background:'#d1fae5', padding:'0.2rem 0.6rem', borderRadius:'999px', fontSize:'0.7rem', fontWeight: 800 }}>✓ PAID</span></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <h3 style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: '#6366f1', fontWeight: 800, marginBottom: '0.75rem', letterSpacing: '0.05em' }}>📄 Proof of Documents</h3>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', gap: '1rem' }}>
+                    {(selectedRequest.documentUrls || selectedRequest.DocumentUrls)?.split(',').map((url, idx) => (
+                      <a key={idx} href={`http://localhost:5000${url}`} target="_blank" rel="noreferrer" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem', textDecoration: 'none', background: '#f8fafc', padding:'1rem', borderRadius:'0.75rem', border: '1px solid #e2e8f0', transition: '0.2s' }}>
+                        <div style={{ fontSize: '2.5rem' }}>📄</div>
+                        <span style={{ fontSize: '0.7rem', color: '#6366f1', fontWeight: 800, textAlign: 'center' }}>Document {idx + 1}</span>
+                        <span style={{ fontSize: '0.6rem', color: '#94a3b8' }}>Click to view</span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {toast && <div style={{ position:'fixed', bottom:'2rem', left:'50%', transform:'translateX(-50%)', background:'#1e293b', color:'#fff', padding:'1rem 2rem', borderRadius:'1rem', boxShadow:'0 20px 25px -5px rgba(0,0,0,0.1)', zIndex:10001, fontWeight:700, display:'flex', alignItems:'center', gap:'0.75rem', animation:'toastIn 0.3s ease' }}>{toast}</div>}
+          
+          <style>{`
+            @keyframes modalIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+            @keyframes toastIn { from { opacity: 0; transform: translate(-50%, 20px); } to { opacity: 1; transform: translate(-50%, 0); } }
+          `}</style>
         </>
       )}
     </Layout>

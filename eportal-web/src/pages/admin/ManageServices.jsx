@@ -96,7 +96,11 @@ export default function ManageServices() {
               <label style={{ display:'block', fontWeight:600, color:'#374151', marginBottom:'0.35rem', fontSize:'0.875rem' }}>Department</label>
               <select value={form.DNo} onChange={set('DNo')} style={{ ...inp, cursor:'pointer' }}>
                 <option value="">-- None --</option>
-                {depts.map(d => <option key={d.dNo} value={d.dNo}>{d.dName}</option>)}
+                {depts.map(d => (
+                  <option key={d.dno || d.dNo} value={d.dno || d.dNo}>
+                    {d.dname || d.dName}
+                  </option>
+                ))}
               </select>
             </div>
             <div>
@@ -109,29 +113,34 @@ export default function ManageServices() {
       )}
 
       <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(280px,1fr))', gap:'1rem' }}>
-        {services.map(s => (
-          <div key={s.sid} style={{ background:'#fff', borderRadius:'1rem', padding:'1.5rem', boxShadow:'0 4px 16px rgba(0,0,0,0.06)', borderLeft:'4px solid #8b5cf6' }}>
-            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start' }}>
-              <div>
-                <div style={{ fontSize:'1.5rem', marginBottom:'0.25rem' }}>🛠</div>
-                <div style={{ fontWeight:700, color:'#1e293b', fontSize:'1rem', fontFamily:"'Outfit',sans-serif" }}>{s.sName}</div>
-                <div style={{ marginTop:'0.5rem' }}>
-                  <span style={{ background:'#d1fae5', color:'#065f46', border:'1px solid #a7f3d0', borderRadius:'999px', padding:'0.15rem 0.6rem', fontSize:'0.75rem', fontWeight:700 }}>₹{s.rate}</span>
-                </div>
-                <div style={{ color:'#94a3b8', fontSize:'0.75rem', marginTop:'0.4rem' }}>{s.department?.dName || 'No department'}</div>
-                {s.requiredDocs && (
-                  <div style={{ marginTop:'0.5rem', fontSize:'0.7rem', color:'#6366f1', background:'#eef2ff', padding:'0.2rem 0.5rem', borderRadius:'0.4rem', border:'1px solid #c7d2fe' }}>
-                    <b>Documents:</b> {s.requiredDocs}
+        {services.map(s => {
+          const sid = s.sid || s.sId || s.SID;
+          const sName = s.sname || s.sName || s.SName;
+          const dName = s.department?.dname || s.department?.dName || 'No department';
+          return (
+            <div key={sid} style={{ background:'#fff', borderRadius:'1rem', padding:'1.5rem', boxShadow:'0 4px 16px rgba(0,0,0,0.06)', borderLeft:'4px solid #8b5cf6' }}>
+              <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start' }}>
+                <div>
+                  <div style={{ fontSize:'1.5rem', marginBottom:'0.25rem' }}>🛠</div>
+                  <div style={{ fontWeight:700, color:'#1e293b', fontSize:'1rem', fontFamily:"'Outfit',sans-serif" }}>{sName}</div>
+                  <div style={{ marginTop:'0.5rem' }}>
+                    <span style={{ background:'#d1fae5', color:'#065f46', border:'1px solid #a7f3d0', borderRadius:'999px', padding:'0.15rem 0.6rem', fontSize:'0.75rem', fontWeight:700 }}>₹{s.rate}</span>
                   </div>
-                )}
-              </div>
-              <div style={{ display:'flex', gap:'0.5rem', flexDirection:'column' }}>
-                <button onClick={() => handleEdit(s)} style={btn('grey')}>✏️</button>
-                <button onClick={() => setConfirmDelete(s.sid || s.sID || s.SID)} style={btn('red')}>🗑</button>
+                  <div style={{ color:'#94a3b8', fontSize:'0.75rem', marginTop:'0.4rem' }}>{dName}</div>
+                  {s.requiredDocs && (
+                    <div style={{ marginTop:'0.5rem', fontSize:'0.7rem', color:'#6366f1', background:'#eef2ff', padding:'0.2rem 0.5rem', borderRadius:'0.4rem', border:'1px solid #c7d2fe' }}>
+                      <b>Documents:</b> {s.requiredDocs}
+                    </div>
+                  )}
+                </div>
+                <div style={{ display:'flex', gap:'0.5rem', flexDirection:'column' }}>
+                  <button onClick={() => handleEdit(s)} style={btn('grey')}>✏️</button>
+                  <button onClick={() => setConfirmDelete(sid)} style={btn('red')}>🗑</button>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
         {services.length === 0 && <div style={{ gridColumn:'1/-1', textAlign:'center', padding:'3rem', color:'#94a3b8', background:'#fff', borderRadius:'1rem' }}>No services yet. Add one above.</div>}
       </div>
     </Layout>

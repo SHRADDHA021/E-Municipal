@@ -114,36 +114,8 @@ using (var scope = app.Services.CreateScope())
     {
         dbContext.Database.Migrate();
 
-        // --- ROBUST RESET TO ZERO ---
-        try {
-            // Explicit hardcoded table reset list
-            var tables = new[] { 
-                "BillService", "ServiceRequest", "Feedback", "Complaint", 
-                "Bill", "Service", "Employee", "Citizen", "Department", "AdminUsers" 
-            };
+        // --- DB SEEDING (Reset logic removed to preserve data) ---
 
-            foreach (var table in tables) {
-                dbContext.Database.ExecuteSqlRaw($"TRUNCATE TABLE \"{table}\" RESTART IDENTITY CASCADE;");
-            }
-
-            // Fallback: Manually reset sequences if TRUNCATE CASCADE missed any
-            var sequences = new[] {
-                ("AdminUsers", "AdminId"), ("Citizen", "IDNo"), ("Employee", "EID"),
-                ("Department", "DNo"), ("Complaint", "CId"), ("Feedback", "FId"),
-                ("Service", "SId"), ("Bill", "Bill_ID")
-            };
-
-            foreach (var (tbl, col) in sequences) {
-                try {
-                    dbContext.Database.ExecuteSqlRaw($"ALTER SEQUENCE IF EXISTS \"{tbl}_{col}_seq\" RESTART WITH 0;");
-                } catch { /* Ignore missing sequence names */ }
-            }
-
-            Console.WriteLine("🔥 DB RESET COMPLETE: All data deleted and IDs reset to 0.");
-        } catch (Exception ex) {
-            Console.WriteLine($"❌ Reset failed: {ex.Message}");
-            throw;
-        }
 
         // --- DONE ---
 
@@ -173,6 +145,19 @@ using (var scope = app.Services.CreateScope())
                 Console.WriteLine($"✅ Seeded Utility Service: {name}");
             }
         }
+
+        // Ensure citizen 'abc' has complete data for the demo
+        var citizenAbc = dbContext.Citizens.FirstOrDefault(c => c.Name == "abc");
+        if (citizenAbc != null && string.IsNullOrEmpty(citizenAbc.Phno))
+        {
+            citizenAbc.Phno = "+91 9876543210";
+            citizenAbc.Gender = "Male";
+            citizenAbc.Bday = "1995-05-15";
+            citizenAbc.House_no = "C-42";
+            citizenAbc.Street_no_name = "Golden Street, Pune";
+            Console.WriteLine("✅ Populated sample data for citizen 'abc'");
+        }
+        
         dbContext.SaveChanges();
     }
     catch (Exception ex)
