@@ -27,7 +27,7 @@ export default function AdminDashboard() {
         ]);
         setComplaints(cmp.data.slice(0, 5));
         setFeedbacks(fbs.data.slice(0, 5));
-        setRequests(sreq.data.slice(0, 5));
+        setRequests(sreq.data);
         setStats({
           complaints: cmp.data.length,
           employees: emp.data.length,
@@ -81,16 +81,16 @@ export default function AdminDashboard() {
             <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#1e293b', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <span>📝 Service Requests for Review</span>
               <span style={{ fontSize: '0.75rem', background: '#eef2ff', color: '#6366f1', padding: '0.2rem 0.6rem', borderRadius: '999px' }}>
-                {requests.filter(r => r.documentUrls && r.isPaid && r.status === 'Pending').length} Action Required
+                {requests.filter(r => (r.status || r.Status) === 'Pending').length} Action Required
               </span>
             </h2>
-            {requests.filter(r => r.documentUrls && r.isPaid && r.status === 'Pending').length === 0 ? (
+            {requests.filter(r => (r.status || r.Status) === 'Pending').length === 0 ? (
               <div style={{ textAlign: 'center', color: '#94a3b8', padding: '2rem', border: '2px dashed #f1f5f9', borderRadius: '0.75rem' }}>
                 No requests pending review (must have documents & payment)
               </div>
             ) : (
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1rem' }}>
-                {requests.filter(r => r.documentUrls && r.isPaid && r.status === 'Pending').map(r => (
+                {requests.filter(r => (r.status || r.Status) === 'Pending').map(r => (
                   <div key={r.id} style={{ padding: '1.25rem', borderRadius: '1rem', background: '#fff', border: '1px solid #e0e7ff', borderTop: '4px solid #6366f1', boxShadow: '0 4px 12px rgba(99,102,241,0.08)' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
                       <span style={{ fontWeight: 800, color: '#1e293b' }}>{r.serviceName}</span>
@@ -101,8 +101,16 @@ export default function AdminDashboard() {
                       Date: {new Date(r.createdAt).toLocaleDateString()}
                     </div>
                     <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
-                       <span style={{ background: '#d1fae5', color: '#065f46', fontSize: '0.65rem', fontWeight: 800, padding: '0.2rem 0.5rem', borderRadius: '4px' }}>✓ PAID</span>
-                       <span style={{ background: '#e0f2fe', color: '#0369a1', fontSize: '0.65rem', fontWeight: 800, padding: '0.2rem 0.5rem', borderRadius: '4px' }}>📄 DOCS UPLOADED</span>
+                      {(r.isPaid || r.IsPaid) ? (
+                        <span style={{ background: '#d1fae5', color: '#065f46', fontSize: '0.65rem', fontWeight: 800, padding: '0.2rem 0.5rem', borderRadius: '4px' }}>✓ PAID</span>
+                      ) : (
+                        <span style={{ background: '#fee2e2', color: '#b91c1c', fontSize: '0.65rem', fontWeight: 800, padding: '0.2rem 0.5rem', borderRadius: '4px' }}>⌛ UNPAID</span>
+                      )}
+                      {(r.documentUrls || r.DocumentUrls) ? (
+                        <span style={{ background: '#e0f2fe', color: '#0369a1', fontSize: '0.65rem', fontWeight: 800, padding: '0.2rem 0.5rem', borderRadius: '4px' }}>📄 DOCS UPLOADED</span>
+                      ) : (
+                        <span style={{ background: '#f1f5f9', color: '#64748b', fontSize: '0.65rem', fontWeight: 800, padding: '0.2rem 0.5rem', borderRadius: '4px' }}>❌ NO DOCUMENTS</span>
+                      )}
                     </div>
                     <button onClick={() => setSelectedRequest(r)} style={{ width: '100%', padding: '0.6rem', background: '#6366f1', color: '#fff', border: 'none', borderRadius: '0.5rem', fontWeight: 700, cursor: 'pointer', fontSize: '0.85rem' }}>
                       Review Request
@@ -178,7 +186,7 @@ export default function AdminDashboard() {
                       <div style={{ background: '#f8fafc', padding: '1.25rem', borderRadius: '1rem', border: '1px solid #f1f5f9' }}>
                         <div style={{ marginBottom: '0.75rem', display: 'flex', justifyContent: 'space-between' }}><span style={{ color:'#64748b' }}>Service Name:</span> <span style={{ fontWeight:700 }}>{selectedRequest.serviceName || selectedRequest.ServiceName}</span></div>
                         <div style={{ marginBottom: '0.75rem', display: 'flex', justifyContent: 'space-between' }}><span style={{ color:'#64748b' }}>Applied Date:</span> <span style={{ fontWeight:700 }}>{new Date(selectedRequest.createdAt || selectedRequest.CreatedAt).toLocaleString()}</span></div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems:'center' }}><span style={{ color:'#64748b' }}>Payment Status:</span> <span style={{ color: '#059669', background:'#d1fae5', padding:'0.2rem 0.6rem', borderRadius:'999px', fontSize:'0.7rem', fontWeight: 800 }}>✓ PAID</span></div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems:'center' }}><span style={{ color:'#64748b' }}>Payment Status:</span> <span style={{ color: (selectedRequest.isPaid || selectedRequest.IsPaid) ? '#059669' : '#b91c1c', background: (selectedRequest.isPaid || selectedRequest.IsPaid) ? '#d1fae5' : '#fee2e2', padding:'0.2rem 0.6rem', borderRadius:'999px', fontSize:'0.7rem', fontWeight: 800 }}>{(selectedRequest.isPaid || selectedRequest.IsPaid) ? '✓ PAID' : '⌛ UNPAID'}</span></div>
                       </div>
                     </div>
                   </div>
