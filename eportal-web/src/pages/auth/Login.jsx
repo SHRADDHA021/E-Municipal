@@ -12,6 +12,7 @@ export default function Login() {
   const [form, setForm] = useState({ email: '', password: '', role: 'Citizen' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -59,7 +60,25 @@ export default function Login() {
 
           <div style={{ marginBottom:'1.5rem' }}>
             <label style={{ display:'block', fontWeight:600, color:'#374151', marginBottom:'0.35rem', fontSize:'0.875rem' }}>Password</label>
-            <input type="password" required value={form.password} onChange={e => setForm({...form, password: e.target.value})} placeholder="••••••••" style={inp} onFocus={onFocus} onBlur={onBlur} />
+            <div style={{ position: 'relative' }}>
+              <input 
+                type={showPassword ? "text" : "password"} 
+                required 
+                value={form.password} 
+                onChange={e => setForm({...form, password: e.target.value})} 
+                placeholder="••••••••" 
+                style={{ ...inp, paddingRight: '3rem' }} 
+                onFocus={onFocus} 
+                onBlur={onBlur} 
+              />
+              <button 
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                style={{ position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', padding: '0.25rem', fontSize: '1rem', color: '#64748b' }}
+              >
+                {showPassword ? '🙈' : '👁️'}
+              </button>
+            </div>
           </div>
 
           <button type="submit" disabled={loading} style={{ width:'100%', padding:'0.85rem', borderRadius:'0.75rem', border:'none', cursor: loading ? 'not-allowed' : 'pointer', background: loading ? '#a5b4fc' : 'linear-gradient(135deg,#6366f1,#4f46e5)', color:'#fff', fontWeight:700, fontSize:'0.95rem', fontFamily:'inherit', boxShadow:'0 4px 14px rgba(99,102,241,0.4)' }}>

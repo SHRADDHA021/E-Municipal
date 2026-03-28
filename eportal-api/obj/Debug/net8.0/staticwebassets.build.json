@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "v9U8VHQhFK+QuQ6v6wlWu8le/tJ1mnZyB3thGMHTvZs=",
+  "Hash": "SiomIP1JXcKJZjEbOd90lKoV+x4EAyvNvQXQPhZ4EME=",
   "Source": "EPortalApi",
   "BasePath": "_content/EPortalApi",
   "Mode": "Default",
@@ -16,6 +16,44 @@
     }
   ],
   "Assets": [
+    {
+      "Identity": "C:\\Users\\SHRADDHA\\OneDrive\\Documents\\eportal\\eportal-api\\wwwroot\\uploads\\0d441662-f1ef-430b-8188-7d30e2666c9d.png",
+      "SourceId": "EPortalApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\SHRADDHA\\OneDrive\\Documents\\eportal\\eportal-api\\wwwroot\\",
+      "BasePath": "_content/EPortalApi",
+      "RelativePath": "uploads/0d441662-f1ef-430b-8188-7d30e2666c9d.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\0d441662-f1ef-430b-8188-7d30e2666c9d.png"
+    },
+    {
+      "Identity": "C:\\Users\\SHRADDHA\\OneDrive\\Documents\\eportal\\eportal-api\\wwwroot\\uploads\\12bc0af9-d832-45c6-b52c-db1d21f53cb7.png",
+      "SourceId": "EPortalApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\SHRADDHA\\OneDrive\\Documents\\eportal\\eportal-api\\wwwroot\\",
+      "BasePath": "_content/EPortalApi",
+      "RelativePath": "uploads/12bc0af9-d832-45c6-b52c-db1d21f53cb7.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\12bc0af9-d832-45c6-b52c-db1d21f53cb7.png"
+    },
     {
       "Identity": "C:\\Users\\SHRADDHA\\OneDrive\\Documents\\eportal\\eportal-api\\wwwroot\\uploads\\1c3b1eee-2a28-4d60-b875-066269c83faf_Water leak floods Vivekanand Colony street.png",
       "SourceId": "EPortalApi",
@@ -53,6 +91,44 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\uploads\\a74a1167-b7e7-45f9-b626-68ef3b76e82b_Water leak floods Vivekanand Colony street.png"
+    },
+    {
+      "Identity": "C:\\Users\\SHRADDHA\\OneDrive\\Documents\\eportal\\eportal-api\\wwwroot\\uploads\\docs\\68d28432-8a77-4db4-ac26-5a10a2617dca.jpeg",
+      "SourceId": "EPortalApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\SHRADDHA\\OneDrive\\Documents\\eportal\\eportal-api\\wwwroot\\",
+      "BasePath": "_content/EPortalApi",
+      "RelativePath": "uploads/docs/68d28432-8a77-4db4-ac26-5a10a2617dca.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\docs\\68d28432-8a77-4db4-ac26-5a10a2617dca.jpeg"
+    },
+    {
+      "Identity": "C:\\Users\\SHRADDHA\\OneDrive\\Documents\\eportal\\eportal-api\\wwwroot\\uploads\\docs\\b5eec5b1-25dd-4698-9e8f-c01e63678495.jpeg",
+      "SourceId": "EPortalApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\SHRADDHA\\OneDrive\\Documents\\eportal\\eportal-api\\wwwroot\\",
+      "BasePath": "_content/EPortalApi",
+      "RelativePath": "uploads/docs/b5eec5b1-25dd-4698-9e8f-c01e63678495.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\docs\\b5eec5b1-25dd-4698-9e8f-c01e63678495.jpeg"
     }
   ]
 }
