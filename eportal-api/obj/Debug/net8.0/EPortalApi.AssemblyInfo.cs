@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EPortalApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+93c0145bbf941c71f776df23c23488e57ae3b032")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f156b3538193d10e0e02b7667fad274f4ab59070")]
 [assembly: System.Reflection.AssemblyProductAttribute("EPortalApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EPortalApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

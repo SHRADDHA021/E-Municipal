@@ -1,0 +1,27 @@
+# .dotnet
+bin/
+obj/
+*.user
+*.pdb
+*.dll
+*.exe
+
+# .node
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# .project
+.DS_Store
+*.log
+build_output.txt
+.gemini/
+.agent/
+.agents/
+.system_generated/
+browser/
+tmp/
+*.webp
+*.png
+*.jpg

@@ -63,8 +63,26 @@ namespace EPortalApi.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
-            var dept = await _context.Departments.FindAsync(id);
+            var dept = await _context.Departments
+                .Include(d => d.Employees)
+                .Include(d => d.Services)
+                    .ThenInclude(s => s.ServiceRequests)
+                .Include(d => d.Complaints)
+                .FirstOrDefaultAsync(d => d.DNo == id);
+
             if (dept == null) return NotFound();
+
+            // Cascade delete associations manually to ensure success
+            if (dept.Employees.Any()) _context.Employee.RemoveRange(dept.Employees);
+            
+            foreach (var svc in dept.Services)
+            {
+                if (svc.ServiceRequests.Any()) _context.ServiceRequests.RemoveRange(svc.ServiceRequests);
+            }
+            if (dept.Services.Any()) _context.Services.RemoveRange(dept.Services);
+            
+            if (dept.Complaints.Any()) _context.Complaints.RemoveRange(dept.Complaints);
+
             _context.Departments.Remove(dept);
             await _context.SaveChangesAsync();
             return NoContent();
