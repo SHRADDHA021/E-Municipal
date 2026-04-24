@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "SiomIP1JXcKJZjEbOd90lKoV+x4EAyvNvQXQPhZ4EME=",
+  "Hash": "bAyyn4cPToykRUxW2TWeS6KxC8CrI6reXGT7qz1gL4Q=",
   "Source": "EPortalApi",
   "BasePath": "_content/EPortalApi",
   "Mode": "Default",
@@ -74,6 +74,25 @@
       "OriginalItemSpec": "wwwroot\\uploads\\1c3b1eee-2a28-4d60-b875-066269c83faf_Water leak floods Vivekanand Colony street.png"
     },
     {
+      "Identity": "C:\\Users\\SHRADDHA\\OneDrive\\Documents\\eportal\\eportal-api\\wwwroot\\uploads\\1e73ffd6-0ecf-4283-a033-7699df0a97b1.png",
+      "SourceId": "EPortalApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\SHRADDHA\\OneDrive\\Documents\\eportal\\eportal-api\\wwwroot\\",
+      "BasePath": "_content/EPortalApi",
+      "RelativePath": "uploads/1e73ffd6-0ecf-4283-a033-7699df0a97b1.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\1e73ffd6-0ecf-4283-a033-7699df0a97b1.png"
+    },
+    {
       "Identity": "C:\\Users\\SHRADDHA\\OneDrive\\Documents\\eportal\\eportal-api\\wwwroot\\uploads\\a74a1167-b7e7-45f9-b626-68ef3b76e82b_Water leak floods Vivekanand Colony street.png",
       "SourceId": "EPortalApi",
       "SourceType": "Discovered",
@@ -91,6 +110,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\uploads\\a74a1167-b7e7-45f9-b626-68ef3b76e82b_Water leak floods Vivekanand Colony street.png"
+    },
+    {
+      "Identity": "C:\\Users\\SHRADDHA\\OneDrive\\Documents\\eportal\\eportal-api\\wwwroot\\uploads\\docs\\1c9b7d90-da34-4d38-91f2-34bc749b2d6f.jpeg",
+      "SourceId": "EPortalApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\SHRADDHA\\OneDrive\\Documents\\eportal\\eportal-api\\wwwroot\\",
+      "BasePath": "_content/EPortalApi",
+      "RelativePath": "uploads/docs/1c9b7d90-da34-4d38-91f2-34bc749b2d6f.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\docs\\1c9b7d90-da34-4d38-91f2-34bc749b2d6f.jpeg"
     },
     {
       "Identity": "C:\\Users\\SHRADDHA\\OneDrive\\Documents\\eportal\\eportal-api\\wwwroot\\uploads\\docs\\68d28432-8a77-4db4-ac26-5a10a2617dca.jpeg",
@@ -129,6 +167,44 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\uploads\\docs\\b5eec5b1-25dd-4698-9e8f-c01e63678495.jpeg"
+    },
+    {
+      "Identity": "C:\\Users\\SHRADDHA\\OneDrive\\Documents\\eportal\\eportal-api\\wwwroot\\uploads\\docs\\eb7ac647-5797-4ece-bce1-01ae66795d9b.jpeg",
+      "SourceId": "EPortalApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\SHRADDHA\\OneDrive\\Documents\\eportal\\eportal-api\\wwwroot\\",
+      "BasePath": "_content/EPortalApi",
+      "RelativePath": "uploads/docs/eb7ac647-5797-4ece-bce1-01ae66795d9b.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\docs\\eb7ac647-5797-4ece-bce1-01ae66795d9b.jpeg"
+    },
+    {
+      "Identity": "C:\\Users\\SHRADDHA\\OneDrive\\Documents\\eportal\\eportal-api\\wwwroot\\uploads\\docs\\fd751637-5234-48e2-95fb-264b6d886fdf.jpeg",
+      "SourceId": "EPortalApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\SHRADDHA\\OneDrive\\Documents\\eportal\\eportal-api\\wwwroot\\",
+      "BasePath": "_content/EPortalApi",
+      "RelativePath": "uploads/docs/fd751637-5234-48e2-95fb-264b6d886fdf.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\docs\\fd751637-5234-48e2-95fb-264b6d886fdf.jpeg"
     }
   ]
 }

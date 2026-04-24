@@ -74,7 +74,7 @@ namespace EPortalApi.Controllers
             if (dept == null) return NotFound();
 
             // Cascade delete associations manually to ensure success
-            if (dept.Employees.Any()) _context.Employee.RemoveRange(dept.Employees);
+            if (dept.Employees.Any()) _context.Employees.RemoveRange(dept.Employees);
             
             foreach (var svc in dept.Services)
             {
