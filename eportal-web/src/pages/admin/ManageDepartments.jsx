@@ -13,6 +13,7 @@ export default function ManageDepartments() {
   const [editing, setEditing] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [toast, setToast] = useState('');
+  const [confirmDelete, setConfirmDelete] = useState(null); // stores dno to delete
 
   useEffect(() => { fetchDepts(); }, []);
 
@@ -41,16 +42,30 @@ export default function ManageDepartments() {
   const handleEdit = (d) => { setForm({ DName: d.dName }); setEditing(d.dNo); setShowForm(true); };
 
   const handleDelete = async (id) => {
-    if (!confirm('Delete this department?')) return;
     try {
       await api.delete(`/departments/${id}`);
-      showToast('🗑️ Deleted'); fetchDepts();
-    } catch { showToast('❌ Delete failed'); }
+      showToast('🗑️ Department deleted'); setConfirmDelete(null); fetchDepts();
+    } catch (err) { showToast('❌ ' + (err?.response?.data || 'Delete failed')); setConfirmDelete(null); }
   };
 
   return (
     <Layout>
       {toast && <div style={{ position:'fixed', top:'2rem', right:'2rem', background:'#1e293b', color:'#fff', padding:'0.9rem 1.5rem', borderRadius:'0.75rem', boxShadow:'0 10px 25px rgba(0,0,0,0.2)', zIndex:9999, fontWeight:600 }}>{toast}</div>}
+
+      {/* Delete confirm modal */}
+      {confirmDelete && (
+        <div style={{ position:'fixed', top:0, left:0, width:'100vw', height:'100vh', background:'rgba(15,23,42,0.6)', backdropFilter:'blur(4px)', display:'flex', alignItems:'center', justifyContent:'center', zIndex:1100 }}>
+          <div style={{ background:'#fff', padding:'2rem', borderRadius:'1.25rem', width:'100%', maxWidth:'400px', textAlign:'center', boxShadow:'0 20px 40px rgba(0,0,0,0.2)' }}>
+            <div style={{ fontSize:'3rem', marginBottom:'1rem' }}>⚠️</div>
+            <h2 style={{ margin:'0 0 1rem', fontSize:'1.25rem', fontWeight:800, color:'#1e293b' }}>Delete Department?</h2>
+            <p style={{ color:'#64748b', marginBottom:'2rem' }}>This will also delete all associated employees, services, complaints, and service requests.</p>
+            <div style={{ display:'flex', gap:'1rem', justifyContent:'center' }}>
+              <button onClick={() => setConfirmDelete(null)} style={btn('grey')}>Cancel</button>
+              <button onClick={() => handleDelete(confirmDelete)} style={{ ...btn('red'), background:'#ef4444', color:'#fff' }}>Delete</button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'2rem', flexWrap:'wrap', gap:'1rem' }}>
         <div>
@@ -90,7 +105,7 @@ export default function ManageDepartments() {
                 </div>
                 <div style={{ display:'flex', gap:'0.5rem' }}>
                   <button onClick={() => handleEdit(d)} style={btn('grey')}>✏️</button>
-                  <button onClick={() => handleDelete(dno)} style={btn('red')}>🗑</button>
+                  <button onClick={() => setConfirmDelete(dno)} style={btn('red')}>🗑</button>
                 </div>
               </div>
             </div>
