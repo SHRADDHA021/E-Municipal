@@ -112,3 +112,9 @@ C:\Users\SHRADDHA\OneDrive\Documents\eportal\eportal-api\bin\Debug\net8.0\EPorta
 C:\Users\SHRADDHA\OneDrive\Documents\eportal\eportal-api\bin\Debug\net8.0\EPortalApi.pdb
 C:\Users\SHRADDHA\OneDrive\Documents\eportal\eportal-api\obj\Debug\net8.0\EPortalApi.genruntimeconfig.cache
 C:\Users\SHRADDHA\OneDrive\Documents\eportal\eportal-api\obj\Debug\net8.0\ref\EPortalApi.dll
+C:\Users\SHRADDHA\OneDrive\Documents\eportal\eportal-api\bin\Debug\net8.0\Google.Apis.dll
+C:\Users\SHRADDHA\OneDrive\Documents\eportal\eportal-api\bin\Debug\net8.0\Google.Apis.Auth.dll
+C:\Users\SHRADDHA\OneDrive\Documents\eportal\eportal-api\bin\Debug\net8.0\Google.Apis.Core.dll
+C:\Users\SHRADDHA\OneDrive\Documents\eportal\eportal-api\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\SHRADDHA\OneDrive\Documents\eportal\eportal-api\bin\Debug\net8.0\System.Management.dll
+C:\Users\SHRADDHA\OneDrive\Documents\eportal\eportal-api\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Management.dll
