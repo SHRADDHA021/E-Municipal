@@ -16,6 +16,7 @@ const navMap = {
     { label: '🏠 Dashboard', path: '/citizen' },
     { label: '📣 Complaints', path: '/citizen/complaints' },
     { label: '🛠 Services', path: '/citizen/services' },
+    { label: '💳 My Bills', path: '/citizen/bills' },
     { label: '🚰 Utility Bills', path: '/citizen/utility' },
     { label: '⭐ Feedback', path: '/citizen/feedback' },
   ],
