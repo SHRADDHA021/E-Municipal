@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EPortalApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260427192652_AddNewsTable")]
+    [Migration("20260427193521_AddNewsTable")]
     partial class AddNewsTable
     {
         /// <inheritdoc />
@@ -314,6 +314,35 @@ namespace EPortalApi.Migrations
                     b.HasIndex("IDNo");
 
                     b.ToTable("Feedback");
+                });
+
+            modelBuilder.Entity("EPortalApi.Models.News", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Emoji")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("News");
                 });
 
             modelBuilder.Entity("EPortalApi.Models.Service", b =>
