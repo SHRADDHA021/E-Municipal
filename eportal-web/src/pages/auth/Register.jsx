@@ -11,6 +11,7 @@ const inp = {
 export default function Register() {
   const [form, setForm] = useState({ name:'', email:'', password:'', phno:'', gender:'', bday:'', house_no:'', street_no_name:'' });
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const { register } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -33,10 +34,16 @@ export default function Register() {
   return (
     <div style={{ minHeight:'100vh', display:'flex', alignItems:'center', justifyContent:'center', background:'linear-gradient(135deg,#1e1b4b,#312e81,#4c1d95)', padding:'1.5rem', fontFamily:"'Inter',sans-serif" }}>
       <div style={{ background:'rgba(255,255,255,0.95)', backdropFilter:'blur(20px)', borderRadius:'1.5rem', padding:'2.5rem', width:'100%', maxWidth:'500px', boxShadow:'0 25px 60px rgba(0,0,0,0.35)' }}>
-        <div style={{ textAlign:'center', marginBottom:'2rem' }}>
+        {/* Back to home */}
+        <div style={{ marginBottom:'1rem' }}>
+          <Link to="/" style={{ color:'#6366f1', fontSize:'0.82rem', fontWeight:600, textDecoration:'none', display:'inline-flex', alignItems:'center', gap:'0.3rem' }}>
+            ← Back to Home
+          </Link>
+        </div>
+        <div style={{ textAlign:'center', marginBottom:'1.5rem' }}>
           <div style={{ fontSize:'3rem', marginBottom:'0.5rem' }}>🏛️</div>
           <h1 style={{ fontSize:'1.75rem', fontWeight:800, color:'#1e293b', margin:0, fontFamily:"'Outfit',sans-serif" }}>Citizen Registration</h1>
-          <p style={{ color:'#64748b', marginTop:'0.4rem', fontSize:'0.875rem' }}>Create your E-Municipal Portal account</p>
+          <p style={{ color:'#64748b', marginTop:'0.4rem', fontSize:'0.875rem' }}>Newasa Nagar Parishad — Create your account</p>
         </div>
 
         {error && <div style={{ background:'#fef2f2', border:'1px solid #fecaca', color:'#dc2626', borderRadius:'0.75rem', padding:'0.75rem 1rem', marginBottom:'1rem', fontSize:'0.875rem', fontWeight:500 }}>{error}</div>}

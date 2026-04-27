@@ -39,6 +39,11 @@ namespace EPortalApi.DTOs
         public int UserId { get; set; }
     }
 
+    public class GoogleLoginDto
+    {
+        public required string Credential { get; set; } // Google ID token sent from frontend
+    }
+
     // ─── Complaint ───────────────────────────────────────────────────────────
     public class ComplaintCreateDto
     {

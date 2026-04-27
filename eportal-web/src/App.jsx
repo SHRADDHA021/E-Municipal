@@ -2,6 +2,9 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthProvider, AuthContext } from './contexts/AuthContext';
 
+// Public pages
+import HomePage from './pages/home/HomePage';
+
 // Auth pages
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
@@ -37,7 +40,8 @@ function App() {
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/home" element={<HomePage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 

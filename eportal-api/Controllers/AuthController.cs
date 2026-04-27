@@ -8,6 +8,7 @@ using System.Text;
 using EPortalApi.Data;
 using EPortalApi.DTOs;
 using EPortalApi.Models;
+using Google.Apis.Auth;
 
 namespace EPortalApi.Controllers
 {
@@ -110,6 +111,65 @@ namespace EPortalApi.Controllers
             _context.Employees.Add(employee);
             await _context.SaveChangesAsync();
             return Ok(new { message = "Employee registered successfully", employee });
+        }
+
+        // POST /api/auth/google  (Google OAuth Sign-In for Citizens)
+        [HttpPost("google")]
+        public async Task<IActionResult> GoogleLogin([FromBody] GoogleLoginDto dto)
+        {
+            try
+            {
+                // Call Google's userinfo endpoint to verify the access token and get user info
+                using var httpClient = new System.Net.Http.HttpClient();
+                httpClient.DefaultRequestHeaders.Authorization =
+                    new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", dto.Credential);
+
+                var userInfoResp = await httpClient.GetAsync("https://www.googleapis.com/oauth2/v3/userinfo");
+                if (!userInfoResp.IsSuccessStatusCode)
+                    return Unauthorized("Invalid Google token. Please try again.");
+
+                var json = await userInfoResp.Content.ReadAsStringAsync();
+                using var doc = System.Text.Json.JsonDocument.Parse(json);
+                var root = doc.RootElement;
+
+                var email = root.GetProperty("email").GetString() ?? "";
+                var name  = root.TryGetProperty("name", out var n) ? n.GetString() ?? email : email;
+
+                if (string.IsNullOrEmpty(email))
+                    return BadRequest("Could not retrieve email from Google account.");
+
+                // Find or auto-create citizen
+                var citizen = await _context.Citizens.FirstOrDefaultAsync(c => c.Email == email);
+                if (citizen == null)
+                {
+                    citizen = new Citizen
+                    {
+                        Name           = name,
+                        Email          = email,
+                        Gender         = "",
+                        Bday           = "",
+                        Phno           = "",
+                        House_no       = "",
+                        Street_no_name = "",
+                        PasswordHash   = Hash(Guid.NewGuid().ToString())
+                    };
+                    _context.Citizens.Add(citizen);
+                    await _context.SaveChangesAsync();
+                }
+
+                var token = GenerateJwtToken(citizen.IDNo, citizen.Name, citizen.Email, "Citizen");
+                return Ok(new LoginResponseDto
+                {
+                    Token  = token,
+                    Role   = "Citizen",
+                    Name   = citizen.Name,
+                    UserId = citizen.IDNo
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Google sign-in failed: {ex.Message}");
+            }
         }
 
         private static string Hash(string password)

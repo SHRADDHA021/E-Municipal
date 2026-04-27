@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>E-Municipal ER Diagram</title>
+<style>
+    body { font-family: Arial, sans-serif; background-color: #ffffff; margin: 0; display: flex; justify-content: center; }
+    .canvas { border: 1px solid #ccc; margin: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.1); background: white; }
+    text { font-size: 14px; text-anchor: middle; dominant-baseline: middle; fill: #000; }
+    .entity { fill: #f9f9f9; stroke: #333; stroke-width: 2px; }
+    .relationship { fill: #e1f5fe; stroke: #0288d1; stroke-width: 2px; }
+    .attribute { fill: #ffffff; stroke: #333; stroke-width: 1px; }
+    line, polyline, path { stroke: #333; stroke-width: 1.5px; fill: none; }
+    .label { font-size: 12px; font-weight: bold; fill: #d32f2f; }
+</style>
+</head>
+<body>
+
+<svg class="canvas" width="1000" height="950" xmlns="http://www.w3.org/2000/svg">
+    <!-- DEFINITIONS -->
+    <defs>
+        <g id="entity-template">
+            <rect x="-60" y="-20" width="120" height="40" class="entity" />
+        </g>
+        <g id="relationship-template">
+            <polygon points="0,-25 50,0 0,25 -50,0" class="relationship" />
+        </g>
+        <g id="attribute-template">
+            <ellipse cx="0" cy="0" rx="45" ry="20" class="attribute" />
+        </g>
+    </defs>
+
+    <!-- ======== LINES (Drawn first so they are behind elements) ======== -->
+    
+    <!-- Citizen attributes -->
+    <line x1="500" y1="150" x2="200" y2="80" />
+    <line x1="500" y1="150" x2="300" y2="60" />
+    <line x1="500" y1="150" x2="400" y2="50" />
+    <line x1="500" y1="150" x2="500" y2="50" />
+    <line x1="500" y1="150" x2="600" y2="50" />
+    <line x1="500" y1="150" x2="700" y2="60" />
+    <line x1="500" y1="150" x2="800" y2="80" />
+    <line x1="500" y1="150" x2="900" y2="100" />
+    
+    <!-- Employee attributes -->
+    <line x1="260" y1="350" x2="100" y2="250" />
+    <line x1="260" y1="350" x2="200" y2="250" />
+    <line x1="260" y1="350" x2="300" y2="250" />
+    <line x1="260" y1="350" x2="400" y2="250" />
+    
+    <!-- Department attributes -->
+    <line x1="260" y1="550" x2="150" y2="630" />
+    <line x1="260" y1="550" x2="260" y2="630" />
+    
+    <!-- Complaint attributes -->
+    <line x1="750" y1="550" x2="650" y2="630" />
+    <line x1="750" y1="550" x2="750" y2="630" />
+    <line x1="750" y1="550" x2="920" y2="500" />
+    
+    <!-- Bill attributes -->
+    <line x1="260" y1="750" x2="150" y2="830" />
+    <line x1="260" y1="750" x2="280" y2="830" />
+    <line x1="260" y1="750" x2="200" y2="900" />
+    
+    <!-- Services attributes -->
+    <line x1="750" y1="750" x2="650" y2="830" />
+    <line x1="750" y1="750" x2="750" y2="830" />
+    <line x1="750" y1="750" x2="880" y2="800" />
+
+    <!-- Citizen - Pays - Bill -->
+    <polyline points="440,150 100,150 100,450" />
+    <line x1="100" y1="450" x2="100" y2="750" />
+    <line x1="100" y1="750" x2="200" y2="750" />
+
+    <!-- Citizen - Gives - Feedback -->
+    <polyline points="560,150 650,150 650,230" />
+    <polyline points="650,230 650,350 690,350" />
+
+    <!-- Citizen - Reports - Complaint -->
+    <polyline points="500,170 500,280 750,280 750,350" />
+    <line x1="750" y1="350" x2="750" y2="530" />
+    
+    <!-- Employee - WorksFor - Department -->
+    <line x1="260" y1="370" x2="260" y2="430" />
+    <line x1="260" y1="430" x2="260" y2="530" />
+    
+    <!-- Assigned To (Emp - Complaint) -->
+    <polyline points="320,350 450,350 450,450 500,450" />
+    <polyline points="500,450 690,450 690,530" />
+    
+    <!-- Assigned To (Dept - Complaint) -->
+    <line x1="320" y1="550" x2="500" y2="550" />
+    <line x1="500" y1="550" x2="690" y2="550" />
+    
+    <!-- Refers To (Complaint - Feedback) -->
+    <polyline points="810,550 850,550 850,450 820,450" />
+    <polyline points="820,450 820,370" />
+    
+    <!-- Department - provides - Services -->
+    <polyline points="260,570 260,650 500,650" />
+    <polyline points="500,650 750,650 750,730" />
+    
+    <!-- Bill - Generates - Services -->
+    <line x1="320" y1="750" x2="500" y2="750" />
+    <line x1="500" y1="750" x2="690" y2="750" />
+
+    <!-- ======== RELATIONSHIP DIAMONDS ======== -->
+    <g transform="translate(100, 450)"><use href="#relationship-template"/><text>Pays</text></g>
+    <g transform="translate(650, 230)"><use href="#relationship-template"/><text>Gives</text></g>
+    <g transform="translate(750, 350)"><use href="#relationship-template"/><text>Reports</text></g>
+    
+    <g transform="translate(260, 430)"><use href="#relationship-template"/><text>Works for</text></g>
+    <g transform="translate(500, 450)"><use href="#relationship-template" transform="scale(1.3, 1)"/><text>Assigned To</text></g>
+    <g transform="translate(500, 550)"><use href="#relationship-template" transform="scale(1.3, 1)"/><text>Assigned To</text></g>
+    <g transform="translate(820, 450)"><use href="#relationship-template"/><text>Refers To</text></g>
+    <g transform="translate(500, 650)"><use href="#relationship-template"/><text>provides</text></g>
+    <g transform="translate(500, 750)"><use href="#relationship-template" transform="scale(1.2, 1)"/><text>Generates</text></g>
+
+    <!-- ======== CARDINALITIES ======== -->
+    <text x="470" y="140" class="label">1</text> <!-- near citizen for pays/gives -->
+    <text x="530" y="140" class="label">1</text>
+    <text x="760" y="520" class="label">1</text> <!-- reports to complaint -->
+    
+    <text x="110" y="730" class="label">M</text> <!-- pays to bill -->
+    <text x="700" y="220" class="label">M</text> <!-- gives to feedback -->
+    
+    <text x="240" y="385" class="label">m</text> <!-- works for -->
+    <text x="250" y="520" class="label">1</text>
+    
+    <text x="310" y="540" class="label">1</text> <!-- dept to assigned to -->
+    <text x="680" y="540" class="label">M</text>
+    
+    <text x="330" y="340" class="label">1</text> <!-- emp to assigned to -->
+    <text x="680" y="440" class="label">M</text>
+    
+    <text x="330" y="740" class="label">1</text> <!-- generates -->
+    <text x="680" y="740" class="label">M</text>
+    
+    <text x="270" y="640" class="label">1</text> <!-- provides -->
+    <text x="740" y="720" class="label">M</text>
+
+    <!-- ======== ENTITIES ======== -->
+    <g transform="translate(500, 150)"><use href="#entity-template"/><text font-weight="bold">Citizen</text></g>
+    <g transform="translate(260, 350)"><use href="#entity-template"/><text font-weight="bold">Employee</text></g>
+    <g transform="translate(750, 310)"><use href="#entity-template"/><text font-weight="bold">Feedback</text></g>
+    <g transform="translate(260, 550)"><use href="#entity-template"/><text font-weight="bold">Department</text></g>
+    <g transform="translate(750, 550)"><use href="#entity-template"/><text font-weight="bold">Complaint</text></g>
+    <g transform="translate(260, 750)"><use href="#entity-template"/><text font-weight="bold">Bill</text></g>
+    <g transform="translate(750, 750)"><use href="#entity-template"/><text font-weight="bold">Services</text></g>
+
+    <!-- ======== ATTRIBUTES ======== -->
+    <!-- Citizen -->
+    <g transform="translate(200, 80)"><use href="#attribute-template"/><text>IDNo</text></g>
+    <g transform="translate(300, 60)"><use href="#attribute-template"/><text>Name</text></g>
+    <g transform="translate(400, 50)"><use href="#attribute-template"/><text>Gender</text></g>
+    <g transform="translate(500, 50)"><use href="#attribute-template"/><text>Bday</text></g>
+    <g transform="translate(600, 50)"><use href="#attribute-template"/><text>Phno</text></g>
+    <g transform="translate(700, 60)"><use href="#attribute-template"/><text>House no</text></g>
+    <g transform="translate(800, 80)"><use href="#attribute-template" rx="60"/><text>Street no/name</text></g>
+    <g transform="translate(900, 100)"><use href="#attribute-template"/><text>Email</text></g>
+
+    <!-- Employee -->
+    <g transform="translate(100, 250)"><use href="#attribute-template"/><text>EID</text></g>
+    <g transform="translate(200, 250)"><use href="#attribute-template"/><text>EName</text></g>
+    <g transform="translate(300, 250)"><use href="#attribute-template"/><text>EAdd</text></g>
+    <g transform="translate(400, 250)"><use href="#attribute-template"/><text>Phno</text></g>
+
+    <!-- Department -->
+    <g transform="translate(150, 630)"><use href="#attribute-template"/><text>DNo</text></g>
+    <g transform="translate(260, 630)"><use href="#attribute-template"/><text>DName</text></g>
+
+    <!-- Complaint -->
+    <g transform="translate(650, 630)"><use href="#attribute-template"/><text>CID</text></g>
+    <g transform="translate(750, 630)"><use href="#attribute-template"/><text>C-date</text></g>
+    <g transform="translate(920, 500)"><use href="#attribute-template"/><text>C-status</text></g>
+
+    <!-- Bill -->
+    <g transform="translate(150, 830)"><use href="#attribute-template"/><text>Bill-ID</text></g>
+    <g transform="translate(280, 830)"><use href="#attribute-template"/><text>P-date</text></g>
+    <g transform="translate(200, 900)"><use href="#attribute-template" rx="50"/><text>Total_amt</text></g>
+
+    <!-- Services -->
+    <g transform="translate(650, 830)"><use href="#attribute-template"/><text>SID</text></g>
+    <g transform="translate(750, 830)"><use href="#attribute-template"/><text>SName</text></g>
+    <g transform="translate(880, 800)"><use href="#attribute-template"/><text>Rate</text></g>
+
+</svg>
+
+</body>
+</html>

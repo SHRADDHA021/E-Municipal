@@ -1,0 +1,733 @@
+
+
+Project Report
+On
+
+Portfolio Management System
+
+By
+Pravin Vitthal More
+Indira College of Commerce and Science, Pune
+M.Sc.( Comp.Sci.)-I
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Project Certificate
+(should be taken from project guide)
+
+
+
+
+
+
+TABLE OF CONTENTS
+CHAPTER 1: INTRODUCTION
+1.1 Existing System and Need for System
+1.2 Scope of Work
+1.3 Operating Environment – Hardware and Software
+CHAPTER 2: PROPOSED SYSTEM
+2.1 Proposed System
+2.2 Objectives of System
+2.3 User Requirements
+CHAPTER 3: ANALYSIS & DESIGN
+3.1 Data Flow Diagram (DFD)
+3.2 Functional Decomposition Diagram (FDD)
+3.3 UML Diagrams
+          3.3.1 Class Diagram 
+          3.3.2 Object Diagram
+          3.3.3 Use Case Diagram
+          3.3.4 Sequence Diagram
+          3.3.5 Collaboration Diagram
+          3.3.6 State Diagram
+          3.3.7 Activity Diagram
+          3.3.8 Component Diagram
+          3.3.9 Deployment Diagram
+3.4 Entity Relationship Diagram (ERD)
+3.5 Data Dictionary
+3.6 Table Design
+CHAPTER 4 : USER MANUAL
+4.1 Operations Manual / Menu Explanation
+4.2 Menu Screens 
+4.3 Project code
+CHAPTER 5 : LIMITATIONS AND ENHANCEMENT
+5.1 Drawbacks and Limitations
+5.2 Proposed Enhancements
+5.3 Conclusions
+5.4 Bibliography
+1. INTRODUCTION
+1.1)  Existing System and Need for System
+
+ In Existing System,
+All stock market data is maintained in database. 
+So to manage the portfolio details user need to perform operations on database manually.
+This is time-consuming and expert user is required for it.
+ Also more resources are required.
+The report generation is not in proper format.
+Getting proper reports is tedious job.
+Data from another system has to be imported manually by user. User has to write the queries for that.
+There is no web based user interface to manage stock market data.
+1.2)  Scope of Work
+
+For this project, work is divided in teams according to responsibilities as:-
+Transaction Team.
+ User Interface Team 
+  Analytical Team 
+ Infrastructure Team.
+
+  In this, I am a part of Transaction Team which is responsible for :-
+Analyzing the stock market concepts, transactions and data.
+Deciding  the  business logic, to apply to the stock market raw data. 
+ Writing source code for developed logic.
+Writing the generalized classes in c# for handling the transactions.
+Writing WCF web services for data processing.
+1.3) Operating Environment – Hardware and Software
+
+
+Hardware Requirements:-
+PROCESSOR: - Core 2 Duo or Athlon X2 at 2.4 GHz
+RAM: - 2 GB RAM
+HARD DISK: - 250 GB
+
+Software Requirements:-
+Operating System: - Windows 2003/2008
+Web Server: - IIS 7
+Dot Net Framework: - Dot Net Framework 3.5
+Web Browser: - Internet Explorer
+Silverlight: - Silverlight 4
+
+2)  PROPOSED SYSTEM
+2.1)  Proposed System
+In the proposed system, we have following modules.
+Account Module :- 
+This modules deal with creation of new account. It handles updating the account Information. Maintaining the account data like AccountNumber, Client Information, Household Information etc.
+
+Security Module :- 
+An Account can hold many securities. Security module deals with the Security details. It handles the updating the security prices. It maintains the security details like CUSIP and TICKER etc.
+
+Transaction Module:-
+This is an important module in the System. This module deals with the transactions in the system. Transaction can be of many types. Some of the frequently occurring types are ‘buy’, ‘sell’ ‘short sell’ ‘cover short’, ‘li’, ‘lo’. 
+An account can buy or sell the security. This is recorded as a transaction in the system. Transaction module maintains all the transactions in the system.
+Position Module: -							A position is created when any account buys a security.  A position is the record of current holding of a particular security by a particular account.
+
+Authentication Module :-
+The System has basically 4 kinds of users.
+Advisor :-
+Representative :-
+Client :- 
+System Admin :-
+The authentication module is used give or restricts the access to these users. This module checks the type of user and his authentication and provides the appropriate access to the respective functions of the system according to their roles.
+
+
+2.2) Objectives of System
+
+At a very high level, the requirements of the Preferred Portfolio Services Group (PPS Group) at CFN can be summarized as:
+Reduce time, cost and resources required to conduct daily PPS operations
+Provide a highly flexible, easy and adaptable report generation and distribution capability
+Streamline and improve operational interfaces between PPS and other departments and their systems
+Provide a system that is easy to maintain, as well as highly flexible and adaptable to the changing business and departmental needs
+It is worthwhile at this stage to explain each of the above points in a little more detail in order to set the stage for the subsequent parts of this document.
+Reduce time, cost and resource
+This objective is the main impetus behind embarking on this project and this particular phase where we are documenting the business requirements. Currently the PPS group is facing severe resource consumption issues because of the operational infrastructure that it currently had. Advent, the portfolio accounting system in use by the group to support its operations has been stretched to its limit. On quarter end reporting cycles, the group has to divide Advent client accounts into 4 groups and load them locally on 4 separate machines in order to complete processing in a reasonable amount of time. After processing is complete, the data is merged and copied back to the network so that other users can use Advent. The quarterly reporting cycle takes about 15 calendar days to complete in spite of people working till 10:00 PM every night. 
+While this is the most visible and biggest pain point, there are other operational risks that the group faces because of the lack of appropriate operational systems. Most notable here is the monitoring compliance of advisors to the portfolio allocation objective. The problem caused by lack of operational system is so severe that the advisors today cannot see a current view of the portfolio in a way that would tell them if they are out of compliance. This compliance function is carried out once a quarter and by the time the workflow for out of bounds accounts are concluded, the quarter already starts. Since the out of bounds report is generated once a quarter, the information is woefully out of date and getting accounts into compliance based on this report does not guarantee that the account is in fact in compliance and vice versa.
+Different parts of this document will detail each of these issues in more detail and the 2 above are chosen simply to illustrate the inadequacy of the current operational infrastructure.
+Report generation and distribution
+Flexibility and ease of design for new reports as well as a comprehensive online and print reporting capability which is much superior to the one currently in place is an absolute requirement of the group. Since the PPS business is growing very rapidly, as new advisors come on board and new programs and initiatives are offered by PPS group to its client base, the reporting needs constantly keep changing. As explained in the previous point, the quarterly reporting needs are a huge drain on PPS resources not to mention the constant change that’s demanded by the business.
+The lack of flexible reporting infrastructure has caused the group to become less responsive to market demands. The weakness in the current infrastructure is compounded by the incapability of the reporting engine. The reporting engine and the technology it uses causes the already weak infrastructure to be overloaded. During the quarter end cycles, machines periodically crash causing people to lose several hours of work. While the machines are working, because of the technology used, they cannot be touched for other work because that would cause the operations to fail.
+Improve operational interfaces
+Aside from the weak infrastructure the current systems also suffer from the lack of ability to integrate closely with other business systems and departments. At all interface points, a large amount of manual work is needed which causes a slowdown of process and introduces a very high degree of probability for mistakes. We’ll cite 2 cases here to demonstrate this:
+First the advisor compliance function for out of bounds monitoring is extremely manual and the current information is not available internally let alone to the advisors in an online manner. Out of bounds compliance is extremely basic and reports the % of equity, fixed income and cash in an account and compares it to the account objective.  This information has to be extracted from the system and compiled manually outside on Excel spreadsheets. This is an example of weak operational interface which causes this information to be generated only once a quarter.
+The second example of weak interface is the information that needs to be gathered for the Growing Advisor Program (GAP cap). Information from BOS another internal system is extracted and information from Advent is extracted and combined together on spreadsheets. This information results in different administration charges depending on the number of advisors in a group and the assets under management for the group as a whole. That information is then sent to the Commissions group who have to add information about RepID to it before the administration charges can be processed. This is another example of weak interface. If the information is readily accessible, even automation using Excel would reduce the operational work load quite easily and in a significant way.
+Flexible and adaptable system
+The requirement for a flexible and adaptable system is quite evident but it might be worthwhile to state the obvious. As the business grows, one of the factors that needs to be considered is that the business requirements of today will most definitely change. As these changes occur in the business, the operational infrastructure should be adaptable to change and allow sufficient flexibility to introduce new capability and requirements to meet the business needs. If this is not done, another costly migration to a new system will become necessary undoing and redoing a lot of work which does not necessarily change. Case in point is that the feature set in terms of investment processing and the calculations it does is not deficient. There is no current requirement to change any of that with one or two exceptions which will be covered later. However, this upgrade will require all the existing functions which work fine to be thrown away completely and the same functions will need to be brought back in while bringing in all the other features that are currently missing.
+
+2.3) User Requirements
+
+The portfolio management system is required for maintaining the portfolios of the accounts. 
+This system is required for basically four kind of users.
+Advisor:- 
+Advisor mainly maintains all the portfolios of accounts that come under him. He needs to see all the holdings of the account. All the securities and the positions of the accounts that come under him.
+Representative:-
+Representative comes a level below the Advisor. 1 Advisor can have 4 to 5 representatives. Representatives share the workload of advisor. They also require the same system output as Advisor.
+Client:-
+Client is the investor who invests in various securities. He should be able to see only his own holdings, his own positions, securities the current values of securities, Current profit or loss. 
+
+
+
+Admin:-
+Admin is a special login that has the maximum privileges. He can make the many alterations and update the system. He can change the settings. He can change the look and order of the system.
+3) ANALYSIS & DESIGN
+3.1) Data Flow Diagram (DFD)
+Context Level DFD
+	
+
+
+                     	
+		
+
+
+                              
+                      
+                                                                                                   
+
+				
+                                                                                                                                                        
+
+
+
+
+
+
+
+
+
+
+                                 1st Level DFD
+
+
+
+
+
+
+
+
+3.2) Functional Decomposition Diagram (FDD)
+
+3.3 UML Diagrams:-
+3.3.1 Class Diagram for Port folio Management system:-
+
+
+
+
+
+
+
+
+
+3.3.2Object diagram for User Interaction:-
+
+
+
+
+
+
+
+
+
+
+
+3.3.3 Use Case Diagram for Port folio Management system:-
+
+
+
+
+
+
+
+
+
+
+
+3.3.4 Sequence Diagram for Port folio Management system:-
+
+
+
+
+
+
+
+
+
+
+3.3.5 Collaboration Diagram for Port folio Management system:-
+
+
+3.3.6 State Diagram for Port folio Management system:-
+
+
+
+
+
+
+
+	
+3.3.7Activity Diagram for Port folio Management system
+
+
+
+
+
+
+
+
+3.3.8Component Diagram for Port folio Management system:-
+
+
+
+
+
+
+
+
+
+
+3.3.9Deployment Diagram for Port folio Management system:-
+
+
+
+
+
+
+
+3.4) Entity Relationship Diagram (ERD)
+
+
+	
+
+
+
+
+
+
+
+
+	
+		
+
+	
+	
+	m
+3.5) Data Dictionary
+Database :- InsightAccounts
+ TableName:- InsightAccounts
+
+
+Database :- InsightAccounts
+TableName:- InsightClients
+
+
+
+Database :- InsightAccounts
+TableName:- InsightHousehold
+
+Database :- SecurityMaster
+TableName:- Security_Core
+
+Database :- SecurityMaster
+TableName:- Security_Attribute
+
+
+Database :- SecurityMaster
+TableName:- Security_Attribute_Value
+
+Database :- SecurityMaster
+TableName:- Security_Attribute_Category
+
+ Database :- SecurityMaster
+TableName:- Security_Type
+
+Database :- SecurityMaster
+TableName:- Security_Detail
+
+
+Database :- InsightProcessing
+TableName:- InsightTransactions
+
+
+Database :- InsightProcessing
+TableName:- InsightPositions
+ Database :- InsightProcessing
+TableName:- InsightTransactionType
+
+Database :-  InsightProcessing
+TableName :- InsightPositionFlow
+
+
+
+
+
+
+Database :-  InsightProcessing
+TableName :- InsightLot
+
+3.6) Table Design
+
+
+
+
+
+3.7) Code Design
+
+Transaction Class
+public class Transaction
+{
+
+  public List<InsightTransaction> getTransaction_sql
+(int pageIndex, int pageSize, String sortorder, String columnname, Int32 actnumber)
+{
+
+}
+
+  public void update_Transaction(InsightTransaction tran)
+            {
+
+            }
+  
+  public Int32 Transaction_count(int actnumber)
+            {
+
+            }
+
+  public List<InsightTransaction> getActivity(int pageIndex, int 
+pageSize, String sortorder, String columnname, string todate, string frmdate, string hhaccount, string hhname)
+{          
+
+ }
+
+public int getActivityCount(string todate, string frmdate, string 
+hhaccount, string hhname)
+        {
+
+        }  
+
+}
+Security Class
+
+
+    public class Security
+    {
+
+public List<SECURITY_CORE> getSercurityCore_sql(int 
+pageIndex, int pageSize, String sortorder, String 
+columnname)
+        {
+           
+        }       
+ public void update_SECURITY_CORE(SECURITY_CORE 
+tran)
+        {
+
+        }
+    }
+Account Class
+
+
+    
+public class Account
+    {
+
+       public List<InsightAccount> getAccount_sql(int pageIndex, 
+int pageSize, String sortorder, String columnname)
+        {
+
+        }
+
+
+        public void update_Account(InsightAccount tran)
+        {
+        }
+
+    }
+Utility Class
+
+
+public class Utility
+    {
+
+
+     public Int32 getCount(string tablename, string dbname)
+        {
+           
+        }
+
+    public List<portfolio_header_bkup> GetHeaderValue(string 
+   tblName, string dbname)
+        {
+
+        }
+    public List<portfolio_header_bkup> GetHeader(List<string> 
+   header)
+        {
+            
+        }
+    public ObservableCollection<ChartCollection>
+ GetChartData(int actnumber)
+        {
+            
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+3.8) Menu Tree
+3.9) Menu Screens
+ Main Menu :-
+
+POPUP Menu:-
+
+
+
+
+
+
+
+
+
+
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+
+3.10)  Input Screens
+login Page :-
+
+
+
+
+
+
+
+
+
+
+Accounts Screen :-
+
+
+
+
+
+
+Overview:-
+3) HouseHold Screen4) Account Screen :-
+	
+4) Transaction Screen :-
+
+
+
+
+
+
+
+
+
+
+
+
+
+4)  Position Screen :-
+
+
+
+
+
+
+
+
+
+
+5) Position Screen :-6) Pie Chart :-
+
+
+
+
+
+
+
+
+
+
+
+6) Line Chart :-
+
+
+
+
+
+
+
+
+
+7) Bar Chart :-
+
+
+
+
+
+
+
+
+
+
+
+
+
+7) Bar Chart :-
+8) Report :-
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+9) Assets and  Categroy:-
+
+
+
+
+10) Overview:- 2
+
+
+
+
+
+11) Household  details
+12) Accounts of particular  households:-
+13) HouseHold Account and Positions14) HouseHold Account and Positions15) Date wise Activity of that Household:-
+
+b) Date wise Activity of that Household:-14) Holdings  of that Household:-
+a) By Custodian
+b) By Securityc) By Asset Typed) By Asset Category16) Report of particular household in pdf format:-
+
+
+17) Report of particular household in pdf format:-18) Report of particular household in pdf format:-
+19) Household in detail:-20) Household in detail:-
+
+
+
+
+
+
+21) Multiple Panels22) Changing Market Values 23) Account Overview for Single HouseHold24) Details of a HouseHold25) LiveChart26) Settings
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3.10) Report Formats
+
+4) User Manual
+4.2 Operations Manual / Menu Explanation
+4.3 Forms and Report Specifications
+
+
+
+LIMITATIONS AND ENHANCEMENT
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+5.1) Conclusion
+
+This project gave me an opportunity to understand the basic flow of  Portfolio Management System as per the expectation of the client and the challenges one faces during the course of developing and implementing the project successfully. We had the unique opportunity to work not just of a Portfolio Management System but a Reporting solution which will help the client to reduce the cost of operation. An entire framework, where from a technician to the top level managers can use it to make their task easier and faster.
+During the course of this internship I got a unique opportunity to interact with the team members at various locations in the world.
+ It gives us immense pleasure and satisfaction to do a project in a field, I have always been interested in and which allowed me to use my desire to learn new technology and use my technical skills in an excellent way to give a result which was required, which has gone beyond my own expectations.
+5.2) Bibliography
+
+C# COMPLETE REFERENCE 
+         BY Herbert Schildt
+
+Professional WCF Programming .NET Development with the Windows® Communication Foundation 
+BY Scott Klein
+
+Windows Communication Foundation Unleashed
+By Craig McMurtry
+
+Beginning Web Development, Silverlight, and ASP.NET AJAX
+By Laurence Moroney
+Wrox Silverlight™ 1.0
+By Devin Rader
+
+Silverlight™ 4 UNLEASHED
+                             By Laurent Bugnion
+
+SQL: Practical Guide for Developers
+ By Michael J. Donahoo
