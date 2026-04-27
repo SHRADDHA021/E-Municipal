@@ -16,6 +16,7 @@ import ManageEmployees from './pages/admin/ManageEmployees';
 import ManageComplaints from './pages/admin/ManageComplaints';
 import ManageServices from './pages/admin/ManageServices';
 import ManageBills from './pages/admin/ManageBills';
+import ManageNews from './pages/admin/ManageNews';
 
 // Citizen pages
 import CitizenDashboard from './pages/citizen/Dashboard';
@@ -52,6 +53,7 @@ function App() {
           <Route path="/admin/complaints" element={<ProtectedRoute roles={['Admin']}><ManageComplaints /></ProtectedRoute>} />
           <Route path="/admin/services" element={<ProtectedRoute roles={['Admin']}><ManageServices /></ProtectedRoute>} />
           <Route path="/admin/bills" element={<ProtectedRoute roles={['Admin']}><ManageBills /></ProtectedRoute>} />
+          <Route path="/admin/news" element={<ProtectedRoute roles={['Admin']}><ManageNews /></ProtectedRoute>} />
 
           {/* Citizen routes */}
           <Route path="/citizen" element={<ProtectedRoute roles={['Citizen']}><CitizenDashboard /></ProtectedRoute>} />

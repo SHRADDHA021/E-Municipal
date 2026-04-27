@@ -152,4 +152,12 @@ namespace EPortalApi.DTOs
     {
         public required string DName { get; set; }
     }
+
+    // ─── News ────────────────────────────────────────────────────────────────
+    public class NewsCreateDto
+    {
+        public required string Title { get; set; }
+        public string? Emoji { get; set; }
+        public bool IsActive { get; set; } = true;
+    }
 }

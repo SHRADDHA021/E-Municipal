@@ -2,14 +2,11 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import './HomePage.css';
 
-// ─── News ticker data ─────────────────────────────────────────────────────────
-const NEWS = [
+// ─── Fallback news (shown until API data loads) ──────────────────────────────
+const FALLBACK_NEWS = [
   '📢 Newasa Nagar Parishad invites applications for Ladki Bahin Yojana – last date 30 April 2026',
   '🚰 Water supply disruption on 26 April in Ward No. 5 & 7 for pipeline maintenance',
-  '🏗️ Newasa Road Widening Project Phase-2 work in progress; commuters requested to use alternate routes',
   '📋 Property Tax payment deadline extended to 31 May 2026 – pay online and get 5% rebate',
-  '🌿 Swachh Bharat drive: Special cleanliness campaign every Sunday 7am-9am across all wards',
-  '🎓 PM Scholarship applications open for students of Newasa taluka – apply at municipal office',
 ];
 
 // ─── Yojanas ──────────────────────────────────────────────────────────────────
@@ -55,17 +52,31 @@ const SERVICES_MENU = [
 
 export default function HomePage() {
   const navigate = useNavigate();
-  const [newsIdx, setNewsIdx] = useState(0);
+  const [newsItems, setNewsItems] = useState(FALLBACK_NEWS);
+  const [newsIdx, setNewsIdx]     = useState(0);
   const [showServices, setShowServices] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const servicesRef = useRef(null);
 
+  // Fetch live news from API
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'}/api/news`)
+      .then(r => r.json())
+      .then(data => {
+        if (Array.isArray(data) && data.length > 0) {
+          setNewsItems(data.map(n => `${n.emoji || ''} ${n.title}`.trim()));
+          setNewsIdx(0);
+        }
+      })
+      .catch(() => {}); // keep fallback on error
+  }, []);
+
   // Rotate news ticker
   useEffect(() => {
-    const t = setInterval(() => setNewsIdx(i => (i + 1) % NEWS.length), 4000);
+    const t = setInterval(() => setNewsIdx(i => (i + 1) % newsItems.length), 4000);
     return () => clearInterval(t);
-  }, []);
+  }, [newsItems]);
 
   // Close services dropdown on outside click
   useEffect(() => {
@@ -159,7 +170,7 @@ export default function HomePage() {
       <div className="hp-ticker">
         <span className="hp-ticker-label">🔴 LIVE NEWS</span>
         <div className="hp-ticker-track">
-          <span className="hp-ticker-text" key={newsIdx}>{NEWS[newsIdx]}</span>
+          <span className="hp-ticker-text" key={newsIdx}>{newsItems[newsIdx]}</span>
         </div>
       </div>
 

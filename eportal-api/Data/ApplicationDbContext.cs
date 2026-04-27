@@ -17,6 +17,7 @@ namespace EPortalApi.Data
         public DbSet<Bill> Bills { get; set; }
         public DbSet<BillService> BillServices { get; set; }
         public DbSet<ServiceRequest> ServiceRequests { get; set; }
+        public DbSet<News> News { get; set; }
 
         // Admin auth
         public DbSet<AdminUser> AdminUsers { get; set; }

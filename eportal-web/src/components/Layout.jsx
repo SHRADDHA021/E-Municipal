@@ -10,6 +10,7 @@ const navMap = {
     { label: '📋 Complaints', path: '/admin/complaints' },
     { label: '🛠 Services', path: '/admin/services' },
     { label: '📂 Utility Bills', path: '/admin/bills' },
+    { label: '📰 Live News', path: '/admin/news' },
   ],
   Citizen: [
     { label: '🏠 Dashboard', path: '/citizen' },
