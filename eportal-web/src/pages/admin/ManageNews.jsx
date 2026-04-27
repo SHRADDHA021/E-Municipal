@@ -5,9 +5,7 @@ import api from '../../api/axios';
 const inp = { display:'block', width:'100%', padding:'0.65rem 0.9rem', border:'1.5px solid #e2e8f0', borderRadius:'0.6rem', background:'#f8fafc', color:'#1e293b', fontSize:'0.875rem', fontFamily:'inherit', outline:'none', boxSizing:'border-box' };
 const btn = (col) => ({ padding:'0.5rem 1.1rem', borderRadius:'0.6rem', border:'none', cursor:'pointer', fontWeight:800, fontSize:'0.85rem', background: col === 'red' ? '#ef4444' : col === 'blue' ? 'linear-gradient(135deg,#6366f1,#4f46e5)' : '#f1f5f9', color: col === 'red' || col === 'blue' ? '#fff' : '#475569', transition:'all 0.2s', boxShadow: col==='red'?'0 2px 8px rgba(239,68,68,0.3)':'none' });
 
-const EMPTY = { Title: '', Emoji: '', IsActive: true };
-
-const EMOJI_SUGGESTIONS = ['📢','🚰','🏗️','📋','🌿','🎓','💡','🛣️','🏫','⚠️','ℹ️','🎉','💧','🔔','🌟'];
+const EMPTY = { Title: '', IsActive: true };
 
 export default function ManageNews() {
   const [newsList, setNewsList] = useState([]);
@@ -31,7 +29,7 @@ export default function ManageNews() {
     e.preventDefault();
     if (!form.Title.trim()) return showToast('❌ Title is required');
     try {
-      const payload = { Title: form.Title.trim(), Emoji: form.Emoji.trim() || null, IsActive: form.IsActive };
+      const payload = { Title: form.Title.trim(), Emoji: null, IsActive: form.IsActive };
       if (editing) {
         await api.put(`/news/${editing}`, payload);
         showToast('✅ News updated!');
@@ -46,7 +44,7 @@ export default function ManageNews() {
   };
 
   const handleEdit = (n) => {
-    setForm({ Title: n.title, Emoji: n.emoji || '', IsActive: n.isActive });
+    setForm({ Title: n.title, IsActive: n.isActive });
     setEditing(n.id);
     setShowForm(true);
   };
@@ -62,7 +60,7 @@ export default function ManageNews() {
 
   const handleToggleActive = async (n) => {
     try {
-      await api.put(`/news/${n.id}`, { Title: n.title, Emoji: n.emoji || null, IsActive: !n.isActive });
+      await api.put(`/news/${n.id}`, { Title: n.title, Emoji: n.emoji || null, IsActive: !n.isActive }); // keep existing emoji on toggle
       showToast(n.isActive ? '⏸️ News hidden from ticker' : '▶️ News shown on ticker');
       fetchNews();
     } catch { showToast('❌ Failed to update'); }
@@ -117,46 +115,17 @@ export default function ManageNews() {
             {editing ? '✏️ Edit News Item' : '➕ New News Item'}
           </h3>
 
-          <div style={{ display:'grid', gridTemplateColumns:'2fr 1fr', gap:'1rem', marginBottom:'1rem' }}>
-            {/* Title */}
-            <div>
-              <label style={{ display:'block', fontWeight:600, color:'#374151', marginBottom:'0.35rem', fontSize:'0.875rem' }}>
-                News Title *
-              </label>
-              <input
-                required
-                value={form.Title}
-                onChange={set('Title')}
-                placeholder="e.g. Property Tax deadline extended to 31 May 2026"
-                style={inp}
-              />
-            </div>
-
-            {/* Emoji */}
-            <div>
-              <label style={{ display:'block', fontWeight:600, color:'#374151', marginBottom:'0.35rem', fontSize:'0.875rem' }}>
-                Emoji (optional)
-              </label>
-              <input
-                value={form.Emoji}
-                onChange={set('Emoji')}
-                placeholder="e.g. 📢"
-                maxLength={4}
-                style={{ ...inp, fontSize:'1.5rem' }}
-              />
-              <div style={{ display:'flex', gap:'0.3rem', flexWrap:'wrap', marginTop:'0.4rem' }}>
-                {EMOJI_SUGGESTIONS.map(em => (
-                  <button
-                    key={em}
-                    type="button"
-                    onClick={() => setForm({ ...form, Emoji: em })}
-                    style={{ background: form.Emoji === em ? '#eef2ff' : '#f8fafc', border:'1px solid #e2e8f0', borderRadius:'0.4rem', cursor:'pointer', fontSize:'1.1rem', padding:'0.1rem 0.3rem' }}
-                  >
-                    {em}
-                  </button>
-                ))}
-              </div>
-            </div>
+          <div style={{ marginBottom:'1rem' }}>
+            <label style={{ display:'block', fontWeight:600, color:'#374151', marginBottom:'0.35rem', fontSize:'0.875rem' }}>
+              News Title *
+            </label>
+            <input
+              required
+              value={form.Title}
+              onChange={set('Title')}
+              placeholder="e.g. Property Tax deadline extended to 31 May 2026"
+              style={inp}
+            />
           </div>
 
           {/* Active toggle */}
@@ -177,7 +146,7 @@ export default function ManageNews() {
           {form.Title && (
             <div style={{ background:'linear-gradient(90deg,#1e3a5f,#0f2744)', color:'#fff', padding:'0.6rem 1rem', borderRadius:'0.5rem', fontSize:'0.9rem', marginBottom:'1.25rem', display:'flex', alignItems:'center', gap:'0.5rem' }}>
               <span style={{ background:'#dc2626', color:'#fff', borderRadius:'0.25rem', padding:'0.1rem 0.4rem', fontSize:'0.7rem', fontWeight:800, letterSpacing:'0.05em' }}>🔴 LIVE</span>
-              <span>{form.Emoji} {form.Title}</span>
+              <span>{form.Title}</span>
             </div>
           )}
 
@@ -222,10 +191,7 @@ export default function ManageNews() {
                 >
                   <td style={{ padding:'1rem 1.5rem', color:'#94a3b8', fontSize:'0.85rem', fontWeight:600 }}>{idx + 1}</td>
                   <td style={{ padding:'1rem', maxWidth:'480px' }}>
-                    <div style={{ display:'flex', alignItems:'center', gap:'0.5rem' }}>
-                      {n.emoji && <span style={{ fontSize:'1.4rem' }}>{n.emoji}</span>}
-                      <span style={{ color:'#1e293b', fontWeight:600, fontSize:'0.9rem', lineHeight:1.4 }}>{n.title}</span>
-                    </div>
+                    <span style={{ color:'#1e293b', fontWeight:600, fontSize:'0.9rem', lineHeight:1.4 }}>{n.title}</span>
                   </td>
                   <td style={{ padding:'1rem', textAlign:'center' }}>
                     <button
