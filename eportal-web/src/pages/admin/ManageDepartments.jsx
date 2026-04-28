@@ -39,7 +39,7 @@ export default function ManageDepartments() {
     } catch (err) { showToast('❌ ' + (err?.response?.data || 'Operation failed')); }
   };
 
-  const handleEdit = (d) => { setForm({ DName: d.dName }); setEditing(d.dNo); setShowForm(true); };
+  const handleEdit = (d) => { setForm({ DName: d.dName || d.dname || d.DName || '' }); setEditing(d.dNo || d.dno || d.DNo); setShowForm(true); };
 
   const handleDelete = async (id) => {
     try {
