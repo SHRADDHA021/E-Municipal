@@ -31,8 +31,16 @@ import EmployeeDashboard from './pages/employee/Dashboard';
 
 function ProtectedRoute({ children, roles }) {
   const { user } = useContext(AuthContext);
+  
   if (!user) return <Navigate to="/login" replace />;
-  if (roles && !roles.includes(user.role)) return <Navigate to="/login" replace />;
+  
+  if (roles && roles.length > 0) {
+    const userRole = (user.role || '').trim();
+    if (!roles.includes(userRole)) {
+      return <Navigate to="/login" replace />;
+    }
+  }
+  
   return children;
 }
 
