@@ -34,7 +34,10 @@ export default function ManageBills() {
       if (editing) { await api.put(`/bills/${editing}/admin`, payload); showToast('✅ Updated!'); }
       else { await api.post('/bills/admin', payload); showToast('✅ Bill created!'); }
       setForm(EMPTY); setEditing(null); setShowForm(false); fetchBills();
-    } catch (err) { showToast('❌ ' + (err?.response?.data || 'Failed')); }
+    } catch (err) { 
+      const msg = err?.response?.data;
+      showToast('❌ ' + (typeof msg === 'string' ? msg : msg?.title || 'Failed')); 
+    }
   };
 
   const handleDelete = async (id) => {
@@ -137,14 +140,14 @@ export default function ManageBills() {
                    <div style={{ display:'flex', gap:'0.4rem' }}>
                      {!b.isPaid && <button onClick={() => {
                         setForm({
-                            idNo: b.idNo || '',
+                            idNo: b.idNo || b.IDNo || b.idno || '',
                             citizenName: b.citizenName || '',
                             billType: b.billType || '',
                             total_amt: b.total_amt,
                             consumerNumber: b.consumerNumber || '',
                             dueDate: b.dueDate ? b.dueDate.split('T')[0] : ''
                         });
-                        setEditing(b.bill_ID);
+                        setEditing(b.bill_ID || b.bill_id || b.Bill_ID);
                         setShowForm(true);
                      }} style={btn('grey')}>✏️</button>}
                      <button onClick={() => setConfirmDelete(b.bill_ID)} style={btn('red')}>🗑</button>
