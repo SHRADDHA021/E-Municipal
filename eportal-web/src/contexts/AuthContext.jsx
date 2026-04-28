@@ -6,16 +6,12 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
     const token = localStorage.getItem('token');
-    const role = localStorage.getItem('role');
-    
-    if (!token || token === 'undefined' || token === 'null') return null;
-    if (!role || role === 'undefined' || role === 'null') return null;
-    
+    if (!token) return null;
     return {
       token,
-      role: role.trim(),
-      name: localStorage.getItem('name') || '',
-      userId: parseInt(localStorage.getItem('userId')) || 0
+      role: localStorage.getItem('role'),
+      name: localStorage.getItem('name'),
+      userId: parseInt(localStorage.getItem('userId'))
     };
   });
   const [loading, setLoading] = useState(false);

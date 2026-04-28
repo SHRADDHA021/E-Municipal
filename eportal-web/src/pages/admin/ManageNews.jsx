@@ -39,14 +39,13 @@ export default function ManageNews() {
       }
       setForm(EMPTY); setEditing(null); setShowForm(false); fetchNews();
     } catch (err) {
-      const msg = err?.response?.data;
-      showToast('❌ ' + (typeof msg === 'string' ? msg : msg?.title || 'Failed'));
+      showToast('❌ ' + (err?.response?.data || 'Failed'));
     }
   };
 
   const handleEdit = (n) => {
-    setForm({ Title: n.title || n.Title, IsActive: n.isActive ?? n.IsActive });
-    setEditing(n.id || n.Id);
+    setForm({ Title: n.title, IsActive: n.isActive });
+    setEditing(n.id);
     setShowForm(true);
   };
 
@@ -61,7 +60,7 @@ export default function ManageNews() {
 
   const handleToggleActive = async (n) => {
     try {
-      await api.put(`/news/${n.id || n.Id}`, { Title: n.title || n.Title, Emoji: n.emoji || n.Emoji || null, IsActive: !(n.isActive ?? n.IsActive) }); // keep existing emoji on toggle
+      await api.put(`/news/${n.id}`, { Title: n.title, Emoji: n.emoji || null, IsActive: !n.isActive }); // keep existing emoji on toggle
       showToast(n.isActive ? '⏸️ News hidden from ticker' : '▶️ News shown on ticker');
       fetchNews();
     } catch { showToast('❌ Failed to update'); }
@@ -185,40 +184,35 @@ export default function ManageNews() {
               </tr>
             </thead>
             <tbody>
-              {newsList.map((n, idx) => {
-                const nid = n.id || n.Id;
-                const isActive = n.isActive ?? n.IsActive;
-                const title = n.title || n.Title;
-                const createdAt = n.createdAt || n.CreatedAt;
-                return (
-                <tr key={nid} style={{ borderTop:'1px solid #f1f5f9', transition:'background 0.15s' }}
+              {newsList.map((n, idx) => (
+                <tr key={n.id} style={{ borderTop:'1px solid #f1f5f9', transition:'background 0.15s' }}
                   onMouseEnter={e => e.currentTarget.style.background='#f8fafc'}
                   onMouseLeave={e => e.currentTarget.style.background=''}
                 >
                   <td style={{ padding:'1rem 1.5rem', color:'#94a3b8', fontSize:'0.85rem', fontWeight:600 }}>{idx + 1}</td>
                   <td style={{ padding:'1rem', maxWidth:'480px' }}>
-                    <span style={{ color:'#1e293b', fontWeight:600, fontSize:'0.9rem', lineHeight:1.4 }}>{title}</span>
+                    <span style={{ color:'#1e293b', fontWeight:600, fontSize:'0.9rem', lineHeight:1.4 }}>{n.title}</span>
                   </td>
                   <td style={{ padding:'1rem', textAlign:'center' }}>
                     <button
                       onClick={() => handleToggleActive(n)}
-                      title={isActive ? 'Click to hide from ticker' : 'Click to show on ticker'}
-                      style={{ background: isActive ? '#d1fae5' : '#fee2e2', color: isActive ? '#065f46' : '#991b1b', border:'none', borderRadius:'999px', padding:'0.25rem 0.75rem', fontSize:'0.75rem', fontWeight:700, cursor:'pointer' }}
+                      title={n.isActive ? 'Click to hide from ticker' : 'Click to show on ticker'}
+                      style={{ background: n.isActive ? '#d1fae5' : '#fee2e2', color: n.isActive ? '#065f46' : '#991b1b', border:'none', borderRadius:'999px', padding:'0.25rem 0.75rem', fontSize:'0.75rem', fontWeight:700, cursor:'pointer' }}
                     >
-                      {isActive ? '✅ Active' : '⏸️ Hidden'}
+                      {n.isActive ? '✅ Active' : '⏸️ Hidden'}
                     </button>
                   </td>
                   <td style={{ padding:'1rem', color:'#64748b', fontSize:'0.8rem' }}>
-                    {new Date(createdAt).toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' })}
+                    {new Date(n.createdAt).toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' })}
                   </td>
                   <td style={{ padding:'1rem 1.5rem', textAlign:'right' }}>
                     <div style={{ display:'flex', gap:'0.5rem', justifyContent:'flex-end' }}>
                       <button onClick={() => handleEdit(n)} style={{ ...btn('grey'), padding:'0.4rem 0.8rem' }}>✏️ Edit</button>
-                      <button onClick={() => setConfirmDelete(nid)} style={{ ...btn('red'), padding:'0.4rem 0.8rem' }}>🗑️</button>
+                      <button onClick={() => setConfirmDelete(n.id)} style={{ ...btn('red'), padding:'0.4rem 0.8rem' }}>🗑️</button>
                     </div>
                   </td>
                 </tr>
-              )})}
+              ))}
             </tbody>
           </table>
         )}

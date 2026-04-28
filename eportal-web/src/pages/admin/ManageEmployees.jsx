@@ -31,10 +31,7 @@ export default function ManageEmployees() {
       if (editing) { await api.put(`/employees/${editing}`, payload); showToast('✅ Updated!'); }
       else { await api.post('/employees', payload); showToast('✅ Employee added!'); }
       setForm(EMPTY); setEditing(null); setShowForm(false); fetchEmps();
-    } catch (err) { 
-      const msg = err?.response?.data;
-      showToast('❌ ' + (typeof msg === 'string' ? msg : msg?.title || 'Operation failed')); 
-    }
+    } catch (err) { showToast('❌ ' + (err?.response?.data || 'Failed')); }
   };
 
   const handleEdit = (e) => {
@@ -123,11 +120,7 @@ export default function ManageEmployees() {
               <label style={{ display:'block', fontWeight:600, color:'#374151', marginBottom:'0.35rem', fontSize:'0.875rem' }}>Department *</label>
               <select required value={form.DNo} onChange={set('DNo')} style={{ ...inp, cursor:'pointer' }}>
                 <option value="">-- Select --</option>
-                {depts.map(d => {
-                  const dno = d.dNo ?? d.DNo;
-                  const dname = d.dName ?? d.DName;
-                  return <option key={dno} value={dno}>{dname}</option>;
-                })}
+                {depts.map(d => <option key={d.dNo} value={d.dNo}>{d.dName}</option>)}
               </select>
             </div>
           </div>
