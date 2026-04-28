@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>E-Municipal Portal — Exam Q&A</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Inter',sans-serif;background:#f8fafc;color:#1e293b;font-size:13px;line-height:1.7;}
+  .cover{background:linear-gradient(135deg,#1e3a5f,#4f46e5);color:#fff;text-align:center;padding:60px 40px;page-break-after:always;}
+  .cover h1{font-size:32px;font-weight:800;margin-bottom:10px;}
+  .cover h2{font-size:18px;font-weight:400;opacity:0.85;margin-bottom:30px;}
+  .cover .badge{display:inline-block;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);border-radius:8px;padding:8px 20px;margin:5px;font-size:13px;}
+  .cover .creds{margin-top:30px;background:rgba(255,255,255,0.1);border-radius:12px;padding:20px;display:inline-block;text-align:left;}
+  .cover .creds h3{font-size:14px;margin-bottom:10px;opacity:0.8;}
+  .cover .creds p{font-size:13px;margin:3px 0;}
+  .page{max-width:800px;margin:0 auto;padding:30px 40px;}
+  .section-header{background:linear-gradient(90deg,#4f46e5,#6366f1);color:#fff;padding:10px 18px;border-radius:8px;font-size:14px;font-weight:700;margin:28px 0 16px;letter-spacing:0.3px;}
+  .qa{background:#fff;border:1px solid #e2e8f0;border-radius:10px;margin-bottom:14px;overflow:hidden;page-break-inside:avoid;}
+  .q{background:#eef2ff;padding:12px 16px;font-weight:700;font-size:13px;color:#3730a3;border-bottom:1px solid #e0e7ff;}
+  .a{padding:12px 16px;color:#374151;font-size:12.5px;}
+  .a ul{padding-left:20px;margin-top:6px;}
+  .a li{margin-bottom:3px;}
+  .a code{background:#f1f5f9;border:1px solid #e2e8f0;border-radius:4px;padding:2px 6px;font-family:monospace;font-size:11px;color:#be185d;}
+  .a pre{background:#1e293b;color:#e2e8f0;padding:12px;border-radius:6px;font-family:monospace;font-size:11px;margin-top:8px;overflow-x:auto;}
+  table{width:100%;border-collapse:collapse;margin-top:8px;font-size:12px;}
+  th{background:#f8fafc;padding:8px 10px;text-align:left;border:1px solid #e2e8f0;font-weight:700;color:#475569;}
+  td{padding:7px 10px;border:1px solid #e2e8f0;color:#374151;}
+  tr:nth-child(even) td{background:#f8fafc;}
+  .tip{background:#fefce8;border-left:4px solid #eab308;padding:12px 16px;border-radius:0 8px 8px 0;margin-top:20px;font-size:12.5px;}
+  .tip strong{color:#92400e;}
+  @media print{
+    body{background:#fff;}
+    .cover{page-break-after:always;}
+    .qa{page-break-inside:avoid;}
+    .section-header{page-break-before:auto;}
+  }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>🏛️ E-Municipal Portal</h1>
+  <h2>Newasa Municipal Corporation — Project Exam Preparation</h2>
+  <div>
+    <span class="badge">⚛️ React + Vite</span>
+    <span class="badge">⚙️ ASP.NET Core 8</span>
+    <span class="badge">🐘 PostgreSQL</span>
+    <span class="badge">🔐 JWT Auth</span>
+    <span class="badge">🌐 Google OAuth</span>
+  </div>
+  <div class="creds">
+    <h3>🔑 Login Credentials</h3>
+    <p>Admin: admin@emunicipal.com / Admin@1234</p>
+    <p>Citizen: citizen@emunicipal.com / Cit@1234</p>
+    <p>Employee: employee@emunicipal.com / Emp@1234</p>
+    <p style="margin-top:10px;">Frontend: http://localhost:5173</p>
+    <p>Backend API: http://localhost:5000</p>
+  </div>
+  <p style="margin-top:30px;opacity:0.6;font-size:12px;">50 Questions &amp; Answers | All Modules Covered</p>
+</div>
+
+<div class="page">
+
+<div class="section-header">🔷 SECTION 1: PROJECT OVERVIEW</div>
+
+<div class="qa"><div class="q">Q1. What is your project about?</div><div class="a">
+  My project is an <strong>E-Municipal Portal</strong> for Newasa Municipal Corporation. It is a web-based system that digitizes municipal services. Citizens can apply for government services (birth certificate, caste certificate, etc.), file complaints, pay utility bills, and give feedback — all online. Admins manage departments, employees, services, and live news. Employees process citizen requests.
+</div></div>
+
+<div class="qa"><div class="q">Q2. What problem does your project solve?</div><div class="a">
+  Earlier, citizens had to physically visit the municipal office for every service — time-consuming and inefficient. Our portal brings all services online, reducing manual work, paperwork, corruption, and waiting time. Citizens can track their requests and complaints from home.
+</div></div>
+
+<div class="qa"><div class="q">Q3. Who are the users (roles) of this system?</div><div class="a">
+  There are 3 types of users:<ul>
+  <li><strong>Admin</strong> – Manages departments, employees, services, complaints, bills, and live news</li>
+  <li><strong>Citizen</strong> – Applies for services, files complaints, pays utility bills, gives feedback</li>
+  <li><strong>Employee</strong> – Views and processes service requests of their department</li></ul>
+</div></div>
+
+<div class="qa"><div class="q">Q4. What are the main modules of your project?</div><div class="a">
+  <ul>
+  <li>User Authentication (Login/Register with JWT + Google OAuth)</li>
+  <li>Department Management</li>
+  <li>Employee Management</li>
+  <li>Complaint Management (with image upload)</li>
+  <li>Service Requests (Certificates, etc.)</li>
+  <li>Utility Bill Management</li>
+  <li>Feedback System</li>
+  <li>Live News Ticker (Admin-managed)</li>
+  <li>Admin Dashboard (statistics)</li></ul>
+</div></div>
+
+<div class="section-header">🔷 SECTION 2: TECHNOLOGY STACK</div>
+
+<div class="qa"><div class="q">Q5. What technologies did you use?</div><div class="a">
+  <table><tr><th>Layer</th><th>Technology</th></tr>
+  <tr><td>Frontend</td><td>React.js (Vite), JavaScript, CSS-in-JS</td></tr>
+  <tr><td>Backend</td><td>ASP.NET Core 8 Web API (C#)</td></tr>
+  <tr><td>Database</td><td>PostgreSQL</td></tr>
+  <tr><td>ORM</td><td>Entity Framework Core 8</td></tr>
+  <tr><td>Auth</td><td>JWT + Google OAuth 2.0</td></tr>
+  <tr><td>Version Control</td><td>Git &amp; GitHub</td></tr></table>
+</div></div>
+
+<div class="qa"><div class="q">Q6. Why did you choose React for the frontend?</div><div class="a">
+  React is a component-based library that allows building reusable UI components. It has fast rendering via <strong>Virtual DOM</strong>, large community support, and works well with REST APIs using Axios. Vite gives very fast build and hot-reload during development.
+</div></div>
+
+<div class="qa"><div class="q">Q7. Why did you choose ASP.NET Core for the backend?</div><div class="a">
+  ASP.NET Core is a high-performance, cross-platform framework for building REST APIs. It has built-in support for dependency injection, JWT authentication, authorization policies, and integrates natively with Entity Framework Core.
+</div></div>
+
+<div class="qa"><div class="q">Q8. Why PostgreSQL?</div><div class="a">
+  PostgreSQL is a powerful, open-source relational database. It supports complex queries, foreign keys, and transactions. It is free, reliable, and works well with EF Core via the Npgsql provider.
+</div></div>
+
+<div class="qa"><div class="q">Q9. What is Entity Framework Core?</div><div class="a">
+  EF Core is an <strong>ORM (Object-Relational Mapper)</strong>. Instead of writing raw SQL, we define C# model classes (e.g., Citizen, Department) and EF Core automatically generates and executes SQL. It also handles <strong>migrations</strong> — creating/updating database tables when the model changes.
+</div></div>
+
+<div class="section-header">🔷 SECTION 3: DATABASE DESIGN</div>
+
+<div class="qa"><div class="q">Q10. What are the main tables in your database?</div><div class="a">
+  <table><tr><th>Table</th><th>Purpose</th></tr>
+  <tr><td>AdminUser</td><td>Admin credentials</td></tr>
+  <tr><td>Citizen</td><td>Registered citizens</td></tr>
+  <tr><td>Employee</td><td>Employee details with department</td></tr>
+  <tr><td>Department</td><td>Municipal departments</td></tr>
+  <tr><td>Complaint</td><td>Citizen complaints with image</td></tr>
+  <tr><td>Service</td><td>Available services (certificates)</td></tr>
+  <tr><td>ServiceRequest</td><td>Citizen service applications</td></tr>
+  <tr><td>Bill</td><td>Generated utility bills</td></tr>
+  <tr><td>BillService</td><td>Junction table: Bill ↔ Service</td></tr>
+  <tr><td>Feedback</td><td>Citizen feedback/ratings</td></tr>
+  <tr><td>News</td><td>Live news ticker items</td></tr></table>
+</div></div>
+
+<div class="qa"><div class="q">Q11. What are the relationships between tables?</div><div class="a">
+  <ul>
+  <li><strong>Department → Employee</strong>: One-to-Many</li>
+  <li><strong>Department → Service</strong>: One-to-Many</li>
+  <li><strong>Department → Complaint</strong>: One-to-Many</li>
+  <li><strong>Service → ServiceRequest</strong>: One-to-Many</li>
+  <li><strong>Citizen → ServiceRequest</strong>: One-to-Many</li>
+  <li><strong>Bill ↔ Service</strong>: Many-to-Many (via BillService junction table)</li></ul>
+</div></div>
+
+<div class="qa"><div class="q">Q12. What is a Migration in EF Core?</div><div class="a">
+  A migration is a snapshot of database model changes. When we add a new model (e.g., News), we run:
+  <pre>dotnet ef migrations add AddNewsTable
+dotnet ef database update</pre>
+  The first command creates a migration file with SQL instructions. The second applies it to PostgreSQL.
+</div></div>
+
+<div class="qa"><div class="q">Q13. What is normalization?</div><div class="a">
+  Normalization organizes the database to reduce data redundancy:<ul>
+  <li><strong>1NF</strong> – Atomic values in each column</li>
+  <li><strong>2NF</strong> – No partial dependencies</li>
+  <li><strong>3NF</strong> – No transitive dependencies</li></ul>
+  Our database follows 3NF — instead of storing department name in every employee record, we store <code>DNo</code> (foreign key) referencing the Department table.
+</div></div>
+
+<div class="section-header">🔷 SECTION 4: AUTHENTICATION &amp; SECURITY</div>
+
+<div class="qa"><div class="q">Q14. What is JWT? How does it work in your project?</div><div class="a">
+  JWT (JSON Web Token) is a compact, signed token for transmitting user identity. In our project:<ul>
+  <li>User logs in with email + password</li>
+  <li>Backend verifies credentials and generates a JWT containing UserId, Name, Email, Role</li>
+  <li>JWT is sent to frontend and stored in <code>localStorage</code></li>
+  <li>Every API request sends the JWT in <code>Authorization: Bearer &lt;token&gt;</code> header</li>
+  <li>Backend validates the token and allows/denies access based on role</li></ul>
+</div></div>
+
+<div class="qa"><div class="q">Q15. How are passwords stored? Are they secure?</div><div class="a">
+  Passwords are <strong>never stored in plain text</strong>. We use SHA-256 hashing:
+  <pre>Convert.ToBase64String(SHA256.HashData(Encoding.UTF8.GetBytes(password)))</pre>
+  Hashing is one-way — it cannot be reversed. During login, we hash the entered password and compare it with the stored hash.
+</div></div>
+
+<div class="qa"><div class="q">Q16. What is Role-Based Authorization?</div><div class="a">
+  Role-based authorization restricts API endpoints based on the user's role:
+  <pre>[Authorize(Roles = "Admin")]  // only Admin
+[Authorize]                    // any logged-in user
+[AllowAnonymous]              // no login needed</pre>
+  The role is embedded inside the JWT token and verified on every request.
+</div></div>
+
+<div class="qa"><div class="q">Q17. What is Google OAuth? How is it used?</div><div class="a">
+  Google OAuth allows citizens to log in using their Google account. Process:<ul>
+  <li>Google sends an access token to our frontend</li>
+  <li>Frontend sends it to <code>POST /api/auth/google</code></li>
+  <li>Backend calls Google's userinfo API to get email and name</li>
+  <li>If citizen doesn't exist, they are auto-registered</li>
+  <li>Our own JWT is generated and returned</li></ul>
+</div></div>
+
+<div class="qa"><div class="q">Q18. What is the difference between Authentication and Authorization?</div><div class="a">
+  <ul>
+  <li><strong>Authentication</strong> = Verifying WHO you are (login → get JWT)</li>
+  <li><strong>Authorization</strong> = Verifying WHAT you can do (Admin can delete, Citizen cannot)</li></ul>
+  In ASP.NET Core, <code>[Authorize]</code> first checks if the token is valid (authentication), then checks the role claim (authorization).
+</div></div>
+
+<div class="section-header">🔷 SECTION 5: BACKEND / API</div>
+
+<div class="qa"><div class="q">Q19. What is a REST API?</div><div class="a">
+  REST (Representational State Transfer) API is a web service using HTTP methods:<ul>
+  <li><code>GET</code> — Read data</li>
+  <li><code>POST</code> — Create new data</li>
+  <li><code>PUT</code> — Update existing data</li>
+  <li><code>DELETE</code> — Remove data</li></ul>
+  Our backend exposes these endpoints to the React frontend.
+</div></div>
+
+<div class="qa"><div class="q">Q20. List important API endpoints.</div><div class="a">
+  <table><tr><th>Endpoint</th><th>Method</th><th>Access</th><th>Purpose</th></tr>
+  <tr><td>/api/auth/login</td><td>POST</td><td>Public</td><td>Login</td></tr>
+  <tr><td>/api/auth/register</td><td>POST</td><td>Public</td><td>Register citizen</td></tr>
+  <tr><td>/api/departments</td><td>GET</td><td>Public</td><td>List departments</td></tr>
+  <tr><td>/api/complaints</td><td>POST</td><td>Citizen</td><td>File complaint</td></tr>
+  <tr><td>/api/servicerequests</td><td>POST</td><td>Citizen</td><td>Apply for service</td></tr>
+  <tr><td>/api/news</td><td>GET</td><td>Public</td><td>Active news for ticker</td></tr>
+  <tr><td>/api/news</td><td>POST</td><td>Admin</td><td>Add news item</td></tr>
+  <tr><td>/api/news/all</td><td>GET</td><td>Admin</td><td>All news items</td></tr></table>
+</div></div>
+
+<div class="qa"><div class="q">Q21. What is CORS and why is it needed?</div><div class="a">
+  CORS (Cross-Origin Resource Sharing) is a browser security feature that blocks requests from one origin (localhost:5173) to another (localhost:5000). We configure CORS in <code>Program.cs</code> to allow the frontend to call the backend API.
+</div></div>
+
+<div class="qa"><div class="q">Q22. What is Dependency Injection?</div><div class="a">
+  DI is a pattern where a class receives its dependencies from outside. In ASP.NET Core, we register services in <code>Program.cs</code>:
+  <pre>builder.Services.AddDbContext&lt;ApplicationDbContext&gt;(...);</pre>
+  Any controller can then receive <code>ApplicationDbContext</code> via its constructor automatically — making code loosely coupled and testable.
+</div></div>
+
+<div class="section-header">🔷 SECTION 6: FRONTEND</div>
+
+<div class="qa"><div class="q">Q23. What is React and how does it work?</div><div class="a">
+  React is a JavaScript library for building UIs using <strong>components</strong>. Each component has <strong>state</strong> (data) and <strong>props</strong> (inputs). When state changes, React re-renders only the affected part using the <strong>Virtual DOM</strong>. We use hooks like <code>useState</code>, <code>useEffect</code>, <code>useContext</code>.
+</div></div>
+
+<div class="qa"><div class="q">Q24. What is useState and useEffect?</div><div class="a">
+  <ul>
+  <li><code>useState</code> — declares a reactive variable. When it changes, the component re-renders.<br/>
+  <code>const [news, setNews] = useState([]);</code></li>
+  <li><code>useEffect</code> — runs side effects (like API calls) after render.<br/>
+  <code>useEffect(() =&gt; { fetchNews(); }, []); // runs once on mount</code></li></ul>
+</div></div>
+
+<div class="qa"><div class="q">Q25. What is Context API? How did you use it?</div><div class="a">
+  Context API allows sharing state globally across components without passing props manually. We use <code>AuthContext</code> to store the logged-in user's token, role, and name — accessible from any component (Navbar, sidebar, protected routes).
+</div></div>
+
+<div class="qa"><div class="q">Q26. How does the Live News ticker work?</div><div class="a">
+  <ul>
+  <li>On home page load, <code>useEffect</code> fetches active news from <code>GET /api/news</code></li>
+  <li>Results stored in <code>newsItems</code> state</li>
+  <li>If API fails or empty, a <code>FALLBACK_NEWS</code> array is shown</li>
+  <li>A second <code>useEffect</code> runs <code>setInterval</code> every 4 seconds to increment <code>newsIdx</code></li>
+  <li>Ticker displays <code>newsItems[newsIdx]</code> — cycling through all items</li></ul>
+</div></div>
+
+<div class="section-header">🔷 SECTION 7: FEATURES</div>
+
+<div class="qa"><div class="q">Q27. Explain the Complaint module.</div><div class="a">
+  Citizens file complaints with title, description, category, optional image, and department. Stored with status <strong>Pending</strong>. Employees see complaints of their department and update status to <strong>In Progress</strong> or <strong>Resolved</strong>. Admin views all complaints.
+</div></div>
+
+<div class="qa"><div class="q">Q28. Explain the Service Request module.</div><div class="a">
+  Citizens apply for services (Birth Certificate, Caste Certificate, Domicile, etc.). They select a service, upload documents, and pay the fee. Admin reviews and changes status: <strong>Pending → Approved / Rejected</strong>.
+</div></div>
+
+<div class="qa"><div class="q">Q29. Explain the Utility Bill module.</div><div class="a">
+  Admin generates bills for Water, Electricity, and Property Tax. Each bill has amount, due date, and payment status (Paid/Unpaid). Multiple services can be in one bill via the <strong>BillService</strong> junction table. Citizens view bills under "My Bills" and "Utility Bills" in the sidebar.
+</div></div>
+
+<div class="qa"><div class="q">Q30. What is the Admin Dashboard?</div><div class="a">
+  Shows key statistics: total departments, employees, complaints, service requests. Displays recent service requests with status badges and provides quick navigation to all management sections.
+</div></div>
+
+<div class="section-header">🔷 SECTION 8: SOFTWARE ENGINEERING</div>
+
+<div class="qa"><div class="q">Q31. What SDLC model did you follow?</div><div class="a">
+  We followed the <strong>Iterative/Agile</strong> model:<ul>
+  <li><strong>Planning</strong> — identified modules and user roles</li>
+  <li><strong>Design</strong> — created ER diagram, UI wireframes</li>
+  <li><strong>Development</strong> — built backend API, then frontend module by module</li>
+  <li><strong>Testing</strong> — tested each API endpoint and UI flow</li>
+  <li><strong>Deployment</strong> — code pushed to GitHub</li></ul>
+</div></div>
+
+<div class="qa"><div class="q">Q32. What is MVC architecture?</div><div class="a">
+  MVC separates the application into 3 layers:<ul>
+  <li><strong>Model</strong> — Data/business logic (C# model classes + EF Core)</li>
+  <li><strong>View</strong> — UI (React components)</li>
+  <li><strong>Controller</strong> — Handles HTTP requests (ASP.NET Core controllers)</li></ul>
+  React is the View, ASP.NET controllers are Controller, EF Core models are Model.
+</div></div>
+
+<div class="qa"><div class="q">Q33. What is a foreign key?</div><div class="a">
+  A foreign key is a column in one table that references the primary key of another table, establishing a relationship. For example, <code>Employee.DNo</code> is a foreign key referencing <code>Department.DNo</code>.
+</div></div>
+
+<div class="section-header">🔷 SECTION 9: TRICKY VIVA QUESTIONS</div>
+
+<div class="qa"><div class="q">Q34. What happens if the JWT token expires?</div><div class="a">
+  Our JWT tokens are valid for <strong>8 hours</strong>. After expiry, API calls return <code>401 Unauthorized</code>. The frontend redirects the user to the login page. The user must log in again to get a new token.
+</div></div>
+
+<div class="qa"><div class="q">Q35. Can two citizens have the same email?</div><div class="a">
+  No. The backend checks for duplicate emails during registration:
+  <pre>if (await _context.Citizens.AnyAsync(c => c.Email == dto.Email))
+    return BadRequest("Email already exists");</pre>
+</div></div>
+
+<div class="qa"><div class="q">Q36. What happens when Admin deletes a department?</div><div class="a">
+  We perform <strong>cascade deletion</strong> manually:<ul>
+  <li>Delete all ServiceRequests of that department's services</li>
+  <li>Delete all Services of that department</li>
+  <li>Delete all Employees of that department</li>
+  <li>Delete all Complaints of that department</li>
+  <li>Delete the Department itself</li></ul>
+  This avoids foreign key constraint violations.
+</div></div>
+
+<div class="qa"><div class="q">Q37. What is the difference between PUT and PATCH?</div><div class="a">
+  <strong>PUT</strong> replaces the entire resource with new data. <strong>PATCH</strong> updates only specific fields. We use PUT in our project — we send the full object when updating (e.g., updating a news item sends both title and active status).
+</div></div>
+
+<div class="qa"><div class="q">Q38. Why use Axios instead of fetch?</div><div class="a">
+  Axios automatically:<ul>
+  <li>Parses JSON responses</li>
+  <li>Attaches the Authorization header globally via interceptor</li>
+  <li>Has better error handling with <code>err.response</code></li></ul>
+  We configured an Axios instance in <code>api/axios.js</code> with <code>baseURL: 'http://localhost:5000/api'</code> so we don't repeat the URL everywhere.
+</div></div>
+
+<div class="qa"><div class="q">Q39. How did you handle image uploads for complaints?</div><div class="a">
+  The complaint form sends a <code>multipart/form-data</code> request with the image file. The backend saves the file to <code>wwwroot/uploads</code> and stores the file path in <code>Complaint.imageUrl</code>. The frontend displays it using <code>http://localhost:5000{imageUrl}</code>.
+</div></div>
+
+<div class="qa"><div class="q">Q40. What is database seeding?</div><div class="a">
+  Seeding means pre-populating the database with default data. We have a <code>SeedController</code> with <code>/api/seed/init</code> that creates the default Admin, Citizen, Employee, and basic services (Property Tax, Water, Electricity) for testing.
+</div></div>
+
+<div class="qa"><div class="q">Q41. What security measures did you implement?</div><div class="a">
+  <ul>
+  <li><strong>Password hashing</strong> — SHA-256, never stored in plain text</li>
+  <li><strong>JWT tokens</strong> — stateless, signed, expire after 8 hours</li>
+  <li><strong>Role-based access</strong> — <code>[Authorize(Roles = "Admin")]</code> on sensitive endpoints</li>
+  <li><strong>CORS policy</strong> — only allows requests from the frontend origin</li>
+  <li><strong>Input validation</strong> — DTOs validate required fields before processing</li></ul>
+</div></div>
+
+<div class="qa"><div class="q">Q42. What is the fallback news list on the home page?</div><div class="a">
+  If the API is unreachable or returns no news, a hardcoded <code>FALLBACK_NEWS</code> array is shown in the ticker so the home page never appears empty. Once the API returns data, the fallback is replaced with real news from the database.
+</div></div>
+
+<div class="qa"><div class="q">Q43. What is localStorage vs sessionStorage?</div><div class="a">
+  <code>localStorage</code> persists even after closing the browser tab. <code>sessionStorage</code> clears when the tab is closed. We use <code>localStorage</code> to store the JWT token so the user stays logged in between sessions.
+</div></div>
+
+<div class="qa"><div class="q">Q44. How would you improve this project in the future?</div><div class="a">
+  <ul>
+  <li>Online Payment Gateway (Razorpay/Stripe) for service fees and bills</li>
+  <li>Email/SMS Notifications when request status changes</li>
+  <li>Mobile App using React Native</li>
+  <li>News Expiry Dates — auto-hide after a set date</li>
+  <li>Multi-language support (Marathi, Hindi)</li>
+  <li>Deploy to cloud (Azure/AWS) instead of localhost</li></ul>
+</div></div>
+
+<div class="tip">
+  💡 <strong>Exam Tip:</strong> Always mention the 3-tier architecture (Frontend → API → Database), role-based access control, and JWT authentication — these are the most commonly asked topics. Know your database table names and relationships by heart!
+</div>
+
+</div><!-- end page -->
+</body>
+</html>

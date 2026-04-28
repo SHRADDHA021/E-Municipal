@@ -1,0 +1,390 @@
+﻿<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/>
+<title>E-Municipal Portal — Complete Exam Q&A</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:Arial,sans-serif;background:#f0f4f8;color:#1e293b;font-size:12.5px;line-height:1.7;}
+.cover{background:linear-gradient(135deg,#1e3a5f,#4f46e5);color:#fff;text-align:center;padding:60px 40px;page-break-after:always;}
+.cover h1{font-size:30px;font-weight:800;margin-bottom:8px;}
+.cover h2{font-size:16px;opacity:0.85;margin-bottom:24px;}
+.cover .grid{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:24px 0;}
+.cover .box{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:10px;padding:14px 20px;min-width:150px;}
+.cover .box .num{font-size:28px;font-weight:800;}
+.cover .box .lbl{font-size:11px;opacity:0.8;margin-top:2px;}
+.page{max-width:820px;margin:0 auto;padding:24px 36px;}
+.sec{background:linear-gradient(90deg,#1e40af,#4f46e5);color:#fff;padding:10px 18px;border-radius:8px;font-size:14px;font-weight:700;margin:28px 0 14px;page-break-before:auto;}
+.qa{background:#fff;border:1px solid #e2e8f0;border-radius:8px;margin-bottom:12px;overflow:hidden;page-break-inside:avoid;}
+.q{background:#eff6ff;padding:10px 14px;font-weight:700;font-size:12.5px;color:#1e40af;border-bottom:1px solid #dbeafe;}
+.a{padding:10px 14px;font-size:12px;color:#334155;}
+.a ul{padding-left:18px;}
+.a li{margin-bottom:2px;}
+.a code{background:#f1f5f9;border:1px solid #e2e8f0;border-radius:3px;padding:1px 5px;font-family:monospace;font-size:11px;color:#be185d;}
+.a pre{background:#0f172a;color:#e2e8f0;padding:10px;border-radius:6px;font-family:monospace;font-size:10.5px;margin:6px 0;white-space:pre-wrap;}
+table{width:100%;border-collapse:collapse;margin:6px 0;font-size:11.5px;}
+th{background:#f8fafc;padding:7px 10px;text-align:left;border:1px solid #e2e8f0;font-weight:700;color:#475569;}
+td{padding:6px 10px;border:1px solid #e2e8f0;}
+tr:nth-child(even) td{background:#f8fafc;}
+.tip{background:#fefce8;border-left:4px solid #f59e0b;padding:10px 14px;border-radius:0 8px 8px 0;margin:16px 0;font-size:12px;}
+@media print{body{background:#fff;}.cover{page-break-after:always;}.qa{page-break-inside:avoid;}}
+</style></head><body>
+<div class="cover">
+<h1>&#127963; E-Municipal Portal</h1>
+<h2>Complete Exam Q&A — Newasa Municipal Corporation Project</h2>
+<div class="grid">
+<div class="box"><div class="num">50</div><div class="lbl">Frontend Questions</div></div>
+<div class="box"><div class="num">50</div><div class="lbl">Backend Questions</div></div>
+<div class="box"><div class="num">20</div><div class="lbl">PostgreSQL Questions</div></div>
+<div class="box"><div class="num">30</div><div class="lbl">Connectivity &amp; General</div></div>
+</div>
+<p style="opacity:0.7;font-size:12px;">Stack: React + ASP.NET Core 8 + PostgreSQL + JWT + Google OAuth</p>
+<p style="margin-top:14px;opacity:0.6;font-size:11px;">Press Ctrl+P &rarr; Save as PDF</p>
+</div>
+<div class="page">
+<div class="sec">&#9889; SECTION 1: FRONTEND — React, Vite, JavaScript (Q1–Q50)</div>
+
+<div class="qa"><div class="q">Q1. What is React?</div><div class="a">React is an open-source JavaScript library by Facebook for building interactive user interfaces. It uses a <strong>component-based architecture</strong> — the UI is split into reusable pieces called components. React uses a <strong>Virtual DOM</strong> to efficiently update only changed parts of the real DOM, making it very fast.</div></div>
+
+<div class="qa"><div class="q">Q2. What is Vite and why did you use it?</div><div class="a">Vite is a modern frontend build tool. It serves files using native ES modules during development, making it much faster than Create React App. Commands: <code>npm run dev</code> (start dev server on localhost:5173), <code>npm run build</code> (production build).</div></div>
+
+<div class="qa"><div class="q">Q3. What is JSX?</div><div class="a">JSX (JavaScript XML) is a syntax extension that lets you write HTML-like code inside JavaScript. It is transpiled to <code>React.createElement()</code> calls by Babel. Example: <code>&lt;div className="box"&gt;Hello&lt;/div&gt;</code></div></div>
+
+<div class="qa"><div class="q">Q4. What is a component in React?</div><div class="a">A component is a reusable, independent piece of UI. In our project we use <strong>functional components</strong>. Example: <code>function ManageNews() { return &lt;div&gt;...&lt;/div&gt;; }</code>. Components receive <strong>props</strong> as input and return JSX.</div></div>
+
+<div class="qa"><div class="q">Q5. What is the difference between props and state?</div><div class="a"><ul><li><strong>Props</strong>: Read-only data passed from parent to child component. Cannot be changed by the child.</li><li><strong>State</strong>: Internal data of a component. When state changes, the component re-renders. Managed with <code>useState</code>.</li></ul></div></div>
+
+<div class="qa"><div class="q">Q6. What is useState?</div><div class="a"><code>useState</code> is a React hook to add state to a functional component.<pre>const [newsItems, setNewsItems] = useState([]);
+// newsItems = current value, setNewsItems = updater function</pre>When <code>setNewsItems</code> is called, the component re-renders with the new value.</div></div>
+
+<div class="qa"><div class="q">Q7. What is useEffect?</div><div class="a"><code>useEffect</code> runs side effects (API calls, subscriptions, timers) after the component renders.<pre>useEffect(() => {
+  fetchNews(); // runs after first render
+}, []); // [] = run only once (on mount)</pre>If the dependency array has a value, it re-runs when that value changes.</div></div>
+
+<div class="qa"><div class="q">Q8. What happens when state changes in React?</div><div class="a">React re-renders the component — it re-executes the function and compares the new Virtual DOM with the old one (diffing). Only the changed DOM nodes are updated in the real browser DOM. This is called <strong>reconciliation</strong>.</div></div>
+
+<div class="qa"><div class="q">Q9. What is the Virtual DOM?</div><div class="a">The Virtual DOM is a lightweight JavaScript copy of the real DOM kept in memory. When state changes, React updates the Virtual DOM first, then compares it with the previous version (diffing), and updates only the changed parts in the real DOM — making updates fast and efficient.</div></div>
+
+<div class="qa"><div class="q">Q10. What is React Router?</div><div class="a">React Router is a library for client-side navigation — switching pages without a full browser reload. We define routes in <code>App.jsx</code>:<pre>&lt;Route path="/citizen" element={&lt;CitizenDashboard /&gt;} /&gt;
+&lt;Route path="/admin/news" element={&lt;ManageNews /&gt;} /&gt;</pre></div></div>
+
+<div class="qa"><div class="q">Q11. What is useNavigate?</div><div class="a"><code>useNavigate</code> is a React Router hook for programmatic navigation.<pre>const navigate = useNavigate();
+navigate('/citizen'); // redirect to citizen dashboard</pre>Used after login to redirect users to their dashboard based on role.</div></div>
+
+<div class="qa"><div class="q">Q12. What is the Context API?</div><div class="a">Context API is a way to share data globally across components without prop drilling. We use <code>AuthContext</code> to store: JWT token, user role, user name, userId. Any component can read this using <code>useContext(AuthContext)</code>.</div></div>
+
+<div class="qa"><div class="q">Q13. What does AuthContext contain in your project?</div><div class="a">AuthContext stores: <code>token</code> (JWT string), <code>role</code> (Admin/Citizen/Employee), <code>name</code> (user's name), <code>userId</code>. It also provides <code>login()</code> function (saves to localStorage) and <code>logout()</code> function (clears localStorage and redirects to home).</div></div>
+
+<div class="qa"><div class="q">Q14. What is localStorage? Why do you use it?</div><div class="a"><code>localStorage</code> is a browser storage that persists data even after closing the browser tab. We store the JWT token in localStorage so the user stays logged in between sessions. Cleared on logout.</div></div>
+
+<div class="qa"><div class="q">Q15. What happens when user refreshes the page?</div><div class="a">When the page refreshes, all React state is lost. But since the JWT token is in <code>localStorage</code>, <code>AuthContext</code> reads it on startup and restores the user's session. The user does NOT get logged out on refresh.</div></div>
+
+<div class="qa"><div class="q">Q16. What is Axios? How is it configured?</div><div class="a">Axios is a JavaScript HTTP client. We created a configured instance in <code>api/axios.js</code>:<pre>import axios from 'axios';
+const api = axios.create({ baseURL: 'http://localhost:5000/api' });
+api.interceptors.request.use(config => {
+  const token = localStorage.getItem('token');
+  if (token) config.headers.Authorization = `Bearer ${token}`;
+  return config;
+});</pre>This automatically attaches the JWT to every request.</div></div>
+
+<div class="qa"><div class="q">Q17. What is an Axios interceptor?</div><div class="a">An interceptor runs before every request or after every response. We use a <strong>request interceptor</strong> to automatically add <code>Authorization: Bearer &lt;token&gt;</code> header to every API call — so we don't have to do it manually in each component.</div></div>
+
+<div class="qa"><div class="q">Q18. What is a Protected Route?</div><div class="a">A protected route checks if the user is logged in (and has the correct role) before allowing access. If not authenticated, it redirects to login. In our project, routes like <code>/admin</code>, <code>/citizen</code> are protected using AuthContext role checks.</div></div>
+
+<div class="qa"><div class="q">Q19. What is the difference between class components and functional components?</div><div class="a">Class components use <code>class MyComp extends React.Component</code> with lifecycle methods like <code>componentDidMount</code>. Functional components are simpler JavaScript functions — we use hooks (<code>useState</code>, <code>useEffect</code>) instead. We use only functional components in our project.</div></div>
+
+<div class="qa"><div class="q">Q20. What is useRef?</div><div class="a"><code>useRef</code> creates a mutable reference that persists across renders without causing re-render. Used in our project to reference the services dropdown element to detect outside clicks:<pre>const servicesRef = useRef(null);
+if (servicesRef.current && !servicesRef.current.contains(e.target))
+  setShowServices(false);</pre></div></div>
+
+<div class="qa"><div class="q">Q21. What is CSS-in-JS? How did you use it?</div><div class="a">CSS-in-JS means writing styles directly as JavaScript objects inside component files. Example:<pre>const inp = { display:'block', width:'100%', padding:'0.65rem',
+  border:'1.5px solid #e2e8f0', borderRadius:'0.6rem' };</pre>Passed to elements with <code>style={inp}</code>. Avoids separate CSS files for admin pages.</div></div>
+
+<div class="qa"><div class="q">Q22. What is the difference between == and === in JavaScript?</div><div class="a"><code>==</code> compares values after type conversion (loose equality). <code>===</code> compares both value and type (strict equality). Always prefer <code>===</code>. Example: <code>1 == "1"</code> is true, but <code>1 === "1"</code> is false.</div></div>
+
+<div class="qa"><div class="q">Q23. What is async/await?</div><div class="a"><code>async/await</code> is syntax for handling Promises (asynchronous operations) without chaining <code>.then()</code>. Example:<pre>const fetchNews = async () => {
+  const { data } = await api.get('/news');
+  setNews(data);
+};</pre>Errors are caught with <code>try/catch</code>.</div></div>
+
+<div class="qa"><div class="q">Q24. What is the map() function? How did you use it?</div><div class="a"><code>Array.map()</code> transforms each element and returns a new array. Used to render lists in JSX:<pre>{newsList.map((n, idx) => (
+  &lt;tr key={n.id}&gt;&lt;td&gt;{n.title}&lt;/td&gt;&lt;/tr&gt;
+))}</pre>The <code>key</code> prop is required for React to track list items.</div></div>
+
+<div class="qa"><div class="q">Q25. What is the key prop in React lists?</div><div class="a">The <code>key</code> prop is a unique identifier for each item in a list. React uses it to efficiently update the DOM — identifying which items were added, removed, or moved. Without keys, React re-renders the entire list on any change.</div></div>
+
+<div class="qa"><div class="q">Q26. What is conditional rendering?</div><div class="a">Rendering different JSX based on conditions. We use: <ul><li><code>{condition &amp;&amp; &lt;Component /&gt;}</code> — render if true</li><li><code>{condition ? &lt;A /&gt; : &lt;B /&gt;}</code> — ternary</li></ul>Example: <code>{toast &amp;&amp; &lt;div&gt;{toast}&lt;/div&gt;}</code> shows toast only when it has a value.</div></div>
+
+<div class="qa"><div class="q">Q27. What is the spread operator? How did you use it?</div><div class="a">The spread operator <code>...</code> copies properties of an object or elements of an array. Used to update form state without losing other fields:<pre>setForm({ ...form, IsActive: e.target.checked });
+// copies all form fields, only updates IsActive</pre></div></div>
+
+<div class="qa"><div class="q">Q28. What is destructuring in JavaScript?</div><div class="a">Destructuring extracts values from objects or arrays into variables:<pre>const { data } = await api.get('/news'); // object destructuring
+const [count, setCount] = useState(0); // array destructuring</pre></div></div>
+
+<div class="qa"><div class="q">Q29. What is a callback function?</div><div class="a">A function passed as an argument to another function, called later. Example: <code>onClick={() =&gt; handleDelete(id)}</code> — the arrow function is a callback passed to the onClick event handler.</div></div>
+
+<div class="qa"><div class="q">Q30. What is setInterval? How is it used in the news ticker?</div><div class="a"><code>setInterval</code> runs a function repeatedly at a set interval. In the news ticker:<pre>const t = setInterval(() => 
+  setNewsIdx(i => (i + 1) % newsItems.length), 4000);
+return () => clearInterval(t); // cleanup on unmount</pre>Changes the displayed news every 4 seconds. The cleanup prevents memory leaks.</div></div>
+
+<div class="qa"><div class="q">Q31. What is the Layout component?</div><div class="a">Layout is a wrapper component that provides the sidebar navigation based on the user's role. Every admin page is wrapped in <code>&lt;Layout&gt;</code>, which reads the role from AuthContext and renders the correct sidebar links (Admin links vs Citizen links vs Employee links).</div></div>
+
+<div class="qa"><div class="q">Q32. What is event.preventDefault()?</div><div class="a">Prevents the default browser behavior for an event. Used in form submissions:<pre>const handleSubmit = async (e) => {
+  e.preventDefault(); // prevents page reload on form submit
+  // our custom logic
+};</pre></div></div>
+
+<div class="qa"><div class="q">Q33. What is a toast notification?</div><div class="a">A toast is a small temporary popup message giving feedback to the user (success/error). We implement it with a state variable:<pre>const showToast = (msg) => {
+  setToast(msg);
+  setTimeout(() => setToast(''), 3500); // auto-dismiss after 3.5s
+};</pre></div></div>
+
+<div class="qa"><div class="q">Q34. How does the login form work?</div><div class="a"><ul><li>User fills email, password, role (Admin/Citizen/Employee)</li><li>On submit: <code>POST /api/auth/login</code> with credentials</li><li>API returns: token, role, name, userId</li><li>These are saved to <code>localStorage</code> and <code>AuthContext</code></li><li>User is redirected based on role: <code>/admin</code>, <code>/citizen</code>, or <code>/employee</code></li></ul></div></div>
+
+<div class="qa"><div class="q">Q35. What is Google OAuth in the frontend?</div><div class="a">We use <code>@react-oauth/google</code> library. The <code>GoogleLogin</code> component shows a Google sign-in button. On success, Google returns a credential (access token). We send it to <code>POST /api/auth/google</code> and get back our own JWT token.</div></div>
+
+<div class="qa"><div class="q">Q36. What is VITE_API_BASE_URL?</div><div class="a">It is an environment variable in the <code>.env</code> file accessed as <code>import.meta.env.VITE_API_BASE_URL</code>. In Vite, all env variables must start with <code>VITE_</code> to be exposed to the frontend. Used in HomePage to build the API URL fallback.</div></div>
+
+<div class="qa"><div class="q">Q37. What is a modal dialog?</div><div class="a">A modal is a popup overlay that blocks interaction with the rest of the page until dismissed. We build custom modals with fixed positioning:<pre>style={{ position:'fixed', top:0, left:0, width:'100vw', 
+height:'100vh', background:'rgba(0,0,0,0.6)' }}</pre>Used for delete confirmations in all admin pages.</div></div>
+
+<div class="qa"><div class="q">Q38. What is the difference between null, undefined, and empty string?</div><div class="a"><ul><li><code>null</code> — intentionally empty value</li><li><code>undefined</code> — variable declared but not assigned</li><li><code>""</code> — string with no characters</li></ul>In forms, we use <code>|| null</code> to convert empty strings to null before sending to API.</div></div>
+
+<div class="qa"><div class="q">Q39. What is array.filter()?</div><div class="a"><code>filter()</code> returns a new array with elements that pass a condition:<pre>newsList.filter(n => n.isActive).length // count active news items</pre>Used in the ManageNews page to show active count badge.</div></div>
+
+<div class="qa"><div class="q">Q40. What is optional chaining (?.) in JavaScript?</div><div class="a">Optional chaining safely accesses nested properties without throwing an error if intermediate values are null/undefined:<pre>err?.response?.data // returns undefined if err or response is null
+// instead of: err && err.response && err.response.data</pre></div></div>
+
+<div class="qa"><div class="q">Q41. How do you handle API errors in the frontend?</div><div class="a"><pre>try {
+  const { data } = await api.post('/news', payload);
+  showToast('Success!');
+} catch (err) {
+  showToast('Error: ' + (err?.response?.data || 'Failed'));
+}</pre>We show the server's error message to the user via toast notification.</div></div>
+
+<div class="qa"><div class="q">Q42. What is a form controlled component?</div><div class="a">A controlled component has its form data managed by React state. Every input change updates state:<pre>&lt;input value={form.Title} onChange={e => setForm({...form, Title: e.target.value})} /&gt;</pre>React is the "single source of truth" for the form data.</div></div>
+
+<div class="qa"><div class="q">Q43. What is the difference between GET and POST requests in the frontend?</div><div class="a"><ul><li><strong>GET</strong>: Fetches data. No request body. Example: <code>api.get('/news')</code></li><li><strong>POST</strong>: Sends data to create something. Has a request body (JSON). Example: <code>api.post('/news', payload)</code></li></ul></div></div>
+
+<div class="qa"><div class="q">Q44. What is multipart/form-data?</div><div class="a">A content type for forms that include file uploads. Used for complaint image upload:<pre>const formData = new FormData();
+formData.append('title', title);
+formData.append('image', file);
+api.post('/complaints', formData); // axios auto-sets content-type</pre></div></div>
+
+<div class="qa"><div class="q">Q45. How does the sidebar know which links to show?</div><div class="a">The Layout component reads <code>role</code> from <code>AuthContext</code>. A <code>navMap</code> object maps each role to its links:<pre>const navMap = {
+  Admin: [ {label:'Dashboard', path:'/admin'}, ... ],
+  Citizen: [ {label:'Dashboard', path:'/citizen'}, ... ]
+}</pre>It renders <code>navMap[role]</code> as sidebar links.</div></div>
+
+<div class="qa"><div class="q">Q46. What is CSS Flexbox?</div><div class="a">Flexbox is a CSS layout model for arranging items in rows or columns. Used throughout our project:<pre>display:'flex', justifyContent:'space-between', alignItems:'center'</pre>Creates the header layout with title on left and Add button on right.</div></div>
+
+<div class="qa"><div class="q">Q47. What is CSS Grid?</div><div class="a">CSS Grid is a 2D layout system. Used for the department cards:<pre>display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(280px, 1fr))'</pre>Creates a responsive grid that auto-fills columns based on available width.</div></div>
+
+<div class="qa"><div class="q">Q48. What is the fallback news list?</div><div class="a">If the API is unreachable or returns empty, a hardcoded <code>FALLBACK_NEWS</code> array shows in the home page ticker so it never looks empty. Once API returns data, fallback is replaced. This ensures good UX even during API downtime.</div></div>
+
+<div class="qa"><div class="q">Q49. What is the purpose of the .env file in the frontend?</div><div class="a">The <code>.env</code> file stores environment-specific variables that should not be hardcoded. In our project: <code>VITE_GOOGLE_CLIENT_ID</code> (Google OAuth client ID). Vite reads this and makes it available via <code>import.meta.env.VITE_GOOGLE_CLIENT_ID</code>.</div></div>
+
+<div class="qa"><div class="q">Q50. What is page-level code splitting in React?</div><div class="a">Each page (ManageNews, Dashboard, etc.) is a separate component file imported in <code>App.jsx</code>. Vite automatically splits these into separate JS chunks, so only the code for the current page is loaded — improving performance via lazy loading.</div></div>
+<div class="sec">&#9889; SECTION 2: BACKEND — ASP.NET Core 8 & C# (Q51–Q100)</div>
+
+<div class="qa"><div class="q">Q51. What is ASP.NET Core?</div><div class="a">ASP.NET Core is a cross-platform, high-performance framework by Microsoft for building cloud-connected, internet-connected applications like web apps, IoT apps, and mobile backends. We use it to build a REST API.</div></div>
+
+<div class="qa"><div class="q">Q52. What is C#?</div><div class="a">C# is a modern, object-oriented, and type-safe programming language developed by Microsoft. It runs on the .NET framework and is the primary language used to build our backend logic, models, and controllers.</div></div>
+
+<div class="qa"><div class="q">Q53. What is a REST API?</div><div class="a">REST (Representational State Transfer) is an architectural style for APIs. A REST API uses HTTP requests to GET, PUT, POST and DELETE data. It relies on a stateless, client-server communication protocol, usually transmitting data in JSON format.</div></div>
+
+<div class="qa"><div class="q">Q54. What is the role of Program.cs?</div><div class="a"><code>Program.cs</code> is the entry point of an ASP.NET Core application. It configures the application's services (like Dependency Injection, Database context, Authentication, CORS) and the request pipeline (middleware).</div></div>
+
+<div class="qa"><div class="q">Q55. What is Dependency Injection (DI)?</div><div class="a">DI is a software design pattern where objects receive their dependencies from an external source rather than creating them internally. ASP.NET Core has built-in DI. We register services in <code>Program.cs</code> and inject them into controllers via constructors.</div></div>
+
+<div class="qa"><div class="q">Q56. What is the Controller pattern?</div><div class="a">Controllers handle incoming HTTP requests and send responses back to the caller. They group related action methods. E.g., <code>NewsController</code> handles all endpoints related to the News feature (GET /news, POST /news, etc.).</div></div>
+
+<div class="qa"><div class="q">Q57. What is an Action Method?</div><div class="a">An action method is a method within a controller that corresponds to a specific HTTP endpoint and verb (e.g., GET, POST). It performs the necessary logic and returns an <code>IActionResult</code>.</div></div>
+
+<div class="qa"><div class="q">Q58. What does IActionResult do?</div><div class="a"><code>IActionResult</code> is an interface representing the result of an action method. It allows returning different HTTP status codes alongside data. Example: <code>return Ok(data)</code> (200), <code>return NotFound()</code> (404), or <code>return BadRequest("Error")</code> (400).</div></div>
+
+<div class="qa"><div class="q">Q59. What are Routing Attributes?</div><div class="a">Attributes like <code>[Route("api/[controller]")]</code> and <code>[HttpGet("{id}")]</code> define the URL pattern for controllers and actions. <code>[controller]</code> dynamically maps to the controller's name (e.g., <code>NewsController</code> becomes <code>/api/news</code>).</div></div>
+
+<div class="qa"><div class="q">Q60. What is Entity Framework Core (EF Core)?</div><div class="a">EF Core is a lightweight, cross-platform ORM (Object-Relational Mapper) for .NET. It lets us interact with the database using C# objects instead of writing raw SQL queries.</div></div>
+
+<div class="qa"><div class="q">Q61. What is ApplicationDbContext?</div><div class="a">It is a class inheriting from <code>DbContext</code> in EF Core. It acts as a bridge between our models and the database. It contains <code>DbSet&lt;TEntity&gt;</code> properties for each table (e.g., <code>DbSet&lt;News&gt; News</code>) and configures relationships.</div></div>
+
+<div class="qa"><div class="q">Q62. What is a Model in ASP.NET Core?</div><div class="a">A model is a C# class representing the shape of data. In EF Core, entity models correspond to database tables (e.g., <code>Citizen.cs</code> maps to the "Citizens" table), and properties map to columns.</div></div>
+
+<div class="qa"><div class="q">Q63. What is a DTO (Data Transfer Object)?</div><div class="a">A DTO is an object used to pass data between the frontend and backend. It hides internal database details. For example, <code>CitizenRegisterDto</code> only contains fields needed for registration, preventing over-posting and hiding password hashes.</div></div>
+
+<div class="qa"><div class="q">Q64. How do you handle file uploads?</div><div class="a">File uploads use <code>IFormFile</code> in ASP.NET Core. In the complaint controller, we receive the image, generate a unique filename, save it to the <code>wwwroot/uploads</code> folder, and store the relative URL path in the database.</div></div>
+
+<div class="qa"><div class="q">Q65. What is the wwwroot folder?</div><div class="a"><code>wwwroot</code> is the web root directory in an ASP.NET Core project. It stores static files like images, CSS, and JS. We enabled static files in <code>Program.cs</code> via <code>app.UseStaticFiles()</code> so the frontend can access uploaded images.</div></div>
+
+<div class="qa"><div class="q">Q66. What is JWT Authentication?</div><div class="a">JSON Web Token (JWT) is used for stateless authentication. Upon valid login, the server creates a token containing user claims (ID, Role, Email) signed with a secret key. The client sends this token in the <code>Authorization</code> header for protected routes.</div></div>
+
+<div class="qa"><div class="q">Q67. How is JWT generated in your code?</div><div class="a">Using <code>JwtSecurityTokenHandler</code> and <code>SymmetricSecurityKey</code>. We read the secret key from <code>appsettings.json</code>, define claims, set an expiration (e.g., 8 hours), and generate the signed string token in <code>AuthController</code>.</div></div>
+
+<div class="qa"><div class="q">Q68. What are Claims in JWT?</div><div class="a">Claims are pieces of information about the user embedded in the token. We use claims like <code>ClaimTypes.NameIdentifier</code> (UserId), <code>ClaimTypes.Email</code>, and <code>ClaimTypes.Role</code>. This prevents database lookups on every request just to know who the user is.</div></div>
+
+<div class="qa"><div class="q">Q69. How do you protect endpoints?</div><div class="a">We use the <code>[Authorize]</code> attribute. <code>[Authorize]</code> requires any valid token. <code>[Authorize(Roles = "Admin")]</code> specifically requires the token to contain the Admin role claim. <code>[AllowAnonymous]</code> allows unauthenticated access.</div></div>
+
+<div class="qa"><div class="q">Q70. How are passwords hashed?</div><div class="a">We use SHA-256 hashing. Passwords are never saved as plain text. The <code>HashPassword</code> method converts the plain string into bytes, computes the SHA-256 hash, and saves the Base64 representation. During login, the input is hashed and compared to the DB hash.</div></div>
+
+<div class="qa"><div class="q">Q71. What is CORS?</div><div class="a">Cross-Origin Resource Sharing (CORS) is a security feature. By default, browsers block requests to a different domain. Since our frontend is on port 5173 and backend on 5000, we configure <code>app.UseCors()</code> to explicitly allow our frontend origin.</div></div>
+
+<div class="qa"><div class="q">Q72. What is Middleware?</div><div class="a">Middleware are software components assembled into the application pipeline to handle requests and responses. Examples: Routing, Authentication, Authorization, CORS. The order of middleware in <code>Program.cs</code> matters.</div></div>
+
+<div class="qa"><div class="q">Q73. What is appsettings.json?</div><div class="a">It is a configuration file storing settings like the database connection string, JWT secret keys, issuer, and audience. Settings can vary by environment (e.g., <code>appsettings.Development.json</code>).</div></div>
+
+<div class="qa"><div class="q">Q74. How do you prevent Over-Posting attacks?</div><div class="a">By using DTOs instead of entity models as input parameters in controllers. DTOs only contain the properties the client is allowed to send, ignoring sensitive internal fields like <code>Id</code> or <code>PasswordHash</code>.</div></div>
+
+<div class="qa"><div class="q">Q75. What is asynchronous programming (async/await)?</div><div class="a">It allows non-blocking execution. When the backend calls the database (e.g., <code>await _context.Citizens.ToListAsync()</code>), the thread is freed up to handle other requests until the DB responds, improving scalability.</div></div>
+
+<div class="qa"><div class="q">Q76. What is the difference between IEnumerable and IQueryable?</div><div class="a"><code>IQueryable</code> builds a SQL query and executes it in the database (efficient for filtering). <code>IEnumerable</code> pulls all data into memory first and then filters it (inefficient for large DBs). EF Core uses <code>IQueryable</code> heavily.</div></div>
+
+<div class="qa"><div class="q">Q77. What does the Include() method do in EF Core?</div><div class="a"><code>Include()</code> is used for <strong>Eager Loading</strong>. It tells EF Core to fetch related entities in a single SQL query using JOINs. E.g., <code>_context.Departments.Include(d => d.Employees)</code> loads departments and their employees together.</div></div>
+
+<div class="qa"><div class="q">Q78. How do you handle cascade deletes?</div><div class="a">If an entity is deleted, its related children should be deleted to prevent orphaned records. We handled this manually in the <code>DepartmentsController</code> by checking and removing associated Services, Employees, and Complaints before deleting the Department.</div></div>
+
+<div class="qa"><div class="q">Q79. What is a Primary Key in EF Core?</div><div class="a">A primary key uniquely identifies a record. In EF Core, a property named <code>Id</code> or <code>[ClassName]Id</code> is automatically configured as the primary key. We can also use the <code>[Key]</code> attribute explicitly.</div></div>
+
+<div class="qa"><div class="q">Q80. What is a Foreign Key in EF Core?</div><div class="a">A foreign key links a table to another. E.g., <code>Employee.DNo</code> links to <code>Department.DNo</code>. In EF Core, we define the ID property and a navigation property (e.g., <code>public virtual Department Department { get; set; }</code>).</div></div>
+
+<div class="qa"><div class="q">Q81. What is the FromBody attribute?</div><div class="a"><code>[FromBody]</code> tells the ASP.NET Core model binder to read the incoming data from the HTTP request body (usually JSON) and map it to the specified parameter (e.g., a DTO object).</div></div>
+
+<div class="qa"><div class="q">Q82. What does Seed Data mean?</div><div class="a">Seeding data means populating the database with initial values (e.g., a default Admin account). We created a <code>SeedController</code> to insert an Admin, default Services, and sample users if the tables are empty.</div></div>
+
+<div class="qa"><div class="q">Q83. How do you handle validation in the backend?</div><div class="a">We validate incoming DTOs. ASP.NET Core automatically returns a 400 Bad Request if standard binding fails. We also manually check constraints, e.g., checking if an email already exists before registration: <code>_context.Citizens.AnyAsync(c => c.Email == email)</code>.</div></div>
+
+<div class="qa"><div class="q">Q84. What is the role of Status Codes?</div><div class="a">HTTP status codes inform the client about the result. 200 = OK, 201 = Created, 400 = Bad Request, 401 = Unauthorized, 403 = Forbidden, 404 = Not Found, 500 = Internal Server Error.</div></div>
+
+<div class="qa"><div class="q">Q85. What is a Nullable type?</div><div class="a">In C# 8+, reference types are non-nullable by default. Adding a <code>?</code> (e.g., <code>string? Emoji</code>) allows the variable to hold a null value, reflecting an optional column in the database.</div></div>
+
+<div class="qa"><div class="q">Q86. How does Google OAuth integration work on the backend?</div><div class="a">The frontend sends a Google JWT credential. The backend sends an HTTP GET request to <code>https://www.googleapis.com/oauth2/v3/userinfo</code> with this token to verify its validity and fetch the user's Google email and name.</div></div>
+
+<div class="qa"><div class="q">Q87. What is Swagger?</div><div class="a">Swagger is a tool integrated into ASP.NET Core that automatically generates a UI to interact with and test your REST API endpoints. It is available at <code>/swagger</code> during development.</div></div>
+
+<div class="qa"><div class="q">Q88. What is the role of the [ApiController] attribute?</div><div class="a">It enables API-specific behaviors like automatic HTTP 400 responses for model validation errors, requiring attribute routing, and automatically inferring binding sources (like <code>[FromBody]</code>).</div></div>
+
+<div class="qa"><div class="q">Q89. What is a Migration in EF Core?</div><div class="a">Migrations are a way to keep the database schema in sync with the EF Core models. When we change a model, we run <code>dotnet ef migrations add</code> to generate a C# script defining the schema changes, and <code>dotnet ef database update</code> to apply them to SQL.</div></div>
+
+<div class="qa"><div class="q">Q90. What is the MigrationHistory table?</div><div class="a">It is a special table created by EF Core in the database (<code>__EFMigrationsHistory</code>) to track which migrations have already been applied, preventing duplicate executions.</div></div>
+
+<div class="qa"><div class="q">Q91. What happens if a migration fails?</div><div class="a">You can revert the migration using <code>dotnet ef migrations remove</code> to delete the unapplied migration files, fix your C# models, and then generate a new migration.</div></div>
+
+<div class="qa"><div class="q">Q92. How do you handle many-to-many relationships?</div><div class="a">In EF Core, you create a junction table. For example, a Bill can have many Services, and a Service can be on many Bills. We created <code>BillService</code> with a composite or unique structure linking <code>BillId</code> and <code>ServiceId</code>.</div></div>
+
+<div class="qa"><div class="q">Q93. What is the difference between Add(), Update(), and Remove() in EF Core?</div><div class="a"><code>Add()</code> marks a new entity for insertion. <code>Update()</code> marks an entity as modified (for an UPDATE query). <code>Remove()</code> marks an entity for deletion. Nothing hits the DB until <code>SaveChangesAsync()</code> is called.</div></div>
+
+<div class="qa"><div class="q">Q94. Why use SaveChangesAsync() instead of SaveChanges()?</div><div class="a"><code>SaveChangesAsync()</code> is asynchronous. It doesn't block the thread while waiting for the database to complete the transaction, which makes the web server handle more concurrent requests efficiently.</div></div>
+
+<div class="qa"><div class="q">Q95. What is the difference between FirstOrDefault and SingleOrDefault?</div><div class="a"><code>FirstOrDefault</code> returns the first matched record or null if none match. <code>SingleOrDefault</code> expects exactly 0 or 1 match; if multiple records match, it throws an exception. We mostly use <code>FirstOrDefaultAsync</code>.</div></div>
+
+<div class="qa"><div class="q">Q96. What is a DbContextOptions?</div><div class="a">It is used to configure the <code>DbContext</code>. In <code>Program.cs</code>, we use it to specify that EF Core should use Npgsql (PostgreSQL provider) and provide the connection string.</div></div>
+
+<div class="qa"><div class="q">Q97. How does error handling work in your API?</div><div class="a">We use <code>try-catch</code> blocks in complex controllers. When an exception occurs, we return a <code>BadRequest</code> or <code>StatusCode(500)</code> with the error message. ASP.NET Core also has global exception handling middleware.</div></div>
+
+<div class="qa"><div class="q">Q98. What is the difference between an API Controller and an MVC Controller?</div><div class="a">MVC controllers return HTML Views. API controllers return raw data (usually JSON) and use the <code>[ApiController]</code> attribute. We built an API, so the frontend React app handles the UI.</div></div>
+
+<div class="qa"><div class="q">Q99. What are Environment Variables in ASP.NET Core?</div><div class="a">They define the environment (Development, Production, etc.). Development mode enables detailed error pages and Swagger. We can also load secrets from OS environment variables instead of hardcoding them.</div></div>
+
+<div class="qa"><div class="q">Q100. Why do we trim inputs?</div><div class="a">In the backend, trimming removes accidental leading/trailing spaces (e.g., <code>dto.Title.Trim()</code>) before saving to the DB. This prevents issues like duplicate checks failing due to an extra space.</div></div>
+<div class="sec">&#9889; SECTION 3: POSTGRESQL & DATABASE (Q101–Q120)</div>
+
+<div class="qa"><div class="q">Q101. What is PostgreSQL?</div><div class="a">PostgreSQL is a powerful, open-source object-relational database system. It uses and extends the SQL language and is known for its reliability, robust feature set, and high performance.</div></div>
+
+<div class="qa"><div class="q">Q102. Why use PostgreSQL over MySQL?</div><div class="a">PostgreSQL is strictly SQL-compliant, handles complex queries better, supports advanced data types like JSONB, arrays, and geometric types, and is highly extensible compared to MySQL.</div></div>
+
+<div class="qa"><div class="q">Q103. What is pgAdmin?</div><div class="a">pgAdmin is the most popular open-source administration and development platform for PostgreSQL. It provides a graphical interface to manage databases, run SQL queries, and view tables.</div></div>
+
+<div class="qa"><div class="q">Q104. What is a Primary Key?</div><div class="a">A Primary Key is a column (or set of columns) that uniquely identifies each row in a table. It must contain UNIQUE values, and cannot contain NULL values. Every table should have a primary key (e.g., <code>Id</code>).</div></div>
+
+<div class="qa"><div class="q">Q105. What is a Foreign Key?</div><div class="a">A Foreign Key is a field in one table that uniquely identifies a row of another table. It is used to establish and enforce a link between the data in the two tables (e.g., <code>DNo</code> in Employee table references <code>DNo</code> in Department table).</div></div>
+
+<div class="qa"><div class="q">Q106. What is Normalization?</div><div class="a">Normalization is the process of organizing data to minimize redundancy. We divide large tables into smaller, related tables (e.g., separating Departments from Employees so department names aren't repeated in every employee record).</div></div>
+
+<div class="qa"><div class="q">Q107. What are the common data types in PostgreSQL?</div><div class="a"><ul><li><code>integer</code>, <code>bigint</code> — whole numbers</li><li><code>numeric</code>, <code>decimal</code> — exact fractions (used for Salary/Rates)</li><li><code>text</code>, <code>varchar</code> — strings</li><li><code>boolean</code> — true/false</li><li><code>timestamp without time zone</code> — dates and times</li></ul></div></div>
+
+<div class="qa"><div class="q">Q108. What is a SERIAL column?</div><div class="a"><code>SERIAL</code> is a pseudo-type in PostgreSQL that creates an auto-incrementing integer column. EF Core automatically configures primary keys (like <code>Id</code>) to use the <code>SERIAL</code> generation strategy so we don't have to provide the ID manually.</div></div>
+
+<div class="qa"><div class="q">Q109. What is a Connection String?</div><div class="a">A connection string contains the information needed to connect to the database. Example: <code>Host=localhost;Database=EMunicipalDb;Username=postgres;Password=admin123;</code>. It is stored in <code>appsettings.json</code>.</div></div>
+
+<div class="qa"><div class="q">Q110. How does EF Core communicate with PostgreSQL?</div><div class="a">EF Core uses a provider called <code>Npgsql.EntityFrameworkCore.PostgreSQL</code>. This provider translates EF Core LINQ queries into PostgreSQL-specific SQL syntax.</div></div>
+
+<div class="qa"><div class="q">Q111. What is an Entity-Relationship (ER) Diagram?</div><div class="a">An ER diagram is a flowchart that illustrates how entities (like Citizen, Complaint, Department) relate to each other within a system. We used it to design the database before coding.</div></div>
+
+<div class="qa"><div class="q">Q112. Explain the relationship between Service and Bill.</div><div class="a">It is a <strong>Many-to-Many</strong> relationship. One Bill can include multiple Services (Water, Tax), and one Service can appear on multiple Bills. This is resolved using a junction table called <code>BillService</code>.</div></div>
+
+<div class="qa"><div class="q">Q113. Explain the relationship between Citizen and Complaint.</div><div class="a">It is a <strong>One-to-Many</strong> relationship. One Citizen can file multiple Complaints, but each Complaint belongs to exactly one Citizen.</div></div>
+
+<div class="qa"><div class="q">Q114. What are Constraints in PostgreSQL?</div><div class="a">Constraints are rules applied to data columns. Examples:<ul><li><code>NOT NULL</code> (field cannot be empty)</li><li><code>UNIQUE</code> (no duplicate values)</li><li><code>PRIMARY KEY</code></li><li><code>FOREIGN KEY</code> (referential integrity)</li></ul></div></div>
+
+<div class="qa"><div class="q">Q115. What is a JOIN in SQL?</div><div class="a">A JOIN is used to combine rows from two or more tables based on a related column. EF Core handles this automatically when we use the <code>.Include()</code> method, writing <code>INNER JOIN</code> or <code>LEFT JOIN</code> behind the scenes.</div></div>
+
+<div class="qa"><div class="q">Q116. What happens if you delete a Department that has Employees?</div><div class="a">By default, PostgreSQL will throw a Foreign Key Constraint violation error, preventing the deletion to protect data integrity. In our backend, we handled this by writing logic to first delete the Employees, then delete the Department (Cascade Delete).</div></div>
+
+<div class="qa"><div class="q">Q117. What is the difference between Timestamp with and without time zone?</div><div class="a"><code>timestamp without time zone</code> stores exact date and time exactly as given, ignoring time zones. <code>timestamp with time zone</code> converts the stored time to UTC. We explicitly used <code>timestamp without time zone</code> in our latest migrations to prevent UTC conversion errors in EF Core.</div></div>
+
+<div class="qa"><div class="q">Q118. Can you store images directly in the database?</div><div class="a">Yes, as a <code>bytea</code> (binary) format. However, it makes the database huge and slow. Instead, we store the image files on the server's hard drive (<code>wwwroot/uploads</code>) and only store the string path in the database.</div></div>
+
+<div class="qa"><div class="q">Q119. What does the Npgsql package do?</div><div class="a">Npgsql is the .NET data provider for PostgreSQL. It allows C# code to connect to the DB and execute queries. The EF Core wrapper around it allows us to use LINQ instead of SQL.</div></div>
+
+<div class="qa"><div class="q">Q120. How do you view the actual SQL queries generated by EF Core?</div><div class="a">When running the application (e.g., via <code>dotnet run</code>), EF Core logs all generated SQL statements to the console. This helps debug what queries are actually running against PostgreSQL.</div></div>
+<div class="sec">&#9889; SECTION 4: CONNECTIVITY, GENERAL & TRICKY VIVA QS (Q121–Q150)</div>
+
+<div class="qa"><div class="q">Q121. How do the frontend and backend connect?</div><div class="a">They connect via HTTP requests over the network. The React frontend uses the Axios library to send requests (GET, POST) to the API endpoints exposed by the ASP.NET Core backend (e.g., <code>http://localhost:5000/api/news</code>).</div></div>
+
+<div class="qa"><div class="q">Q122. What happens if the backend is down?</div><div class="a">If the backend is not running, API calls will fail with a Network Error. The Axios <code>catch</code> block will trigger, and the frontend will show a toast notification saying "Failed to connect" or similar, but the React app itself will not crash.</div></div>
+
+<div class="qa"><div class="q">Q123. What happens if the database is down?</div><div class="a">If PostgreSQL is down, the backend cannot execute queries. The backend will throw a database connection exception and return an HTTP 500 (Internal Server Error) to the frontend.</div></div>
+
+<div class="qa"><div class="q">Q124. How did you test your API without the frontend?</div><div class="a">We used <strong>Swagger</strong> (available at <code>/swagger</code> on the backend URL) and PowerShell scripts (<code>Invoke-RestMethod</code>) to send requests to the API and verify the JSON responses before connecting it to React.</div></div>
+
+<div class="qa"><div class="q">Q125. Why is Git used in this project?</div><div class="a">Git is a version control system used to track changes in the code. It allows us to save versions (commits), revert mistakes, and push the code to a remote repository (GitHub) for backup and sharing.</div></div>
+
+<div class="qa"><div class="q">Q126. What is a .gitignore file?</div><div class="a">A <code>.gitignore</code> file tells Git which files or folders to ignore and not upload to GitHub. We ignore folders like <code>node_modules</code> (frontend dependencies), <code>bin</code>/<code>obj</code> (backend compiled files), and `.env` (secrets).</div></div>
+
+<div class="qa"><div class="q">Q127. Why do we not commit node_modules?</div><div class="a"><code>node_modules</code> is massive and contains all downloaded packages. Instead of uploading it, we upload <code>package.json</code>. Anyone who clones the repo just runs <code>npm install</code> to download the exact same packages.</div></div>
+
+<div class="qa"><div class="q">Q128. What is NPM?</div><div class="a">NPM (Node Package Manager) is the package manager for JavaScript. We use it to install libraries like React, React Router, and Axios via <code>npm install</code>. It reads from <code>package.json</code>.</div></div>
+
+<div class="qa"><div class="q">Q129. What is NuGet?</div><div class="a">NuGet is the package manager for .NET. We use it to install backend libraries like EF Core, Npgsql, and JWT authentication packages via <code>dotnet add package</code>.</div></div>
+
+<div class="qa"><div class="q">Q130. What happens when a user refreshes the page while logged in?</div><div class="a">React state is lost on refresh. However, <code>AuthContext</code> has a <code>useEffect</code> that runs on mount. It checks <code>localStorage.getItem('token')</code>. If the token exists, it decodes the role and user details from the JWT and restores the logged-in state instantly.</div></div>
+
+<div class="qa"><div class="q">Q131. Can a citizen access the Admin dashboard by typing /admin in the URL?</div><div class="a">No. The frontend has a <strong>Protected Route</strong> wrapper. If a citizen tries to access <code>/admin</code>, the route checks their role in AuthContext. Seeing they are not an Admin, it redirects them. Even if they bypass the frontend, the backend API uses <code>[Authorize(Roles="Admin")]</code>, so the API will return 403 Forbidden.</div></div>
+
+<div class="qa"><div class="q">Q132. What is 401 Unauthorized vs 403 Forbidden?</div><div class="a"><strong>401 Unauthorized</strong> means the user is not logged in or the token is expired/invalid. <strong>403 Forbidden</strong> means the user is logged in, but does not have permission (e.g., a Citizen trying to access an Admin API endpoint).</div></div>
+
+<div class="qa"><div class="q">Q133. What is JSON?</div><div class="a">JSON (JavaScript Object Notation) is a lightweight data-interchange format. It is easy for humans to read and write, and easy for machines to parse. Our frontend and backend exchange data exclusively in JSON.</div></div>
+
+<div class="qa"><div class="q">Q134. How do you handle password recovery?</div><div class="a">Currently, password recovery is not implemented. Future scope involves sending an OTP or reset link to the registered email address using an SMTP service like SendGrid, verifying the token, and updating the password hash.</div></div>
+
+<div class="qa"><div class="q">Q135. What is the difference between client-side and server-side rendering?</div><div class="a">In Server-Side Rendering (SSR), the server generates HTML and sends it to the browser. In Client-Side Rendering (CSR), the server sends empty HTML and a large JS bundle; the browser runs the JS (React) to generate the UI. Our app is a <strong>Single Page Application (SPA)</strong> using CSR.</div></div>
+
+<div class="qa"><div class="q">Q136. What is the advantage of a Single Page Application (SPA)?</div><div class="a">SPAs don't require full page reloads when navigating. Only the necessary data is fetched via API (JSON), making the app feel incredibly fast and responsive, like a native desktop app.</div></div>
+
+<div class="qa"><div class="q">Q137. How did you ensure the application is responsive?</div><div class="a">We used CSS Flexbox and CSS Grid to create fluid layouts. Media queries are used to adjust styles on smaller screens. Elements have percentages or <code>max-width</code> instead of fixed pixel widths.</div></div>
+
+<div class="qa"><div class="q">Q138. What is the purpose of the Fallback Array in the News Ticker?</div><div class="a">The <code>FALLBACK_NEWS</code> array contains default strings. If the backend is down, or there are zero active news items, the frontend displays the fallback array. This guarantees the UI (the red ticker bar) never looks broken or empty.</div></div>
+
+<div class="qa"><div class="q">Q139. Why did you use CSS-in-JS instead of external CSS files?</div><div class="a">CSS-in-JS keeps styles scoped to the component and avoids global CSS conflicts. It allows passing dynamic values (like <code>col === 'red' ? '#f00' : '#00f'</code>) directly into styles based on component state.</div></div>
+
+<div class="qa"><div class="q">Q140. What is a Promise in JavaScript?</div><div class="a">A Promise represents the eventual completion (or failure) of an asynchronous operation. Axios methods like <code>api.get()</code> return Promises. We use <code>await</code> to wait for the Promise to resolve.</div></div>
+
+<div class="qa"><div class="q">Q141. What is an interceptor in Axios?</div><div class="a">An interceptor is middleware for Axios. We configured a request interceptor to automatically grab the JWT token from localStorage and attach it to the <code>Authorization: Bearer</code> header for every outgoing API request.</div></div>
+
+<div class="qa"><div class="q">Q142. How do you handle Dates in your project?</div><div class="a">The database stores dates as <code>timestamp without time zone</code>. The backend sends dates in ISO 8601 string format (e.g., "2026-04-28T10:00:00"). The frontend parses this using <code>new Date(string).toLocaleDateString()</code> to display it beautifully.</div></div>
+
+<div class="qa"><div class="q">Q143. Can a user have multiple roles?</div><div class="a">In our current design, a single account cannot. Admin, Employee, and Citizen are stored in separate tables. If someone works at the municipality and lives there, they need separate accounts for Employee and Citizen portals.</div></div>
+
+<div class="qa"><div class="q">Q144. How does the delete confirmation work on the frontend?</div><div class="a">Instead of the native <code>window.confirm()</code> which can be blocked by browsers, we built a custom React Modal component. When "Delete" is clicked, it sets <code>confirmDelete = itemId</code>, showing the modal. Clicking "Yes" in the modal calls the API and hides the modal.</div></div>
+
+<div class="qa"><div class="q">Q145. What happens if a user submits a form without required fields?</div><div class="a">HTML5 <code>required</code> attributes prevent submission. If bypassed, the frontend <code>handleSubmit</code> function checks if fields like <code>Title.trim()</code> are empty and shows an error toast. If that is also bypassed, the Backend DTO validation rejects the request with a 400 Bad Request.</div></div>
+
+<div class="qa"><div class="q">Q146. How do you track the total number of complaints?</div><div class="a">The backend Admin dashboard endpoint queries the database using LINQ: <code>_context.Complaints.CountAsync()</code>. This is sent to the frontend to display in the statistic cards.</div></div>
+
+<div class="qa"><div class="q">Q147. What was the most challenging part of the project?</div><div class="a"><em>(Suggested Answer)</em> Connecting the frontend and backend, handling CORS issues, configuring the JWT authentication correctly so state persists on refresh, and managing cascade deletions when removing a department.</div></div>
+
+<div class="qa"><div class="q">Q148. How do you plan to scale the database if data grows?</div><div class="a">PostgreSQL is highly scalable. We can add indexes to frequently searched columns (like <code>Email</code> or <code>Status</code>), use connection pooling on the backend, and eventually move images to cloud storage (like AWS S3) instead of local folders.</div></div>
+
+<div class="qa"><div class="q">Q149. Why didn't you use Redux for state management?</div><div class="a">Redux adds a lot of boilerplate code. For our project's scale, React's built-in <code>Context API</code> and <code>useState</code> were sufficient and much easier to implement and maintain for handling authentication and simple component states.</div></div>
+
+<div class="qa"><div class="q">Q150. What is the final conclusion of your project?</div><div class="a">The E-Municipal Portal successfully digitizes manual government processes. It provides a secure, role-based, and highly responsive platform that saves time for citizens, reduces paperwork for employees, and gives administrators complete control over municipal operations.</div></div>
+
+</div><!-- end page -->
+</body></html>

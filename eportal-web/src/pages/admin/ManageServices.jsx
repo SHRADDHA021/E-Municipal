@@ -34,17 +34,20 @@ export default function ManageServices() {
       if (editing) { await api.put(`/services/${editing}`, payload); showToast('✅ Updated!'); }
       else { await api.post('/services', payload); showToast('✅ Service added!'); }
       setForm(EMPTY); setEditing(null); setShowForm(false); fetchServices();
-    } catch (err) { showToast('❌ ' + (err?.response?.data || 'Failed')); }
+    } catch (err) { 
+      const msg = err?.response?.data;
+      showToast('❌ ' + (typeof msg === 'string' ? msg : msg?.title || 'Failed')); 
+    }
   };
 
   const handleEdit = (s) => { 
     setForm({ 
-      SName: s.sName, 
-      Rate: s.rate, 
-      DNo: s.dNo || '',
-      RequiredDocs: s.requiredDocs || ''
+      SName: s.sName || s.sname || '', 
+      Rate: s.rate || 0, 
+      DNo: s.dNo || s.dno || '',
+      RequiredDocs: s.requiredDocs || s.requireddocs || ''
     }); 
-    setEditing(s.sid); 
+    setEditing(s.sid || s.sId || s.SID); 
     setShowForm(true); 
   };
   const handleDelete = async (id) => {
